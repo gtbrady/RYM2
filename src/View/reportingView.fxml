@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.reportingController">
+    <children>
+        <AnchorPane layoutX="13.0" layoutY="57.0" prefHeight="262.0" prefWidth="575.0">
+            <children>
+                <Button layoutX="21.0" layoutY="15.0" mnemonicParsing="false" onAction="#toRepOneController" prefHeight="36.0" prefWidth="217.0" text="Appointments by Type/Month" textFill="#0c4396">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <Button layoutX="190.0" layoutY="75.0" mnemonicParsing="false" onAction="#toRepTwoController" prefHeight="37.0" prefWidth="48.0" text="Go" textFill="#0c4396">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <Button layoutX="21.0" layoutY="135.0" mnemonicParsing="false" onAction="#toRepThreeController" prefHeight="37.0" prefWidth="218.0" text="Customers by Country" textFill="#0c4396">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <Button layoutX="21.0" layoutY="194.0" mnemonicParsing="false" onAction="#toMainController" prefHeight="36.0" prefWidth="218.0" text="Back" textFill="#0c4396">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <Label layoutX="260.0" layoutY="15.0" prefHeight="36.0" prefWidth="292.0" text="Displays the total number of customer appointments by appointment type and month" wrapText="true" />
+                <Label layoutX="260.0" layoutY="75.0" prefHeight="36.0" prefWidth="292.0" text="Displays the schedule for the selected contact" wrapText="true" />
+                <Label layoutX="260.0" layoutY="135.0" prefHeight="36.0" prefWidth="292.0" wrapText="true" />
+                <Label layoutX="260.0" layoutY="136.0" prefHeight="36.0" prefWidth="292.0" text="Displays the number of customers by country" wrapText="true" />
+            <ComboBox fx:id="contactDropDown" layoutX="21.0" layoutY="75.0" prefHeight="36.0" prefWidth="158.0" />
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </AnchorPane>
+        <Label layoutX="205.0" layoutY="37.0" text="Please select a report to view">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

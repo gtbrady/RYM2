@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="880.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.repTwoController">
+    <children>
+        <TableView fx:id="repTwoTable" layoutX="30.0" layoutY="60.0" prefHeight="442.0" prefWidth="821.0">
+            <columns>
+                <TableColumn fx:id="Contact" prefWidth="95.0" text="Contact" />
+                <TableColumn fx:id="Appointment_ID" prefWidth="95.0" text="Appointment_ID" />
+                <TableColumn fx:id="Title" prefWidth="95.0" text="Title" />
+                <TableColumn fx:id="Type" prefWidth="95.0" text="Type" />
+                <TableColumn fx:id="Description" prefWidth="95.0" text="Description" />
+                <TableColumn fx:id="Start" prefWidth="125.0" text="Start Date / Time" />
+                <TableColumn fx:id="End" prefWidth="125.0" text="End Date / Time" />
+                <TableColumn fx:id="Customer_ID" prefWidth="95.0" text="Customer_ID" />
+            </columns>
+        </TableView>
+        <Label layoutX="381.0" layoutY="30.0" text="Contact Schedules">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <Button layoutX="776.0" layoutY="519.0" mnemonicParsing="false" onAction="#toReportingController" prefHeight="30.0" prefWidth="65.0" text="Back">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
