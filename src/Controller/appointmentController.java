@@ -149,6 +149,7 @@ public class appointmentController implements Initializable {
 
 
         appointmentTable.setItems(weeklyAppointments);
+        //
     }
 
     /***

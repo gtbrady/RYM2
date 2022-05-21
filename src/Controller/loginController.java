@@ -55,9 +55,9 @@ public class loginController implements Initializable {
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Main/Nat", Locale.getDefault());
 
-
-            //zoneLabel.setText(rb.getString(TimeManipulation.getSystemZone().toString()));
-
+            //issue with the exception seems to be the rb being null
+            zoneLabel.setText(TimeManipulation.getSystemZone().toString());
+            //zoneLabel.setText(rb.getString(ZoneId.systemDefault().toString()));
             if(Locale.getDefault().getLanguage().equals("en"))   {
                 error = rb.getString("error");
                 error2 = rb.getString("error2");

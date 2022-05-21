@@ -39,6 +39,7 @@ public class DBAppointment {
                     "join customers on customers.Customer_ID = appointments.Customer_ID\n" +
                     "join contacts on appointments.Contact_ID = contacts.Contact_ID order by Start, Appointment_ID";
 
+
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
