@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="335.0" prefWidth="310.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.mainController">
+<AnchorPane prefHeight="393.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.mainController">
     <children>
-        <AnchorPane layoutX="43.0" layoutY="15.0" prefHeight="313.0" prefWidth="225.0">
+        <AnchorPane layoutX="43.0" layoutY="18.0" prefHeight="341.0" prefWidth="225.0">
             <children>
-                <Button layoutX="20.0" layoutY="15.0" mnemonicParsing="false" onAction="#toCustomerController" prefHeight="36.0" prefWidth="184.0" text="Manage Customers" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="74.0" mnemonicParsing="false" onAction="#toCustomerController" prefHeight="36.0" prefWidth="184.0" text="Manage Counselors" textFill="#0c4396">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button layoutX="20.0" layoutY="75.0" mnemonicParsing="false" onAction="#toAppointmentController" prefHeight="36.0" prefWidth="184.0" text="Manage Schedule" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="134.0" mnemonicParsing="false" onAction="#toAppointmentController" prefHeight="36.0" prefWidth="184.0" text="Manage Schedule" textFill="#0c4396">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button layoutX="20.0" layoutY="135.0" mnemonicParsing="false" onAction="#toReportingController" prefHeight="36.0" prefWidth="184.0" text="Reporting" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="194.0" mnemonicParsing="false" onAction="#toReportingController" prefHeight="36.0" prefWidth="184.0" text="Reporting" textFill="#0c4396">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button layoutX="20.0" layoutY="255.0" mnemonicParsing="false" onAction="#exitApplication" prefHeight="36.0" prefWidth="184.0" text="Exit" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="314.0" mnemonicParsing="false" onAction="#exitApplication" prefHeight="36.0" prefWidth="184.0" text="Exit" textFill="#0c4396">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Button>
-            <Button layoutX="20.0" layoutY="195.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="184.0" text="Logout" textFill="#0c4396">
+            <Button layoutX="21.0" layoutY="254.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="184.0" text="Logout" textFill="#0c4396">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#toCustomerController" prefHeight="36.0" prefWidth="184.0" text="Manage Clients" textFill="#0c4396">
                <font>
                   <Font size="16.0" />
                </font>
