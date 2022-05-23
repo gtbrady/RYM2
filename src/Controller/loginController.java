@@ -2,12 +2,11 @@ package Controller;
 
 import DAO.DBAppointment;
 import DAO.DBUser;
-import Model.Appointment;
-import Model.AuthorizedUser;
-import Model.User;
+import Model.*;
 import Utility.LoginTracking;
 import Utility.TimeComparison;
 import Utility.TimeManipulation;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import DAO.DBConnection;
@@ -52,6 +51,31 @@ public class loginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+        /*
+        ObservableList<nAppointment> test = FXCollections.observableArrayList();
+        nAppointment office;
+        nAppointment virtual;
+        nAppointment phone;
+        int i = 1;
+        String s = "Test";
+
+        office = new OfficeAppointment(i, i,s,i,s,AppointmentType.Office,s,s,s,s,s);
+        virtual = new VirtualAppointment(i,i,s,i,s,AppointmentType.Virtual,s,s,s,s,s);
+        phone = new PhoneAppointment(i,i,s,i,s,AppointmentType.Phone,s,s,s,s,s);
+
+
+        test.add(office);
+        test.add(virtual);
+        test.add(phone);
+        System.out.println("test size: " + test.size());
+        for(nAppointment n: test) {
+            System.out.println(n.getType());
+        }
+        */
+
+
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Main/Nat", Locale.getDefault());
 
@@ -194,7 +218,7 @@ public class loginController implements Initializable {
                 authorized = true;
                 message.append(" SUCCESS");
                 tracker.logger.info(message.toString());
-                appointmentAlert();
+                //appointmentAlert();
                 break;
             }
         }

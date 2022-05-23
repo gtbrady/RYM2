@@ -5,6 +5,11 @@ public class ReportThree {
     String officeName;
     int count;
 
+    public ReportThree(String officeName, int count) {
+        this.officeName = officeName;
+        this.count = count;
+    }
+
     public String getOfficeName() {
         return officeName;
     }
