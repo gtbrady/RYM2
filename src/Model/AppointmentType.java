@@ -1,19 +1,19 @@
 package Model;
 
 public enum AppointmentType {
-    OFFICE {
+    Office {
         @Override
         public String toString() {
             return "In Office";
         }
     },
-    VIRTUAL {
+    Virtual {
         @Override
         public String toString() {
             return "Virtual";
         }
     },
-    PHONE {
+    Phone {
         @Override
         public String toString() {
             return "Phone";
