@@ -1,9 +1,8 @@
 package Controller;
 
-import DAO.DBClient;
+import DAO.DBCounselor;
 import DAO.DBnAppointment;
-import Model.Client;
-
+import Model.Counselor;
 import Model.nAppointment;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,24 +19,20 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class clientController implements Initializable {
+public class counselorController implements Initializable {
 
-    //FXML
-    //Table
-    public TableView clientTable;
-    public TableColumn clIDCol;
-    public TableColumn clientNameCol;
-    public TableColumn clientUsernameCol;
-    public TableColumn clientEmailCol;
-    public TableColumn clientPhoneCol;
+    //tableview
+    public TableView counselorTable;
+    public TableColumn coIDCol;
+    public TableColumn counselorNameCol;
+    public TableColumn counselorUsernameCol;
+    public TableColumn counselorEmailCol;
+    public TableColumn counselorPhoneCol;
 
-    //Label
+    //label
     public Label headerLabel;
 
-
-
-
-    //Buttons
+    //buttons
     public Button addButton;
     public Button editButton;
     public Button deleteButton;
@@ -45,25 +40,23 @@ public class clientController implements Initializable {
     public Button backButton;
     public Button cancelButton;
 
-    //Textviews
+    //textviews
+    public TextField nameText;
     public TextField usernameText;
     public TextField emailText;
     public TextField phoneText;
-    public TextField nameText;
 
     private int buttonStatus = -1;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        clientTable.setItems(DBClient.getClients());
-        clIDCol.setCellValueFactory(new PropertyValueFactory<>("clientID"));
-        clientNameCol.setCellValueFactory(new PropertyValueFactory<>("clientName"));
-        clientUsernameCol.setCellValueFactory(new PropertyValueFactory<>("clientUsername"));
-        clientEmailCol.setCellValueFactory(new PropertyValueFactory<>("clientEmail"));
-        clientPhoneCol.setCellValueFactory(new PropertyValueFactory<>("clientPhone"));
-
+        counselorTable.setItems(DBCounselor.getCounselors());
+        coIDCol.setCellValueFactory(new PropertyValueFactory<>("counselorID"));
+        counselorNameCol.setCellValueFactory(new PropertyValueFactory<>("counselorName"));
+        counselorUsernameCol.setCellValueFactory(new PropertyValueFactory<>("counselorUsername"));
+        counselorEmailCol.setCellValueFactory(new PropertyValueFactory<>("counselorEmail"));
+        counselorPhoneCol.setCellValueFactory(new PropertyValueFactory<>("counselorPhone"));
     }
 
     public void toMainController(ActionEvent actionEvent) throws IOException {
@@ -92,25 +85,25 @@ public class clientController implements Initializable {
 
     private void populateFields(ActionEvent actionEvent) {
         try {
-            Client theClient = (Client) clientTable.getSelectionModel().getSelectedItem();
-            if (theClient == null) {
+            Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
+            if (theCounselor == null) {
                 throw new NullPointerException();
             }
-            nameText.setText(theClient.getClientName());
-            usernameText.setText(theClient.getClientUsername());
-            phoneText.setText(theClient.getClientPhone());
-            emailText.setText(theClient.getClientEmail());
+            nameText.setText(theCounselor.getCounselorName());
+            usernameText.setText(theCounselor.getCounselorUsername());
+            phoneText.setText(theCounselor.getCounselorPhone());
+            emailText.setText(theCounselor.getCounselorEmail());
         }
         catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Nothing selected");
-            alert.setContentText("Please select client to edit");
+            alert.setContentText("Please select counselor to edit");
             alert.showAndWait();
         }
     }
 
     private void clearFields(ActionEvent actionEvent) {
-        headerLabel.setText("Clients");
+        headerLabel.setText("Counselors");
         buttonStatus = -1;
         addButton.setDisable(false);
         editButton.setDisable(false);
@@ -127,9 +120,8 @@ public class clientController implements Initializable {
         usernameText.clear();
     }
 
-
     public void onAdd(ActionEvent actionEvent) {
-        headerLabel.setText("Add Client");
+        headerLabel.setText("Add Counselor");
         editButton.setDisable(true);
         deleteButton.setDisable(true);
         buttonStatus = 1;
@@ -138,12 +130,12 @@ public class clientController implements Initializable {
 
     public void onEdit(ActionEvent actionEvent) {
         try{
-            Client theClient = (Client) clientTable.getSelectionModel().getSelectedItem();
+            Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
             populateFields(actionEvent);
-            if(theClient == null) {
+            if(theCounselor == null) {
                 throw new NullPointerException();
             }
-            headerLabel.setText("Edit Client");
+            headerLabel.setText("Edit Counselor");
             editButton.setDisable(true);
             deleteButton.setDisable(true);
             enableFields(actionEvent);
@@ -156,9 +148,9 @@ public class clientController implements Initializable {
 
     public void onDelete(ActionEvent actionEvent) throws IOException {
         try {
-            Client theClient = (Client) clientTable.getSelectionModel().getSelectedItem();
+            Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
             populateFields(actionEvent);
-            if(theClient == null) {
+            if(theCounselor == null) {
                 throw new NullPointerException();
             }
             addButton.setDisable(true);
@@ -166,36 +158,36 @@ public class clientController implements Initializable {
             buttonStatus = -1;
             //existingAppointmentException();
 
-            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Delete: " + theClient.toString());
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Delete: " + theCounselor.toString());
             confirm.setTitle("Delete Confirmation");
-            confirm.setContentText("Delete: " + theClient.toString() + "?");
+            confirm.setContentText("Delete: " + theCounselor.toString() + "?");
             Optional<ButtonType> result = confirm.showAndWait();
-                        if (result.isPresent() && result.get() == ButtonType.OK) {
-                int deleteCheck = DBClient.deleteClient(theClient);
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                int deleteCheck = DBCounselor.deleteCounselor(theCounselor);
                 if (deleteCheck > 0) {
                     Alert update = new Alert(Alert.AlertType.INFORMATION);
                     update.setTitle("Delete successful");
-                    update.setContentText(theClient.getClientName() + " has been deleted.");
+                    update.setContentText(theCounselor.getCounselorName() + " has been deleted.");
                     update.showAndWait();
 
                 } else {
                     Alert update = new Alert(Alert.AlertType.INFORMATION);
                     update.setTitle("Delete unsuccessful");
-                    update.setContentText(theClient.getClientName() + " hasn't been deleted.");
+                    update.setContentText(theCounselor.getCounselorName() + " hasn't been deleted.");
                     update.showAndWait();
 
                 }
             }
         }/* catch (ExistingAppointments e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Cannot Delete Client with Existing Appointments");
+            alert.setTitle("Cannot Delete Counselor with Existing Appointments");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }*/
         catch (NullPointerException e) {
             e.printStackTrace();
         }
-        clientTable.setItems(DBClient.getClients());
+        counselorTable.setItems(DBCounselor.getCounselors());
         onCancel(actionEvent);
 
     }
@@ -203,27 +195,27 @@ public class clientController implements Initializable {
     public void onSave(ActionEvent actionEvent) {
         try {
             emptyFieldsException();
-            Client stagedClient = (Client) clientTable.getSelectionModel().getSelectedItem();
+            Counselor stagedCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
             if(buttonStatus<=0) {
                 throw  new IOException();
             }
             if(buttonStatus == 1) {
-                Client saveClient = new Client(-1, nameText.getText(),
+                Counselor saveCounselor = new Counselor(-1, nameText.getText(),
                         phoneText.getText(),usernameText.getText(), emailText.getText());
-                DBClient.addClient(saveClient);
+                DBCounselor.addCounselor(saveCounselor);
                 onCancel(actionEvent);
             }
             if(buttonStatus == 2) {
-                Client saveClient = new Client(stagedClient.getClientID(), nameText.getText(),
+                Counselor saveCounselor = new Counselor(stagedCounselor.getCounselorID(), nameText.getText(),
                         phoneText.getText(),usernameText.getText(), emailText.getText());
-                noChangeCheck(saveClient,stagedClient);
-                DBClient.editClient(saveClient);
+                noChangeCheck(saveCounselor,stagedCounselor);
+                DBCounselor.editCounselor(saveCounselor);
                 onCancel(actionEvent);
 
             }
-            clientTable.setItems(DBClient.getClients());
+            counselorTable.setItems(DBCounselor.getCounselors());
         }
-            catch (EmptyFields e) {
+        catch (EmptyFields e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Missing information");
             alert.setContentText(e.getMessage());
@@ -239,10 +231,11 @@ public class clientController implements Initializable {
         }
     }
 
-
     public void onCancel(ActionEvent actionEvent) throws IOException {
         clearFields(actionEvent);
     }
+
+
 
     public class EmptyFields extends Exception {
         public EmptyFields(String s, int i) {
@@ -287,11 +280,11 @@ public class clientController implements Initializable {
 
     public void existingAppointmentException() throws ExistingAppointments {
         Boolean exists = false;
-        Client deleteClient = (Client) clientTable.getSelectionModel().getSelectedItem();
+        Counselor deleteCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
         ObservableList<nAppointment> appointments = DBnAppointment.getAppointments();
-        StringBuilder m = new StringBuilder(deleteClient.getClientName() + ": \n");
+        StringBuilder m = new StringBuilder(deleteCounselor.getCounselorName() + ": \n");
         for(nAppointment a: appointments) {
-            if(a.getClientID() == deleteClient.getClientID()) {
+            if(a.getCounselorID() == deleteCounselor.getCounselorID()) {
                 m.append(a.getType().toString() + " appointment: " + a.getAppointmentID() +
                         " scheduled for " + a.getStartTime() + "\n");
                 exists = true;
@@ -305,10 +298,10 @@ public class clientController implements Initializable {
 
 
     private class NoChanges extends Exception {
-        public NoChanges() {super ("No changes have been made to the selected client");}
+        public NoChanges() {super ("No changes have been made to the selected counselor");}
     }
 
-    public void noChangeCheck(Client save, Client stage) throws NoChanges {
+    public void noChangeCheck(Counselor save, Counselor stage) throws NoChanges {
         if(save.equals(stage)) {
             throw new NoChanges();
         }
@@ -316,3 +309,7 @@ public class clientController implements Initializable {
 
 
 }
+
+
+
+

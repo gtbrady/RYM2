@@ -130,7 +130,7 @@ public class loginController implements Initializable {
 
             Parent root = FXMLLoader.load(getClass().getResource("/View/mainView.fxml"));
             Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 310, 335);
+            Scene scene = new Scene(root, 310, 395);
             stage.setTitle("Main Menu");
             stage.setScene(scene);
             stage.show();

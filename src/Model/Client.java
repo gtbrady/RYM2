@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Client {
     int clientID;
     String clientName;
@@ -64,5 +66,18 @@ public class Client {
                 ", clientUsername='" + clientUsername + '\'' +
                 ", clientEmail='" + clientEmail + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return getClientName().equals(client.getClientName()) && getClientPhone().equals(client.getClientPhone()) && getClientUsername().equals(client.getClientUsername()) && getClientEmail().equals(client.getClientEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClientName(), getClientPhone(), getClientUsername(), getClientEmail());
     }
 }

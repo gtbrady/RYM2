@@ -26,7 +26,7 @@ public class DBClient {
             while(rs.next()) {
                 int clientID = rs.getInt("Client ID");
                 String name = rs.getString("Name");
-                String phone = rs.getString("Phone");
+                String phone = rs.getString("Phone Number");
                 String username = rs.getString("Username");
                 String email = rs.getString("Email");
                 Client c = new Client(clientID, name, phone,username, email);
@@ -90,6 +90,7 @@ public class DBClient {
             ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             ps.setString(6,Model.AuthorizedUser.getAuthorizedName());
             ps.setInt(7,c.getClientID());
+            updateConfirm = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

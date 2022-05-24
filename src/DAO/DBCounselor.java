@@ -29,7 +29,7 @@ public class DBCounselor {
             while(rs.next()) {
                 int counselorID = rs.getInt("counselor ID");
                 String name = rs.getString("Name");
-                String phone = rs.getString("Phone");
+                String phone = rs.getString("Phone Number");
                 String username = rs.getString("Username");
                 String email = rs.getString("Email");
                 Counselor c = new Counselor(counselorID, name, phone,username, email);
@@ -89,6 +89,7 @@ public class DBCounselor {
             ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             ps.setString(6,Model.AuthorizedUser.getAuthorizedName());
             ps.setInt(7,c.getCounselorID());
+            updateConfirm = ps.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
         }    return updateConfirm;

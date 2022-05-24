@@ -101,5 +101,25 @@ public class mainController implements Initializable {
             System.exit(0);
         }
     }
+
+    public void toClientController(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/View/clientView.fxml"));
+        Stage stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 800, 450);
+        stage.setTitle("Manage Clients");
+        stage.setScene(scene);
+        stage.show();
+        stage.centerOnScreen();
+    }
+
+    public void toCounselorController(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/View/counselorView.fxml"));
+        Stage stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 800, 450);
+        stage.setTitle("Manage Counselors");
+        stage.setScene(scene);
+        stage.show();
+        stage.centerOnScreen();
+    }
 }
 

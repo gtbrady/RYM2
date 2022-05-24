@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="393.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.mainController">
+<AnchorPane prefHeight="393.0" prefWidth="310.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.mainController">
     <children>
         <AnchorPane layoutX="43.0" layoutY="18.0" prefHeight="341.0" prefWidth="225.0">
             <children>
-                <Button layoutX="21.0" layoutY="74.0" mnemonicParsing="false" onAction="#toCustomerController" prefHeight="36.0" prefWidth="184.0" text="Manage Counselors" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="74.0" mnemonicParsing="false" onAction="#toCounselorController" prefHeight="36.0" prefWidth="184.0" text="Manage Counselors" textFill="#0c4396">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -34,7 +34,7 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#toCustomerController" prefHeight="36.0" prefWidth="184.0" text="Manage Clients" textFill="#0c4396">
+            <Button layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#toClientController" prefHeight="36.0" prefWidth="184.0" text="Manage Clients" textFill="#0c4396">
                <font>
                   <Font size="16.0" />
                </font>

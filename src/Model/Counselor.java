@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Counselor {
     int counselorID;
     String counselorName;
@@ -64,5 +66,18 @@ public class Counselor {
                 ", counselorUsername='" + counselorUsername + '\'' +
                 ", counselorEmail='" + counselorEmail + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Counselor counselor = (Counselor) o;
+        return getCounselorName().equals(counselor.getCounselorName()) && getCounselorPhone().equals(counselor.getCounselorPhone()) && getCounselorUsername().equals(counselor.getCounselorUsername()) && getCounselorEmail().equals(counselor.getCounselorEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCounselorName(), getCounselorPhone(), getCounselorUsername(), getCounselorEmail());
     }
 }

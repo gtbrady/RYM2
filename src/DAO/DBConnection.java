@@ -13,17 +13,21 @@ public class DBConnection {
     private static final String vendorName = ":mysql:";
 
     //rds-mysql-gtyrm2-519.cd8kkachwhvx.us-east-2.rds.amazonaws.com
-    private static final String ipAddress = "//localhost:3306/";
+    //localhost
+    private static final String ipAddress = "//rds-mysql-gtyrm2-519.cd8kkachwhvx.us-east-2.rds.amazonaws.com:3306/";
     //mhs_schedule
-    private static final String dbName = "client_schedule";
+    //client_schedule
+    private static final String dbName = "mhs_schedule";
 
     private static final String connectionTZ = "?connectionTimeZone=SERVER";
     private static final String jdbcURL = protocol + vendorName + ipAddress + dbName + connectionTZ;
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
     //admin519
     //database868
-    private static final String username = "sqlUser";
-    private static final String password = "Passw0rd!";
+    //sqlUser
+    //Passw0rd!
+    private static final String username = "admin519";
+    private static final String password = "database868";
     private static Connection conn = null;
 
     /**
