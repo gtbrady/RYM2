@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="696.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.repTwoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="696.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.reportTwoController">
     <children>
-        <TableView fx:id="repTwoTable" layoutX="30.0" layoutY="60.0" prefHeight="442.0" prefWidth="638.0">
+        <TableView fx:id="reportTwoTable" layoutX="30.0" layoutY="60.0" prefHeight="442.0" prefWidth="638.0">
             <columns>
                 <TableColumn fx:id="counselorNameCol" prefWidth="95.0" text="Counselor" />
                 <TableColumn fx:id="descriptionCol" prefWidth="95.0" text="Description" />

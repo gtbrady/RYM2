@@ -59,13 +59,7 @@ public class Counselor {
 
     @Override
     public String toString() {
-        return "Counselor{" +
-                "counselorID=" + counselorID +
-                ", counselorName='" + counselorName + '\'' +
-                ", counselorPhone='" + counselorPhone + '\'' +
-                ", counselorUsername='" + counselorUsername + '\'' +
-                ", counselorEmail='" + counselorEmail + '\'' +
-                '}';
+        return counselorID +": " + counselorName;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package Controller;
 
 import DAO.DBRepTwo;
+import Model.Contact;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,9 +35,11 @@ public class repTwoController implements Initializable {
      * @param url
      * @param resourceBundle
      */
+    //placeholder for some rewrite - just to make the compiler happy
+    Contact contact = new Contact(1,"name", "email");
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        repTwoTable.setItems((DBRepTwo.getRepTwo(reportingController.getSelectedContact())));
+        repTwoTable.setItems((DBRepTwo.getRepTwo(contact)));
         Contact.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         Appointment_ID.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         Title.setCellValueFactory(new PropertyValueFactory<>("title"));

@@ -1,7 +1,9 @@
 package Controller;
 
 import DAO.DBContact;
+import DAO.DBCounselor;
 import Model.Contact;
+import Model.Counselor;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -20,16 +22,16 @@ import java.util.ResourceBundle;
  * reportingController controls the reporting menu for the application
  */
 public class reportingController implements Initializable {
-    public ComboBox contactDropDown;
-    private ObservableList<Contact> contacts = DBContact.getContacts();
-    private static Contact selectedContact;
+    public ComboBox counselorDropDown;
+    private ObservableList<Counselor> counselors = DBCounselor.getCounselors();
+    private static Counselor selectedCounselor;
 
     /**
      * Gets the selected contact for report 2
      * @return The contact the user selects via the combo box drop down
      */
-    public static Contact getSelectedContact() {
-        return selectedContact;
+    public static Counselor getSelectedCounselor() {
+        return selectedCounselor;
     }
 
     /**
@@ -39,7 +41,7 @@ public class reportingController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        contactDropDown.setItems(contacts);
+        counselorDropDown.setItems(counselors);
     }
 
     /**
@@ -50,7 +52,7 @@ public class reportingController implements Initializable {
     public void toMainController(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/View/mainView.fxml"));
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 310, 335  );
+        Scene scene = new Scene(root, 310, 395  );
         stage.setTitle("Main Menu");
         stage.setScene(scene);
         stage.show();
@@ -79,15 +81,15 @@ public class reportingController implements Initializable {
      */
     public void toRepTwoController(ActionEvent actionEvent) throws IOException {
         try {
-            if(contactDropDown.getSelectionModel().getSelectedItem() == null){
+            if(counselorDropDown.getSelectionModel().getSelectedItem() == null){
                 throw new NullPointerException();
             }
             else {
-                selectedContact = (Contact) contactDropDown.getSelectionModel().getSelectedItem();
+                selectedCounselor= (Counselor) counselorDropDown.getSelectionModel().getSelectedItem();
                 Parent root = FXMLLoader.load(getClass().getResource("/View/repTwoView.fxml"));
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root, 880, 570);
-                stage.setTitle("Contact Schedules");
+                stage.setTitle("Counselor Schedules");
                 stage.setScene(scene);
                 stage.show();
                 stage.centerOnScreen();
@@ -111,6 +113,50 @@ public class reportingController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/View/repThreeView.fxml"));
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 307, 470);
+        stage.setTitle("Customers by Country");
+        stage.setScene(scene);
+        stage.show();
+        stage.centerOnScreen();
+    }
+
+    public void toReportOneController(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/View/reportOneView.fxml"));
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 500, 600);
+        stage.setTitle("Appointments by Type/Month");
+        stage.setScene(scene);
+        stage.show();
+        stage.centerOnScreen();
+    }
+
+    public void toReportTwoController(ActionEvent actionEvent) throws IOException {
+        try {
+            if(counselorDropDown.getSelectionModel().getSelectedItem() == null){
+                throw new NullPointerException();
+            }
+            else {
+                selectedCounselor= (Counselor) counselorDropDown.getSelectionModel().getSelectedItem();
+                Parent root = FXMLLoader.load(getClass().getResource("/View/reportTwoView.fxml"));
+                Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root, 880, 570);
+                stage.setTitle("Counselor Schedules");
+                stage.setScene(scene);
+                stage.show();
+                stage.centerOnScreen();
+            }
+
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nothing selected");
+            alert.setContentText("Please select a counselor to view their schedule.");
+            alert.showAndWait();
+        }
+    }
+
+    public void toReportThreeController(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/View/reportThreeView.fxml"));
+        Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 340, 470);
         stage.setTitle("Customers by Country");
         stage.setScene(scene);
         stage.show();

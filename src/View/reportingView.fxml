@@ -7,21 +7,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.reportingController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.reportingController">
     <children>
         <AnchorPane layoutX="13.0" layoutY="57.0" prefHeight="262.0" prefWidth="575.0">
             <children>
-                <Button layoutX="21.0" layoutY="15.0" mnemonicParsing="false" onAction="#toRepOneController" prefHeight="36.0" prefWidth="217.0" text="Appointments by Type/Month" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="15.0" mnemonicParsing="false" onAction="#toReportOneController" prefHeight="36.0" prefWidth="217.0" text="Appointments by Type/Month" textFill="#0c4396">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Button>
-                <Button layoutX="190.0" layoutY="75.0" mnemonicParsing="false" onAction="#toRepTwoController" prefHeight="37.0" prefWidth="48.0" text="Go" textFill="#0c4396">
+                <Button layoutX="190.0" layoutY="75.0" mnemonicParsing="false" onAction="#toReportTwoController" prefHeight="37.0" prefWidth="48.0" text="Go" textFill="#0c4396">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Button>
-                <Button layoutX="21.0" layoutY="135.0" mnemonicParsing="false" onAction="#toRepThreeController" prefHeight="37.0" prefWidth="218.0" text="Appointments by Building" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="135.0" mnemonicParsing="false" onAction="#toReportThreeController" prefHeight="37.0" prefWidth="218.0" text="Appointments by Building" textFill="#0c4396">
                     <font>
                         <Font size="14.0" />
                     </font>

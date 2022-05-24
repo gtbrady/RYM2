@@ -4,7 +4,7 @@ public enum AppointmentType {
     Office {
         @Override
         public String toString() {
-            return "In Office";
+            return "Office";
         }
     },
     Virtual {

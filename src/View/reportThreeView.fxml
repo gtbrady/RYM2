@@ -7,12 +7,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.repThreeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="340.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.reportThreeController">
     <children>
-        <TableView fx:id="repThreeTable" layoutX="30.0" layoutY="48.0" prefHeight="350.0" prefWidth="280.0">
+        <TableView fx:id="reportThreeTable" layoutX="30.0" layoutY="48.0" prefHeight="350.0" prefWidth="280.0">
             <columns>
-                <TableColumn fx:id="Country" prefWidth="119.0" text="Office Building" />
-                <TableColumn fx:id="CUSTOMER_COUNT" prefWidth="160.0" text="APPOINTMENT_COUNT" />
+                <TableColumn fx:id="Office" prefWidth="119.0" text="Office Building" />
+                <TableColumn fx:id="APPOINTMENT_COUNT" prefWidth="160.0" text="APPOINTMENT_COUNT" />
             </columns>
         </TableView>
         <Label layoutX="64.0" layoutY="14.0" text="Appointments by Office">

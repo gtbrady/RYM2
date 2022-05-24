@@ -73,7 +73,10 @@ public class loginController implements Initializable {
         for(nAppointment n: test) {
             System.out.println(n.getType());
         }
-        */
+
+        String test = "Office";
+        AppointmentType type = AppointmentType.valueOf(test);
+        System.out.println(type.toString());*/
 
 
         try {
