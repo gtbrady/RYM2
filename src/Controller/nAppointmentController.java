@@ -248,6 +248,7 @@ public class nAppointmentController implements Initializable {
         endPeriod.setValue(null);
     }
 
+    //this is disabled and we are almost functional
     public void onType(ActionEvent actionEvent) throws IOException{
 
         AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
@@ -256,7 +257,7 @@ public class nAppointmentController implements Initializable {
         if(type == AppointmentType.Office) {
             detail1DropDown.setDisable(false);
             detail1DropDown.getSelectionModel().clearSelection();
-            detail1DropDown.setValue(null);
+
             detail2DropDown.setDisable(false);
             detail2DropDown.getSelectionModel().clearSelection();
             detail1DropDown.setItems(officeNames);
@@ -280,7 +281,6 @@ public class nAppointmentController implements Initializable {
             detail1DropDown.setDisable(true);
             detail1DropDown.getSelectionModel().clearSelection();
             detail1DropDown.setValue(null);
-
             detail2DropDown.setDisable(true);
             detail2DropDown.getSelectionModel().clearSelection();
             detail2DropDown.setValue(null);
@@ -293,32 +293,42 @@ public class nAppointmentController implements Initializable {
         }
     }
 
+    /*
+    THIS IS THE CULPRIT
+    not filtering for the office the type drop down - it is assuming everything is an office whenever something changes
+     */
     public void onOffice(ActionEvent actionEvent) {
         try {
-
             String selectedOffice = detail1DropDown.getSelectionModel().getSelectedItem();
-                if(selectedOffice == null) {
-                    throw new NullPointerException();
-                }
-
-            int selectedOfficeID = -1;
-            ObservableList<String> selectedSuites = FXCollections.observableArrayList();
-            for(Office o: offices) {
-                if(o.getBuildingName().equals(selectedOffice)) {
-                    selectedOfficeID = o.getOfficeID();
-                    break;
-                }
-                else {
-                    selectedOfficeID = -2;
-                }
+            if(typeDropDown.getSelectionModel().getSelectedItem() == null) {
+                throw new NullPointerException();
             }
 
-            for (Suite s: suites) {
-                if(s.getOfficeID() == selectedOfficeID) {
-                    selectedSuites.add(s.getSuiteName());
+            if(typeDropDown.getSelectionModel().getSelectedItem() == AppointmentType.Office) {
+
+                int selectedOfficeID = -1;
+                ObservableList<String> selectedSuites = FXCollections.observableArrayList();
+                for(Office o: offices) {
+                    if(o.getBuildingName().equals(selectedOffice)) {
+                        selectedOfficeID = o.getOfficeID();
+                        break;
+                    }
+                    else {
+                        selectedOfficeID = -2;
+                    }
                 }
+
+                for (Suite s: suites) {
+                    if(s.getOfficeID() == selectedOfficeID) {
+                        selectedSuites.add(s.getSuiteName());
+                    }
+                }
+                detail2DropDown.setItems(selectedSuites);
+            } else {
+                detail2DropDown.getSelectionModel().clearSelection();
             }
-            detail2DropDown.setItems(selectedSuites);
+
+
 
 
 
