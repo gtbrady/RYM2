@@ -67,6 +67,7 @@ public class appointmentController implements Initializable {
     public ComboBox<String> endMins;
     public ComboBox<String> endPeriod;
     public ToggleGroup TG;
+
     private ObservableList<Customer> customers = DBCustomer.getCustomers();
     private ObservableList<Contact> contacts = DBContact.getContacts();
     private int buttonStatus = -1;

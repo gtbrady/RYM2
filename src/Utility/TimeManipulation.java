@@ -2,7 +2,6 @@ package Utility;
 
 import Model.Appointment;
 import Model.OfficeAppointment;
-import Model.RepTwo;
 import Model.nAppointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -201,7 +200,7 @@ public class TimeManipulation {
 
 
 
-
+/*
     public static RepTwo dbtoSystemRepTwo(RepTwo a) {
 
         String oas = a.getStart();
@@ -215,6 +214,8 @@ public class TimeManipulation {
 
         return updatedRepTwo;
     }
+
+ */
 
     /**
      * Takes a String representation of a LocalDateTime and converts it from the user's system time zone to UTC time

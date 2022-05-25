@@ -70,6 +70,170 @@ public class DBnAppointment {
 
         return allAppointments;
     }
+
+    public static ObservableList<nAppointment> getPhoneAppointments() {
+        ObservableList<nAppointment> phoneAppointments = FXCollections.observableArrayList();
+        //ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
+        nAppointment appointment;
+        try {
+            String sql = """
+                SELECT\s
+                appointments.appointment_ID as	"Appointment ID",
+                clients.client_name as "Client Name",
+                counselors.counselor_name as "Counselor Name",
+                appointments.description as "Description",
+                appointments.type as "Type",
+                appointments.start as "Start Date and Time",
+                appointments.end as "End Date and Time"
+                FROM appointments LEFT JOIN clients on appointments.Client_ID = clients.Client_ID
+                LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID
+                WHERE Type = "Phone";
+                    """;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int aID = rs.getInt("Appointment ID");
+                int coID = rs.getInt("Counselor ID");
+                String coName = rs.getString("Counselor Name");
+                int clID = rs.getInt("Client ID");
+                String clName = rs.getString("Client Name");
+                String description = rs.getString("Description");
+                AppointmentType type =AppointmentType.valueOf(rs.getString("Type"));
+                String start = rs.getString("Start Date and Time");
+                String end = rs.getString("End Date and Time");
+                String detail1 = rs.getString("Detail_1");
+                String detail2 = rs.getString("Detail_2");
+
+
+                    appointment = new PhoneAppointment(aID, coID, coName, clID, clName, type, description,
+                            start, end, detail1, detail2);
+                    phoneAppointments.add(appointment);
+                }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //TimeManipulation loop occurs here - need to write once bulk of rework completed - return converted list
+
+        return phoneAppointments;
+    }
+
+    public static ObservableList<nAppointment> getVirtualAppointments() {
+        ObservableList<nAppointment> allAppointments = FXCollections.observableArrayList();
+        //ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
+        nAppointment appointment;
+        try {
+            String sql = """
+                    SELECT\s
+                    appointments.appointment_ID as	"Appointment ID",
+                    clients.client_name as "Client Name",
+                    counselors.counselor_name as "Counselor Name",
+                    appointments.description as "Description",
+                    appointments.type as "Type",
+                    appointments.start as "Start Date and Time",
+                    appointments.end as "End Date and Time"
+                    FROM appointments LEFT JOIN clients on appointments.Client_ID = clients.Client_ID
+                    LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID\s
+                    WHERE type = "Virtual";
+                    """;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int aID = rs.getInt("Appointment ID");
+                int coID = rs.getInt("Counselor ID");
+                String coName = rs.getString("Counselor Name");
+                int clID = rs.getInt("Client ID");
+                String clName = rs.getString("Client Name");
+                String description = rs.getString("Description");
+                AppointmentType type =AppointmentType.valueOf(rs.getString("Type"));
+                String start = rs.getString("Start Date and Time");
+                String end = rs.getString("End Date and Time");
+                String detail1 = rs.getString("Detail_1");
+                String detail2 = rs.getString("Detail_2");
+
+
+                    appointment = new VirtualAppointment(aID, coID, coName, clID, clName, type, description,
+                            start, end, detail1, detail2);
+                    allAppointments.add(appointment);
+
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //TimeManipulation loop occurs here - need to write once bulk of rework completed - return converted list
+
+        return allAppointments;
+    }
+
+    public static ObservableList<nAppointment> getOfficeAppointments() {
+        ObservableList<nAppointment> allAppointments = FXCollections.observableArrayList();
+        //ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
+        nAppointment appointment;
+        try {
+            String sql = """
+                    SELECT\s
+                    appointments.appointment_ID as	"Appointment ID",
+                    clients.client_name as "Client Name",
+                    counselors.counselor_name as "Counselor Name",
+                    appointments.description as "Description",
+                    appointments.type as "Type",
+                    appointments.start as "Start Date and Time",
+                    appointments.end as "End Date and Time"
+                    FROM appointments LEFT JOIN clients on appointments.Client_ID = clients.Client_ID
+                    LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID\s
+                    WHERE type = "Office";
+                    """;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                int aID = rs.getInt("Appointment ID");
+                int coID = rs.getInt("Counselor ID");
+                String coName = rs.getString("Counselor Name");
+                int clID = rs.getInt("Client ID");
+                String clName = rs.getString("Client Name");
+                String description = rs.getString("Description");
+                AppointmentType type =AppointmentType.valueOf(rs.getString("Type"));
+                String start = rs.getString("Start Date and Time");
+                String end = rs.getString("End Date and Time");
+                String detail1 = rs.getString("Detail_1");
+                String detail2 = rs.getString("Detail_2");
+
+
+                    appointment = new OfficeAppointment(aID, coID, coName, clID, clName, type, description,
+                            start, end, detail1, detail2);
+                    allAppointments.add(appointment);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //TimeManipulation loop occurs here - need to write once bulk of rework completed - return converted list
+
+        return allAppointments;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Note - in controller, need to add clause when calling - if not Office, call default constructor
     public static int addnAppointment(nAppointment a, Client cl, Counselor co, Office o, Suite s) {
         int addConfirm = -1;

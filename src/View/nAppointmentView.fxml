@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="965.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.appointmentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="965.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.nAppointmentController">
     <children>
         <Label layoutX="12.0" layoutY="105.0" text="Type">
          <font>
@@ -25,7 +25,6 @@
                 <Font size="11.0" />
             </font>
         </Label>
-
               <Label layoutX="12.0" layoutY="185.0" text="Counselor">
             <font>
                 <Font size="11.0" />
@@ -80,7 +79,7 @@
         <ComboBox fx:id="endHours" disable="true" editable="false" layoutX="42.0" layoutY="469.0" prefHeight="24.0" prefWidth="55.0" promptText="HH" style="-fx-font-size: 10;" />
       <ComboBox fx:id="endMins" disable="true" editable="false" layoutX="102.0" layoutY="469.0" prefHeight="24.0" prefWidth="55.0" promptText="MM" style="-fx-font-size: 10;" />
       <ComboBox fx:id="endPeriod" disable="true" editable="false" layoutX="162.0" layoutY="470.0" prefHeight="24.0" prefWidth="55.0" promptText="AM" style="-fx-font-size: 10;" />
-        <TableView fx:id="appointmentTable" layoutX="225.0" layoutY="63.0" prefHeight="430.0" prefWidth="707.0" style="-fx-font-size: 10;">
+        <TableView fx:id="nAppointmentTable" layoutX="225.0" layoutY="63.0" prefHeight="430.0" prefWidth="707.0" style="-fx-font-size: 10;">
             <columns>
                 <TableColumn fx:id="aIDCol" prefWidth="100.0" text="Appointment ID" />
                 <TableColumn fx:id="clientCol" prefWidth="100.0" text="Client Name" />
@@ -110,18 +109,16 @@
                         <Font name="System Bold" size="14.0" />
                     </font>
                 </Label>
-                <RadioButton fx:id="allRadio" layoutX="165.0" layoutY="15.0" mnemonicParsing="false" onAction="#showAllAppointments" selected="true" text="All">
+                <RadioButton fx:id="allRadio" layoutX="165.0" layoutY="15.0" mnemonicParsing="false" onAction="#showAllAppointments" selected="true" text="All" toggleGroup="$TG">
                     <toggleGroup>
                         <ToggleGroup fx:id="TG" />
                     </toggleGroup>
                 </RadioButton>
-                <RadioButton fx:id="inOfficeRadio" layoutX="230.0" layoutY="15.0" mnemonicParsing="false" onAction="#showMonthlyAppointments" text="In Office" toggleGroup="$TG" />
-                <RadioButton fx:id="virtualRadio" layoutX="320.0" layoutY="15.0" mnemonicParsing="false" onAction="#showWeeklyAppointments" text="Virtual" toggleGroup="$TG" />
-            <RadioButton fx:id="phoneRadio" layoutX="400.0" layoutY="15.0" mnemonicParsing="false" onAction="#showWeeklyAppointments" text="Phone">
-               <toggleGroup>
-                  <ToggleGroup fx:id="TG1" />
-               </toggleGroup>
-            </RadioButton>
+                <RadioButton fx:id="inOfficeRadio" layoutX="230.0" layoutY="15.0" mnemonicParsing="false" onAction="#showOfficeAppointments" text="In Office" toggleGroup="$TG" />
+                <RadioButton fx:id="virtualRadio" layoutX="320.0" layoutY="15.0" mnemonicParsing="false" onAction="#showVirtualAppointments" text="Virtual" toggleGroup="$TG" />
+            <RadioButton fx:id="phoneRadio" layoutX="400.0" layoutY="15.0" mnemonicParsing="false" onAction="#showPhoneAppointments" text="Phone" toggleGroup="$TG"/>
+
+
             </children>
         </AnchorPane>
       <ComboBox fx:id="typeDropDown" disable="true" editable="false" layoutX="97.0" layoutY="100.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-size: 11;" />

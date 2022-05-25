@@ -1,5 +1,7 @@
 package Model;
 
+import DAO.DBClient;
+
 import java.util.Objects;
 
 public class Client {
@@ -15,6 +17,30 @@ public class Client {
         this.clientPhone = clientPhone;
         this.clientUsername = clientUsername;
         this.clientEmail = clientEmail;
+    }
+
+    public Client(int clientID) {
+        for(Client c: DBClient.getClients()) {
+            if(clientID == c.getClientID()) {
+                this.clientID = clientID;
+                this.clientName = c.getClientName();
+                this.clientPhone = c.getClientPhone();
+                this.clientUsername = c.getClientUsername();
+                this.clientEmail = c.getClientEmail();
+            }
+            else {
+
+                this.clientID = clientID;
+                this.clientName = "clientName";
+                this.clientPhone = "clientPhone";
+                this.clientUsername = "clientUsername";
+                this.clientEmail = "clientEmail";
+            }
+        }
+
+
+
+
     }
 
     public int getClientID() {

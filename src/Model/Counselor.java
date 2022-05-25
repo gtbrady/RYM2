@@ -1,5 +1,7 @@
 package Model;
 
+import DAO.DBCounselor;
+
 import java.util.Objects;
 
 public class Counselor {
@@ -17,7 +19,27 @@ public class Counselor {
         this.counselorEmail = counselorEmail;
     }
 
-    public int getCounselorID() {
+    public Counselor(int counselorID) {
+
+        for(Counselor c: DBCounselor.getCounselors()) {
+            if(counselorID == c.getCounselorID()) {
+                this.counselorID = counselorID;
+                this.counselorName = c.getCounselorName();
+                this.counselorPhone = c.getCounselorPhone();
+                this.counselorUsername = c.getCounselorUsername();
+                this.counselorEmail = c.getCounselorEmail();
+            }
+            else {
+                this.counselorID = counselorID;
+                this.counselorName = "counselorName";
+                this.counselorPhone = "counselorPhone";
+                this.counselorUsername = "counselorUsername";
+                this.counselorEmail = "counselorEmail";
+            }
+        }
+    }
+
+     public int getCounselorID() {
         return counselorID;
     }
 

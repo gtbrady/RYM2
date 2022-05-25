@@ -1,6 +1,8 @@
 package Utility;
 
 import Model.Appointment;
+import Model.nAppointment;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -54,6 +56,15 @@ public class TimeComparison {
 
     }
 
+    //update RYM2
+    public TimeComparison(nAppointment stage, nAppointment compare) {
+        this.stagedStart = LocalDateTime.parse(stage.getStartTime(), TimeManipulation.formatter);
+        this.stagedEnd = LocalDateTime.parse(stage.getEndTime(), TimeManipulation.formatter);
+        this.compareStart = LocalDateTime.parse(compare.getStartTime(), TimeManipulation.formatter);
+        this.compareEnd = LocalDateTime.parse(compare.getEndTime(), TimeManipulation.formatter);
+
+    }
+
     /**
      *
      * @param stage stage appointment - converted to start/end date/times
@@ -61,6 +72,15 @@ public class TimeComparison {
     public TimeComparison(Appointment stage) {
         this.stagedStart = LocalDateTime.parse(stage.getStartDT(), TimeManipulation.formatter);
         this.stagedEnd = LocalDateTime.parse(stage.getEndDT(), TimeManipulation.formatter);
+        this.date = stagedStart.toLocalDate();
+        this.compareStart = LocalDateTime.of(date, TimeManipulation.getOpenHourStart());
+        this.compareEnd = LocalDateTime.of(date, TimeManipulation.getOpenHourEnd());
+    }
+
+    //updated RYM2
+    public TimeComparison(nAppointment stage) {
+        this.stagedStart = LocalDateTime.parse(stage.getStartTime(), TimeManipulation.formatter);
+        this.stagedEnd = LocalDateTime.parse(stage.getEndTime(), TimeManipulation.formatter);
         this.date = stagedStart.toLocalDate();
         this.compareStart = LocalDateTime.of(date, TimeManipulation.getOpenHourStart());
         this.compareEnd = LocalDateTime.of(date, TimeManipulation.getOpenHourEnd());
