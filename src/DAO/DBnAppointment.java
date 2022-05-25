@@ -22,6 +22,10 @@ public class DBnAppointment {
                     appointments.appointment_ID as	"Appointment ID",
                     clients.client_name as "Client Name",
                     counselors.counselor_name as "Counselor Name",
+                    appointments.counselor_id as "Counselor ID",
+                    appointments.client_id as "Client ID",
+                    appointments.detail_1 as "Detail_1",
+                    appointments.detail_2 as "Detail_2",
                     appointments.description as "Description",
                     appointments.type as "Type",
                     appointments.start as "Start Date and Time",
@@ -77,18 +81,22 @@ public class DBnAppointment {
         nAppointment appointment;
         try {
             String sql = """
-                SELECT\s
-                appointments.appointment_ID as	"Appointment ID",
-                clients.client_name as "Client Name",
-                counselors.counselor_name as "Counselor Name",
-                appointments.description as "Description",
-                appointments.type as "Type",
-                appointments.start as "Start Date and Time",
-                appointments.end as "End Date and Time"
-                FROM appointments LEFT JOIN clients on appointments.Client_ID = clients.Client_ID
-                LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID
-                WHERE Type = "Phone";
-                    """;
+                    SELECT\s
+                    appointments.appointment_ID as	"Appointment ID",
+                    clients.client_name as "Client Name",
+                    counselors.counselor_name as "Counselor Name",
+                    appointments.counselor_id as "Counselor ID",
+                    appointments.client_id as "Client ID",
+                    appointments.detail_1 as "Detail_1",
+                    appointments.detail_2 as "Detail_2",
+                    appointments.description as "Description",
+                    appointments.type as "Type",
+                    appointments.start as "Start Date and Time",
+                    appointments.end as "End Date and Time"
+                    FROM appointments LEFT JOIN clients on appointments.Client_ID = clients.Client_ID
+                    LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID
+                    WHERE Type = "Phone";
+                        """;
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
@@ -131,12 +139,16 @@ public class DBnAppointment {
                     appointments.appointment_ID as	"Appointment ID",
                     clients.client_name as "Client Name",
                     counselors.counselor_name as "Counselor Name",
+                    appointments.counselor_id as "Counselor ID",
+                    appointments.client_id as "Client ID",
+                    appointments.detail_1 as "Detail_1",
+                    appointments.detail_2 as "Detail_2",
                     appointments.description as "Description",
                     appointments.type as "Type",
                     appointments.start as "Start Date and Time",
                     appointments.end as "End Date and Time"
                     FROM appointments LEFT JOIN clients on appointments.Client_ID = clients.Client_ID
-                    LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID\s
+                    LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID
                     WHERE type = "Virtual";
                     """;
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
@@ -181,12 +193,16 @@ public class DBnAppointment {
                     appointments.appointment_ID as	"Appointment ID",
                     clients.client_name as "Client Name",
                     counselors.counselor_name as "Counselor Name",
+                    appointments.counselor_id as "Counselor ID",
+                    appointments.client_id as "Client ID",
+                    appointments.detail_1 as "Detail_1",
+                    appointments.detail_2 as "Detail_2",
                     appointments.description as "Description",
                     appointments.type as "Type",
                     appointments.start as "Start Date and Time",
                     appointments.end as "End Date and Time"
                     FROM appointments LEFT JOIN clients on appointments.Client_ID = clients.Client_ID
-                    LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID\s
+                    LEFT JOIN counselors on appointments.Counselor_ID = counselors.Counselor_ID
                     WHERE type = "Office";
                     """;
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);

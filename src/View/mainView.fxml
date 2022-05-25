@@ -14,7 +14,7 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button layoutX="21.0" layoutY="134.0" mnemonicParsing="false" onAction="#toAppointmentController" prefHeight="36.0" prefWidth="184.0" text="Manage Schedule" textFill="#0c4396">
+                <Button layoutX="21.0" layoutY="134.0" mnemonicParsing="false" onAction="#tonAppointmentController" prefHeight="36.0" prefWidth="184.0" text="Manage Schedule" textFill="#0c4396">
                     <font>
                         <Font size="16.0" />
                     </font>
