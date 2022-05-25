@@ -27,6 +27,7 @@ public class Client {
                 this.clientPhone = c.getClientPhone();
                 this.clientUsername = c.getClientUsername();
                 this.clientEmail = c.getClientEmail();
+                break;
             }
             else {
 
@@ -85,7 +86,7 @@ public class Client {
 
     @Override
     public String toString() {
-        return clientID +": " + clientName;
+        return this.clientName;
     }
 
     @Override

@@ -4,6 +4,7 @@ import DAO.*;
 import Model.*;
 import Utility.TimeComparison;
 import Utility.TimeManipulation;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -78,7 +79,9 @@ public class nAppointmentController implements Initializable {
     private ObservableList<Client> clients = DBClient.getClients();
     private ObservableList<Counselor> counselors = DBCounselor.getCounselors();
     private ObservableList<Office> offices = DBOffice.getOffices();
+    private ObservableList<String> officeNames = DBOffice.getOfficeNames();
     private ObservableList<Suite> suites = DBSuite.getSuites();
+    private ObservableList<String> suiteNames = DBSuite.getSuiteNames();
 
 
     @Override
@@ -94,8 +97,11 @@ public class nAppointmentController implements Initializable {
         endCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
 
 
+
+
         clientDropDown.setItems(clients);
         counselorDropDown.setItems(counselors);
+        typeDropDown.getItems().setAll(AppointmentType.values());
 
         startHours.setItems(TimeManipulation.getStringHours());
         startHours.setVisibleRowCount(5);
@@ -125,6 +131,7 @@ public class nAppointmentController implements Initializable {
         descriptionText.setDisable(false);
         descriptionText.setEditable(true);
 
+        typeDropDown.setDisable(false);
         counselorDropDown.setDisable(false);
         clientDropDown.setDisable(false);
 
@@ -235,6 +242,65 @@ public class nAppointmentController implements Initializable {
 
     public void onType(ActionEvent actionEvent) throws IOException{
         AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
+        if(type == AppointmentType.Office) {
+            detail1DropDown.setDisable(false);
+            detail1DropDown.getSelectionModel().clearSelection();
+            detail1DropDown.setValue(null);
+            detail2DropDown.setDisable(false);
+            detail2DropDown.setDisable(true);
+            detail2DropDown.getSelectionModel().clearSelection();
+            detail1DropDown.setItems(officeNames);
+        } else if(type == AppointmentType.Phone) {
+            detail1DropDown.setDisable(true);
+            detail1DropDown.getSelectionModel().clearSelection();
+            detail1DropDown.setValue(null);
+            detail2DropDown.setDisable(true);
+            detail2DropDown.getSelectionModel().clearSelection();
+            detail2DropDown.setValue(null);
+        } else if (type == AppointmentType.Virtual) {
+            detail1DropDown.setDisable(true);
+            detail1DropDown.getSelectionModel().clearSelection();
+            detail1DropDown.setValue(null);
+            detail2DropDown.setDisable(true);
+            detail2DropDown.getSelectionModel().clearSelection();
+            detail2DropDown.setValue(null);
+
+        }
+
+    }
+
+    public void onOffice(ActionEvent actionEvent) {
+        try {
+            String selectedOffice = detail1DropDown.getSelectionModel().getSelectedItem();
+                if(selectedOffice == null) {
+                    throw new NullPointerException();
+                }
+
+            int selectedOfficeID = -1;
+            ObservableList<String> selectedSuites = FXCollections.observableArrayList();
+            for(Office o: offices) {
+                if(o.getBuildingName().equals(selectedOffice)) {
+                    selectedOfficeID = o.getOfficeID();
+                    break;
+                }
+                else {
+                    selectedOfficeID = -2;
+                }
+            }
+
+            for (Suite s: suites) {
+                if(s.getOfficeID() == selectedOfficeID) {
+                    selectedSuites.add(s.getSuiteName());
+                }
+            }
+            detail2DropDown.setItems(selectedSuites);
+
+
+        } catch (NullPointerException e) {
+
+
+        }
+
     }
 
     public void onAdd(ActionEvent actionEvent) throws IOException {

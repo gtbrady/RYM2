@@ -28,6 +28,7 @@ public class Counselor {
                 this.counselorPhone = c.getCounselorPhone();
                 this.counselorUsername = c.getCounselorUsername();
                 this.counselorEmail = c.getCounselorEmail();
+                break;
             }
             else {
                 this.counselorID = counselorID;
@@ -81,7 +82,7 @@ public class Counselor {
 
     @Override
     public String toString() {
-        return counselorID +": " + counselorName;
+        return this.counselorName;
     }
 
     @Override

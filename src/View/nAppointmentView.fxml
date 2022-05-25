@@ -45,7 +45,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-        <ComboBox fx:id="detail1DropDown" disable="true" editable="false" layoutX="97.0" layoutY="270.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-size: 11;" />
+        <ComboBox fx:id="detail1DropDown" disable="true" editable="false" layoutX="97.0" layoutY="270.0" onAction="#onOffice" prefHeight="24.0" prefWidth="120.0" style="-fx-font-size: 11;" />
       <Label layoutX="12.0" layoutY="315.0" text="Detail2">
          <font>
             <Font size="11.0" />
@@ -121,7 +121,7 @@
 
             </children>
         </AnchorPane>
-      <ComboBox fx:id="typeDropDown" disable="true" editable="false" layoutX="97.0" layoutY="100.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-size: 11;" />
+      <ComboBox fx:id="typeDropDown" disable="true" editable="false" layoutX="97.0" layoutY="100.0" onAction="#onType" prefHeight="24.0" prefWidth="120.0" style="-fx-font-size: 11;" />
       <ComboBox fx:id="clientDropDown" disable="true" editable="false" layoutX="97.0" layoutY="140.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-size: 11;" />
       <ComboBox fx:id="counselorDropDown" disable="true" editable="false" layoutX="97.0" layoutY="180.0" prefHeight="24.0" prefWidth="120.0" style="-fx-font-size: 11;" />
       <Separator layoutX="14.0" layoutY="350.0" prefWidth="200.0" />

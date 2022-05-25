@@ -35,4 +35,29 @@ public class DBSuite {
         }
         return suiteList;
     }
+
+    public static ObservableList<String> getSuiteNames() {
+        ObservableList<String> suiteNameList = FXCollections.observableArrayList();
+        try {
+            String sql = """
+                    SELECT\s
+                    Suite_ID,
+                    Office_ID,
+                    Suite_Name
+                    FROM suites
+                    """;
+            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+
+                String name = rs.getString("Suite_Name");
+
+                suiteNameList.add(name);
+            }
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return suiteNameList;
+    }
 }
