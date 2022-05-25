@@ -72,6 +72,8 @@ public class nAppointmentController implements Initializable {
     public RadioButton inOfficeRadio;
     public RadioButton virtualRadio;
     public RadioButton phoneRadio;
+    public Label detail1Label;
+    public Label detail2Label;
 
 
     private int buttonStatus = -1;
@@ -146,8 +148,10 @@ public class nAppointmentController implements Initializable {
 
     private void populateFields(ActionEvent actionEvent) {
         try {
+
         nAppointment theAppointment = (nAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
         AppointmentType aType = theAppointment.getType();
+        setDetailHeader(aType);
         Client aClient = new Client(theAppointment.getClientID());
         Counselor aCounselor = new Counselor(theAppointment.getCounselorID());
         String d1 = appointmentDetail1(theAppointment);
@@ -170,6 +174,8 @@ public class nAppointmentController implements Initializable {
         typeDropDown.setValue(aType);
         detail1DropDown.setValue(d1);
         detail2DropDown.setValue(d2);
+        System.out.println("Detail1: " + d1);
+        System.out.println("Detail2: " + d2);
         startDate.setValue(sts.toLocalDateTime().toLocalDate());
         startHours.setValue(startTimePieces.get(0));
         startMins.setValue(startTimePieces.get(1));
@@ -188,6 +194,8 @@ public class nAppointmentController implements Initializable {
 
     private void clearFields(ActionEvent actionEvent) {
         headerLabel.setText("Appointments");
+        detail1Label.setText("Detail1");
+        detail2Label.setText("Detail2");
         buttonStatus = -1;
         addButton.setDisable(false);
         editButton.setDisable(false);
@@ -241,13 +249,15 @@ public class nAppointmentController implements Initializable {
     }
 
     public void onType(ActionEvent actionEvent) throws IOException{
+
         AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
+        Counselor theCounselor = counselorDropDown.getSelectionModel().getSelectedItem();
+        Client theClient = clientDropDown.getSelectionModel().getSelectedItem();
         if(type == AppointmentType.Office) {
             detail1DropDown.setDisable(false);
             detail1DropDown.getSelectionModel().clearSelection();
             detail1DropDown.setValue(null);
             detail2DropDown.setDisable(false);
-            detail2DropDown.setDisable(true);
             detail2DropDown.getSelectionModel().clearSelection();
             detail1DropDown.setItems(officeNames);
         } else if(type == AppointmentType.Phone) {
@@ -257,20 +267,35 @@ public class nAppointmentController implements Initializable {
             detail2DropDown.setDisable(true);
             detail2DropDown.getSelectionModel().clearSelection();
             detail2DropDown.setValue(null);
+            if(theCounselor != null) {
+                detail1DropDown.setValue(theCounselor.getCounselorPhone());
+            }
+            if(theClient != null) {
+                detail2DropDown.setValue(theClient.getClientPhone());
+            }
+
+
         } else if (type == AppointmentType.Virtual) {
+
             detail1DropDown.setDisable(true);
             detail1DropDown.getSelectionModel().clearSelection();
             detail1DropDown.setValue(null);
+
             detail2DropDown.setDisable(true);
             detail2DropDown.getSelectionModel().clearSelection();
             detail2DropDown.setValue(null);
-
+            if(theCounselor != null) {
+                detail1DropDown.setValue(theCounselor.getCounselorUsername());
+            }
+            if(theClient != null) {
+                detail2DropDown.setValue(theClient.getClientUsername());
+            }
         }
-
     }
 
     public void onOffice(ActionEvent actionEvent) {
         try {
+
             String selectedOffice = detail1DropDown.getSelectionModel().getSelectedItem();
                 if(selectedOffice == null) {
                     throw new NullPointerException();
@@ -296,11 +321,36 @@ public class nAppointmentController implements Initializable {
             detail2DropDown.setItems(selectedSuites);
 
 
+
         } catch (NullPointerException e) {
 
 
         }
 
+    }
+
+    public void onClient(ActionEvent actionEvent) {
+        Client theClient = clientDropDown.getSelectionModel().getSelectedItem();
+        AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
+        if(type != null && theClient != null) {
+            if(type == AppointmentType.Phone) {
+                detail2DropDown.setValue(theClient.getClientPhone());
+            } else if (type == AppointmentType.Virtual) {
+                detail2DropDown.setValue(theClient.getClientUsername());
+            }
+        }
+    }
+
+    public void onCounselor(ActionEvent actionEvent)  {
+        Counselor theCounselor = counselorDropDown.getSelectionModel().getSelectedItem();
+        AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
+        if(type != null && theCounselor != null) {
+            if(type == AppointmentType.Phone) {
+                detail1DropDown.setValue(theCounselor.getCounselorPhone());
+            } else if (type == AppointmentType.Virtual) {
+                detail1DropDown.setValue(theCounselor.getCounselorUsername());
+            }
+        }
     }
 
     public void onAdd(ActionEvent actionEvent) throws IOException {
@@ -410,6 +460,22 @@ public class nAppointmentController implements Initializable {
 
     public void showPhoneAppointments(ActionEvent actionEvent) {
         nAppointmentTable.setItems(DBnAppointment.getPhoneAppointments());
+    }
+
+    public void setDetailHeader(AppointmentType type) {
+        if(type == AppointmentType.Office) {
+            detail1Label.setText("Office Building");
+            detail2Label.setText("Suite/Room");
+        } else if(type == AppointmentType.Phone) {
+            detail1Label.setText("Counselor Phone");
+            detail2Label.setText("Client Phone");
+        } else if (type == AppointmentType.Virtual) {
+            detail1Label.setText("Counselor Username");
+            detail2Label.setText("Client Username");
+        } else {
+            detail1Label.setText("Detail1");
+            detail2Label.setText("Detail2");
+        }
     }
 
     public String appointmentDetail1(nAppointment appointment ) {
