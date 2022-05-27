@@ -163,7 +163,7 @@ public class nAppointmentController implements Initializable {
         endPeriod.setDisable(false);
     }
 
-    private void populateFields(ActionEvent actionEvent) {
+    private void populateFields() {
         try {
 
 
@@ -357,8 +357,8 @@ public class nAppointmentController implements Initializable {
     THIS IS THE CULPRIT
     not filtering for the office the type drop down - it is assuming everything is an office whenever something changes
      */
-    public void onOffice(ActionEvent actionEvent) {
-        if(stagedType == AppointmentType.Office) {
+    public void onOffice() {
+        if(stagedType == AppointmentType.Office && detail1DropDown.getValue() != null) {
             stagedOffice = new Office(detail1DropDown.getValue());
             System.out.println(debugTracker++ + ",onOffice,detail1," + detail1DropDown.getValue());
             ObservableList<String> selectedSuites = FXCollections.observableArrayList();
@@ -369,6 +369,10 @@ public class nAppointmentController implements Initializable {
             }
             detail2DropDown.setItems(selectedSuites);
             System.out.println(debugTracker++ + ",onOffice,detail2," + detail2DropDown.getValue());
+            /*for(String s:selectedSuites) {
+                System.out.println("onOffice() Detail2 items: ");
+                System.out.println(s);
+            }*/
 
         }
     }
@@ -417,11 +421,11 @@ public class nAppointmentController implements Initializable {
         headerLabel.setText("Edit Appointment");
         buttonStatus = 2;
         addButton.setDisable(true);
-        editButton.setDisable(true);
+        //editButton.setDisable(true);
         deleteButton.setDisable(true);
         enableFields(actionEvent);
 
-        populateFields(actionEvent);
+        populateFields();
     }
 
     public void onCancel(ActionEvent actionEvent) throws IOException {
@@ -466,7 +470,7 @@ public class nAppointmentController implements Initializable {
         headerLabel.setText("Delete Appointment");
         addButton.setDisable(true);
         editButton.setDisable(true);
-        populateFields(actionEvent);
+        populateFields();
 
         try {
             nAppointment stagedAppointment = (nAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
