@@ -1,5 +1,7 @@
 package Model;
 
+import DAO.DBOffice;
+
 public class Office {
     int officeID;
     String buildingName;
@@ -15,6 +17,28 @@ public class Office {
         this.city = city;
         this.state = state;
         this.zip = zip;
+    }
+    public Office(String name) {
+        for(Office o : DBOffice.getOffices()) {
+            if(name.equals(o.getBuildingName())) {
+            this.officeID = o.getOfficeID();
+            this.buildingName = name;
+            this.buildingAddress = o.getBuildingAddress();
+            this.city = o.getCity();
+            this.state = o.getState();
+            this.zip = o.getZip();
+            break;
+            }
+            else {
+                this.officeID = -1;
+                this.buildingName = name;
+                this.buildingAddress = "buildingAddress";
+                this.city = "city";
+                this.state = "state";
+                this.zip = "zip";
+            }
+        }
+
     }
 
     public int getOfficeID() {

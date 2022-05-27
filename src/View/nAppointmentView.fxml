@@ -121,7 +121,7 @@
 
             </children>
         </AnchorPane>
-      <ComboBox fx:id="typeDropDown" disable="true" editable="false" layoutX="112.0" layoutY="100.0" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
+      <ComboBox fx:id="typeDropDown" disable="true" editable="false" layoutX="112.0" layoutY="100.0"  onAction="#onType" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
       <ComboBox fx:id="clientDropDown" disable="true" editable="false" layoutX="112.0" layoutY="180.0" onAction="#onClient" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
       <ComboBox fx:id="counselorDropDown" disable="true" editable="false" layoutX="112.0" layoutY="140.0" onAction="#onCounselor" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
       <Separator layoutX="14.0" layoutY="350.0" prefWidth="250.0" />

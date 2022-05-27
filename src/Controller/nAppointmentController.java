@@ -83,7 +83,24 @@ public class nAppointmentController implements Initializable {
     private ObservableList<Office> offices = DBOffice.getOffices();
     private ObservableList<String> officeNames = DBOffice.getOfficeNames();
     private ObservableList<Suite> suites = DBSuite.getSuites();
+
     private ObservableList<String> suiteNames = DBSuite.getSuiteNames();
+
+    private static PhoneAppointment stagedPhoneAppointment;
+    private static VirtualAppointment stagedVirtualAppointment;
+    private static OfficeAppointment stagedOfficeAppointment;
+
+    private static AppointmentType stagedType;
+    private static Counselor stagedCounselor;
+    private static Client stagedClient;
+    private static Office stagedOffice;
+    private static Suite stagedSuite;
+
+    private static String stagedDetail1;
+    private static String stagedDetail2;
+
+    private static int debugTracker = 0;
+
 
 
     @Override
@@ -149,13 +166,44 @@ public class nAppointmentController implements Initializable {
     private void populateFields(ActionEvent actionEvent) {
         try {
 
+
         nAppointment theAppointment = (nAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
-        AppointmentType aType = theAppointment.getType();
-        setDetailHeader(aType);
-        Client aClient = new Client(theAppointment.getClientID());
-        Counselor aCounselor = new Counselor(theAppointment.getCounselorID());
-        String d1 = appointmentDetail1(theAppointment);
-        String d2 = appointmentDetail2(theAppointment);
+            if (theAppointment == null) {
+                throw new NullPointerException();
+            }
+        stagedType = theAppointment.getType();
+
+        setDetailHeader(stagedType);
+        if(theAppointment instanceof OfficeAppointment) {
+            stagedOfficeAppointment = (OfficeAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
+            stagedOffice = new Office(stagedOfficeAppointment.getBuildingName());
+            stagedSuite = new Suite(stagedOfficeAppointment.getSuiteName());
+            stagedCounselor = new Counselor(stagedOfficeAppointment.getCounselorID());
+            stagedClient = new Client(stagedOfficeAppointment.getClientID());
+            stagedDetail1 = stagedOffice.getBuildingName();
+            //detail1DropDown.setDisable(false);
+            stagedDetail2 = stagedSuite.getSuiteName();
+            //detail2DropDown.setDisable(false);
+        }
+        else if (theAppointment instanceof VirtualAppointment) {
+            stagedVirtualAppointment = (VirtualAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
+            stagedCounselor = new Counselor(stagedVirtualAppointment.getCounselorID());
+            stagedClient = new Client(stagedVirtualAppointment.getClientID());
+            stagedDetail1 = stagedCounselor.getCounselorUsername();
+            stagedDetail2 = stagedClient.getClientUsername();
+            //detail1DropDown.setDisable(true);
+            //detail2DropDown.setDisable(true);
+        }
+        else if (theAppointment instanceof PhoneAppointment) {
+            stagedPhoneAppointment = (PhoneAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
+            stagedCounselor = new Counselor(stagedPhoneAppointment.getCounselorID());
+            stagedClient = new Client(stagedPhoneAppointment.getClientID());
+            stagedDetail1 = stagedCounselor.getCounselorPhone();
+            stagedDetail2 = stagedClient.getClientPhone();
+            //detail1DropDown.setDisable(true);
+            //detail2DropDown.setDisable(true);
+
+        }
 
         Timestamp sts =Timestamp.valueOf(theAppointment.getStartTime());
         Timestamp ets = Timestamp.valueOf(theAppointment.getEndTime());
@@ -165,17 +213,16 @@ public class nAppointmentController implements Initializable {
         ObservableList<String> startTimePieces = TimeManipulation.timeToString(slt);
         ObservableList<String> endTimePieces = TimeManipulation.timeToString(elt);
 
-        if (theAppointment == null) {
-            throw new NullPointerException();
-        }
         descriptionText.setText(theAppointment.getDescription());
-        counselorDropDown.setValue(aCounselor);
-        clientDropDown.setValue(aClient);
-        typeDropDown.setValue(aType);
-        detail1DropDown.setValue(d1);
-        detail2DropDown.setValue(d2);
-        System.out.println("Detail1: " + d1);
-        System.out.println("Detail2: " + d2);
+        counselorDropDown.setValue(stagedCounselor);
+        clientDropDown.setValue(stagedClient);
+        typeDropDown.setValue(stagedType);
+        detail1DropDown.setValue(stagedDetail1);
+        detail2DropDown.setValue(stagedDetail2);
+        System.out.println(debugTracker++ + ",populateFields,detail1," + detail1DropDown.getValue());
+        System.out.println(debugTracker++ + ",populateFields,detail2," + detail2DropDown.getValue());
+
+
         startDate.setValue(sts.toLocalDateTime().toLocalDate());
         startHours.setValue(startTimePieces.get(0));
         startMins.setValue(startTimePieces.get(1));
@@ -192,7 +239,7 @@ public class nAppointmentController implements Initializable {
         }
     }
 
-    private void clearFields(ActionEvent actionEvent) {
+    private void clearFields() {
         headerLabel.setText("Appointments");
         detail1Label.setText("Detail1");
         detail2Label.setText("Detail2");
@@ -246,49 +293,62 @@ public class nAppointmentController implements Initializable {
         endPeriod.setDisable(true);
         endPeriod.getSelectionModel().clearSelection();
         endPeriod.setValue(null);
+
+
+        stagedPhoneAppointment = null;
+        stagedVirtualAppointment = null;
+        stagedOfficeAppointment = null;
+        stagedType = null;
+        stagedCounselor = null;
+        stagedClient = null;
+        stagedOffice = null;
+        stagedSuite = null;
     }
 
     //this is disabled and we are almost functional
     public void onType(ActionEvent actionEvent) throws IOException{
+        System.out.println(debugTracker++ + ",onType,,," + typeDropDown.getValue());
+        stagedType = typeDropDown.getSelectionModel().getSelectedItem();
 
-        AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
-        Counselor theCounselor = counselorDropDown.getSelectionModel().getSelectedItem();
-        Client theClient = clientDropDown.getSelectionModel().getSelectedItem();
-        if(type == AppointmentType.Office) {
+
+
+        if(stagedType == AppointmentType.Office) {
+            if(stagedOfficeAppointment != null) {
+                detail1DropDown.setValue(stagedOfficeAppointment.getBuildingName());
+                detail2DropDown.setValue(stagedOfficeAppointment.getSuiteName());
+                System.out.println(debugTracker++ + ",onType,detail1," + detail1DropDown.getValue());
+                System.out.println(debugTracker++ + ",onType,detail2," + detail2DropDown.getValue());
+            }
             detail1DropDown.setDisable(false);
-            detail1DropDown.getSelectionModel().clearSelection();
-
             detail2DropDown.setDisable(false);
-            detail2DropDown.getSelectionModel().clearSelection();
             detail1DropDown.setItems(officeNames);
-        } else if(type == AppointmentType.Phone) {
+
+
+        } else if(stagedType == AppointmentType.Phone) {
             detail1DropDown.setDisable(true);
-            detail1DropDown.getSelectionModel().clearSelection();
-            detail1DropDown.setValue(null);
             detail2DropDown.setDisable(true);
-            detail2DropDown.getSelectionModel().clearSelection();
-            detail2DropDown.setValue(null);
-            if(theCounselor != null) {
-                detail1DropDown.setValue(theCounselor.getCounselorPhone());
+            if(counselorDropDown.getValue() != null) {
+                detail1DropDown.setValue(stagedCounselor.getCounselorPhone());
+                System.out.println(debugTracker++ + ",onType,detail1," + detail1DropDown.getValue());
             }
-            if(theClient != null) {
-                detail2DropDown.setValue(theClient.getClientPhone());
+            if(clientDropDown.getValue() != null) {
+                detail2DropDown.setValue(stagedClient.getClientPhone());
+                System.out.println(debugTracker++ + ",onType,detail2," + detail2DropDown.getValue());
             }
 
 
-        } else if (type == AppointmentType.Virtual) {
 
+
+        } else if (stagedType == AppointmentType.Virtual) {
             detail1DropDown.setDisable(true);
-            detail1DropDown.getSelectionModel().clearSelection();
-            detail1DropDown.setValue(null);
             detail2DropDown.setDisable(true);
-            detail2DropDown.getSelectionModel().clearSelection();
-            detail2DropDown.setValue(null);
-            if(theCounselor != null) {
-                detail1DropDown.setValue(theCounselor.getCounselorUsername());
+            if(counselorDropDown.getValue() != null) {
+                detail1DropDown.setValue(stagedCounselor.getCounselorPhone());
+                System.out.println(debugTracker++ + ",onType,detail1," + detail1DropDown.getValue());
             }
-            if(theClient != null) {
-                detail2DropDown.setValue(theClient.getClientUsername());
+            if(clientDropDown.getValue() != null) {
+                detail2DropDown.setValue(stagedClient.getClientPhone());
+                System.out.println(debugTracker++ + ",onType,detail2," + detail2DropDown.getValue());
             }
         }
     }
@@ -298,69 +358,49 @@ public class nAppointmentController implements Initializable {
     not filtering for the office the type drop down - it is assuming everything is an office whenever something changes
      */
     public void onOffice(ActionEvent actionEvent) {
-        try {
-            String selectedOffice = detail1DropDown.getSelectionModel().getSelectedItem();
-            if(typeDropDown.getSelectionModel().getSelectedItem() == null) {
-                throw new NullPointerException();
-            }
-
-            if(typeDropDown.getSelectionModel().getSelectedItem() == AppointmentType.Office) {
-
-                int selectedOfficeID = -1;
-                ObservableList<String> selectedSuites = FXCollections.observableArrayList();
-                for(Office o: offices) {
-                    if(o.getBuildingName().equals(selectedOffice)) {
-                        selectedOfficeID = o.getOfficeID();
-                        break;
-                    }
-                    else {
-                        selectedOfficeID = -2;
-                    }
+        if(stagedType == AppointmentType.Office) {
+            stagedOffice = new Office(detail1DropDown.getValue());
+            System.out.println(debugTracker++ + ",onOffice,detail1," + detail1DropDown.getValue());
+            ObservableList<String> selectedSuites = FXCollections.observableArrayList();
+            for(Suite s : suites) {
+                if(s.getOfficeID() == stagedOffice.getOfficeID()) {
+                    selectedSuites.add(s.getSuiteName());
                 }
-
-                for (Suite s: suites) {
-                    if(s.getOfficeID() == selectedOfficeID) {
-                        selectedSuites.add(s.getSuiteName());
-                    }
-                }
-                detail2DropDown.setItems(selectedSuites);
-            } else {
-                detail2DropDown.getSelectionModel().clearSelection();
             }
-
-
-
-
-
-        } catch (NullPointerException e) {
-
+            detail2DropDown.setItems(selectedSuites);
+            System.out.println(debugTracker++ + ",onOffice,detail2," + detail2DropDown.getValue());
 
         }
-
     }
 
     public void onClient(ActionEvent actionEvent) {
-        Client theClient = clientDropDown.getSelectionModel().getSelectedItem();
-        AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
-        if(type != null && theClient != null) {
-            if(type == AppointmentType.Phone) {
-                detail2DropDown.setValue(theClient.getClientPhone());
-            } else if (type == AppointmentType.Virtual) {
-                detail2DropDown.setValue(theClient.getClientUsername());
+        stagedClient = clientDropDown.getSelectionModel().getSelectedItem();
+        if(stagedType != null) {
+            if(stagedType == AppointmentType.Phone) {
+                detail2DropDown.setValue(stagedClient.getClientPhone());
+                System.out.println(debugTracker++ + ",onClient,detail2," + detail2DropDown.getValue());
+            } else if(stagedType == AppointmentType.Virtual) {
+                detail2DropDown.setValue(stagedClient.getClientUsername());
+                System.out.println(debugTracker++ + ",onClient,detail2," + detail2DropDown.getValue());
             }
         }
+
     }
 
     public void onCounselor(ActionEvent actionEvent)  {
-        Counselor theCounselor = counselorDropDown.getSelectionModel().getSelectedItem();
-        AppointmentType type = typeDropDown.getSelectionModel().getSelectedItem();
-        if(type != null && theCounselor != null) {
-            if(type == AppointmentType.Phone) {
-                detail1DropDown.setValue(theCounselor.getCounselorPhone());
-            } else if (type == AppointmentType.Virtual) {
-                detail1DropDown.setValue(theCounselor.getCounselorUsername());
+        stagedCounselor = counselorDropDown.getSelectionModel().getSelectedItem();
+        if(stagedType != null) {
+            if(stagedType == AppointmentType.Phone) {
+                detail1DropDown.setValue(stagedCounselor.getCounselorPhone());
+                System.out.println(debugTracker++ + ",onCounselor,detail1," + detail1DropDown.getValue());
+            } else if (stagedType == AppointmentType.Virtual) {
+                detail1DropDown.setValue(stagedCounselor.getCounselorUsername());
+                System.out.println(debugTracker++ + ",onCounselor,detail1," + detail1DropDown.getValue());
+
             }
+
         }
+
     }
 
     public void onAdd(ActionEvent actionEvent) throws IOException {
@@ -377,13 +417,15 @@ public class nAppointmentController implements Initializable {
         headerLabel.setText("Edit Appointment");
         buttonStatus = 2;
         addButton.setDisable(true);
+        editButton.setDisable(true);
         deleteButton.setDisable(true);
         enableFields(actionEvent);
+
         populateFields(actionEvent);
     }
 
     public void onCancel(ActionEvent actionEvent) throws IOException {
-        clearFields(actionEvent);
+        clearFields();
     }
 
     public void onSave(ActionEvent actionEvent) throws IOException {

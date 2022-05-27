@@ -1,5 +1,7 @@
 package Model;
 
+import DAO.DBSuite;
+
 public class Suite {
     int suiteID;
     int officeID;
@@ -9,6 +11,26 @@ public class Suite {
         this.suiteID = suiteID;
         this.officeID = officeID;
         this.suiteName = suiteName;
+    }
+
+    public Suite(String name) {
+        for(Suite s : DBSuite.getSuites()) {
+            if(name.equals(s.getSuiteName())) {
+                this.suiteID = s.getSuiteID();
+                this.officeID = s.getOfficeID();
+                this.suiteName = name;
+                break;
+            }
+            else {
+                this.suiteID = -1;
+                this.officeID = -1;
+                this.suiteName = "suiteName";
+            }
+
+
+
+        }
+
     }
 
     public int getSuiteID() {
