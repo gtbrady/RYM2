@@ -99,7 +99,7 @@ public class nAppointmentController implements Initializable {
     private static String stagedDetail1;
     private static String stagedDetail2;
 
-    private static int debugTracker = 0;
+    private static int debugTracker = 1;
 
 
 
@@ -144,7 +144,8 @@ public class nAppointmentController implements Initializable {
         stage.centerOnScreen();
     }
 
-    private void enableFields(ActionEvent actionEvent) {
+    private void enableFields() {
+        System.out.println(debugTracker++ + ",enableFields");
         saveButton.setDisable(false);
         cancelButton.setDisable(false);
         descriptionText.setDisable(false);
@@ -166,7 +167,7 @@ public class nAppointmentController implements Initializable {
     private void populateFields() {
         try {
 
-
+            System.out.println(debugTracker++ + ",populateFields");
         nAppointment theAppointment = (nAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
             if (theAppointment == null) {
                 throw new NullPointerException();
@@ -175,6 +176,7 @@ public class nAppointmentController implements Initializable {
 
         setDetailHeader(stagedType);
         if(theAppointment instanceof OfficeAppointment) {
+            System.out.println(debugTracker++ + ",populateFields,theAppointment instanceof OfficeAppointment," + (theAppointment instanceof OfficeAppointment));
             stagedOfficeAppointment = (OfficeAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
             stagedOffice = new Office(stagedOfficeAppointment.getBuildingName());
             stagedSuite = new Suite(stagedOfficeAppointment.getSuiteName());
@@ -186,22 +188,22 @@ public class nAppointmentController implements Initializable {
             //detail2DropDown.setDisable(false);
         }
         else if (theAppointment instanceof VirtualAppointment) {
+            System.out.println(debugTracker++ + ",populateFields,theAppointment instanceof VirtualAppointment," + (theAppointment instanceof VirtualAppointment));
             stagedVirtualAppointment = (VirtualAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
             stagedCounselor = new Counselor(stagedVirtualAppointment.getCounselorID());
             stagedClient = new Client(stagedVirtualAppointment.getClientID());
             stagedDetail1 = stagedCounselor.getCounselorUsername();
             stagedDetail2 = stagedClient.getClientUsername();
-            //detail1DropDown.setDisable(true);
-            //detail2DropDown.setDisable(true);
+
         }
         else if (theAppointment instanceof PhoneAppointment) {
+            System.out.println(debugTracker++ + ",enableFields,theAppointment instanceof PhoneAppointment," + (theAppointment instanceof PhoneAppointment));
             stagedPhoneAppointment = (PhoneAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
             stagedCounselor = new Counselor(stagedPhoneAppointment.getCounselorID());
             stagedClient = new Client(stagedPhoneAppointment.getClientID());
             stagedDetail1 = stagedCounselor.getCounselorPhone();
             stagedDetail2 = stagedClient.getClientPhone();
-            //detail1DropDown.setDisable(true);
-            //detail2DropDown.setDisable(true);
+
 
         }
 
@@ -217,10 +219,15 @@ public class nAppointmentController implements Initializable {
         counselorDropDown.setValue(stagedCounselor);
         clientDropDown.setValue(stagedClient);
         typeDropDown.setValue(stagedType);
+        System.out.println(debugTracker++ + ",populateFields,1.detail1DropDown.getValue()," + detail1DropDown.getValue());
+        System.out.println(debugTracker++ + ",populateFields,1.detail2DropDown.getValue()," + detail2DropDown.getValue());
+
         detail1DropDown.setValue(stagedDetail1);
         detail2DropDown.setValue(stagedDetail2);
-        System.out.println(debugTracker++ + ",populateFields,detail1," + detail1DropDown.getValue());
-        System.out.println(debugTracker++ + ",populateFields,detail2," + detail2DropDown.getValue());
+
+        System.out.println(debugTracker++ + ",populateFields,2.detail1DropDown.getValue()," + detail1DropDown.getValue());
+        System.out.println(debugTracker++ + ",populateFields,2.detail2DropDown.getValue()," + detail2DropDown.getValue());
+
 
 
         startDate.setValue(sts.toLocalDateTime().toLocalDate());
@@ -240,6 +247,9 @@ public class nAppointmentController implements Initializable {
     }
 
     private void clearFields() {
+        System.out.println(debugTracker++ + ",clearFields");
+        System.out.println(debugTracker++ + ",clearFields,1.detail1DropDown.getValue()," + detail1DropDown.getValue());
+        System.out.println(debugTracker++ + ",clearFields,1.detail2DropDown.getValue()," + detail2DropDown.getValue());
         headerLabel.setText("Appointments");
         detail1Label.setText("Detail1");
         detail2Label.setText("Detail2");
@@ -303,52 +313,106 @@ public class nAppointmentController implements Initializable {
         stagedClient = null;
         stagedOffice = null;
         stagedSuite = null;
+
+        System.out.println(debugTracker++ + ",clearFields,2.detail1DropDown.getValue()," + detail1DropDown.getValue());
+        System.out.println(debugTracker++ + ",clearFields,2.detail2DropDown.getValue()," + detail2DropDown.getValue());
     }
 
     //this is disabled and we are almost functional
     public void onType(ActionEvent actionEvent) throws IOException{
-        System.out.println(debugTracker++ + ",onType,,," + typeDropDown.getValue());
+        System.out.println(debugTracker++ + ",onType");
+        System.out.println(debugTracker++ + ",onType,1.detail1DropDown.getValue()," + detail1DropDown.getValue());
+        System.out.println(debugTracker++ + ",onType,1.detail2DropDown.getValue()," + detail2DropDown.getValue());
+
+
         stagedType = typeDropDown.getSelectionModel().getSelectedItem();
+        System.out.println(debugTracker++ + ",onType,stagedType == AppointmentType.Office," + (stagedType == AppointmentType.Office));
+        System.out.println(debugTracker++ + ",onType,stagedOfficeAppointment != null," + (stagedOfficeAppointment != null));
+        System.out.println(debugTracker++ + ",onType,stagedType == AppointmentType.Phone," + (stagedType == AppointmentType.Phone));
+        System.out.println(debugTracker++ + ",onType,stagedType == AppointmentType.Virtual," + (stagedType == AppointmentType.Virtual));
+        System.out.println(debugTracker++ + ",onType,counselorDropDown.getValue() != null," + (counselorDropDown.getValue() != null));
+        System.out.println(debugTracker++ + ",onType,clientDropDown.getValue() != null," + (clientDropDown.getValue() != null));
 
 
 
         if(stagedType == AppointmentType.Office) {
+
+
+            detail1DropDown.setValue(null);
+            detail2DropDown.setValue(null);
+
             if(stagedOfficeAppointment != null) {
+
                 detail1DropDown.setValue(stagedOfficeAppointment.getBuildingName());
+                detail1DropDown.getEditor().setText(stagedOfficeAppointment.getBuildingName());
                 detail2DropDown.setValue(stagedOfficeAppointment.getSuiteName());
-                System.out.println(debugTracker++ + ",onType,detail1," + detail1DropDown.getValue());
-                System.out.println(debugTracker++ + ",onType,detail2," + detail2DropDown.getValue());
+                detail2DropDown.getEditor().setText(stagedOfficeAppointment.getSuiteName());
+
             }
+
+            ObservableList<String> officeNameArray = DBOffice.getOfficeNames();
             detail1DropDown.setDisable(false);
             detail2DropDown.setDisable(false);
-            detail1DropDown.setItems(officeNames);
+            detail1DropDown.setItems(officeNameArray);
+            System.out.println(debugTracker++ + ",onType,2.detail1DropDown.getValue()," + detail1DropDown.getValue());
+            System.out.println(debugTracker++ + ",onType,detail1DropDown.getEditor().getText()," + detail1DropDown.getEditor().getText());
+            System.out.println(debugTracker++ + ",onType,2.detail2DropDown.getValue()," + detail2DropDown.getValue());
+            System.out.println(debugTracker++ + ",onType,detail2DropDown.getEditor().getText()," + detail2DropDown.getEditor().getText());
 
 
         } else if(stagedType == AppointmentType.Phone) {
             detail1DropDown.setDisable(true);
             detail2DropDown.setDisable(true);
             if(counselorDropDown.getValue() != null) {
+
+                ObservableList<String> phoneDetail1 = FXCollections.observableArrayList();
+
+                System.out.println(debugTracker++ + ",onType,detail1Items," + phoneDetail1);
+                phoneDetail1.add(stagedCounselor.getCounselorPhone());
+                System.out.println(debugTracker++ + ",onType,detail1Items," + phoneDetail1);
                 detail1DropDown.setValue(stagedCounselor.getCounselorPhone());
-                System.out.println(debugTracker++ + ",onType,detail1," + detail1DropDown.getValue());
+                detail1DropDown.getEditor().setText(stagedCounselor.getCounselorPhone());
+                System.out.println(debugTracker++ + ",onType,3.detail1DropDown.getValue()," + detail1DropDown.getValue());
+                System.out.println(debugTracker++ + ",onType,detail1DropDown.getEditor().getText()," + detail1DropDown.getEditor().getText());
+                System.out.println(debugTracker++ + ",onType,detail1DropDown.getEditor().getText()," + detail1DropDown.getEditor().getText());
+
             }
             if(clientDropDown.getValue() != null) {
+                ObservableList<String> phoneDetail2 = FXCollections.observableArrayList();
+                System.out.println(debugTracker++ + ",onType,detail2Items," + phoneDetail2);
+                phoneDetail2.add(stagedClient.getClientPhone());
+                System.out.println(debugTracker++ + ",onType,detail2Items," + phoneDetail2);
                 detail2DropDown.setValue(stagedClient.getClientPhone());
-                System.out.println(debugTracker++ + ",onType,detail2," + detail2DropDown.getValue());
+                detail2DropDown.getEditor().setText(stagedClient.getClientPhone());
+                System.out.println(debugTracker++ + ",onType,3.detail2DropDown.getValue()," + detail2DropDown.getValue());
+                System.out.println(debugTracker++ + ",onType,detail2DropDown.getEditor().getText()," + detail2DropDown.getEditor().getText());
+
             }
-
-
 
 
         } else if (stagedType == AppointmentType.Virtual) {
             detail1DropDown.setDisable(true);
             detail2DropDown.setDisable(true);
             if(counselorDropDown.getValue() != null) {
-                detail1DropDown.setValue(stagedCounselor.getCounselorPhone());
-                System.out.println(debugTracker++ + ",onType,detail1," + detail1DropDown.getValue());
+                ObservableList<String> virtualDetail1 = FXCollections.observableArrayList();
+                System.out.println(debugTracker++ + ",onType,detail1Items," + virtualDetail1);
+                virtualDetail1.add(stagedCounselor.getCounselorUsername());
+                System.out.println(debugTracker++ + ",onType,detail1Items," + virtualDetail1);
+                detail1DropDown.setValue(stagedCounselor.getCounselorUsername());
+                detail1DropDown.getEditor().setText(stagedCounselor.getCounselorUsername());
+                System.out.println(debugTracker++ + ",onType,4.detail1DropDown.getValue()," + detail1DropDown.getValue());
+                System.out.println(debugTracker++ + ",onType,detail1DropDown.getEditor().getText()," + detail1DropDown.getEditor().getText());
             }
             if(clientDropDown.getValue() != null) {
-                detail2DropDown.setValue(stagedClient.getClientPhone());
-                System.out.println(debugTracker++ + ",onType,detail2," + detail2DropDown.getValue());
+                ObservableList<String> virtualDetail2 = FXCollections.observableArrayList();
+                System.out.println(debugTracker++ + ",onType,detail2Items," + virtualDetail2);
+                virtualDetail2.add(stagedClient.getClientUsername());
+                System.out.println(debugTracker++ + ",onType,detail2Items," + virtualDetail2);
+                detail2DropDown.setValue(stagedClient.getClientUsername());
+                detail2DropDown.getEditor().setText(stagedClient.getClientUsername());
+                System.out.println(debugTracker++ + ",onType,3.detail2DropDown.getValue()," + detail2DropDown.getValue());
+                System.out.println(debugTracker++ + ",onType,detail2DropDown.getEditor().getText()," + detail2DropDown.getEditor().getText());
+
             }
         }
     }
@@ -358,48 +422,56 @@ public class nAppointmentController implements Initializable {
     not filtering for the office the type drop down - it is assuming everything is an office whenever something changes
      */
     public void onOffice() {
-        if(stagedType == AppointmentType.Office && detail1DropDown.getValue() != null) {
-            stagedOffice = new Office(detail1DropDown.getValue());
-            System.out.println(debugTracker++ + ",onOffice,detail1," + detail1DropDown.getValue());
-            ObservableList<String> selectedSuites = FXCollections.observableArrayList();
-            for(Suite s : suites) {
-                if(s.getOfficeID() == stagedOffice.getOfficeID()) {
-                    selectedSuites.add(s.getSuiteName());
+        System.out.println(debugTracker++ + ",onOffice");
+        if(stagedType == AppointmentType.Office) {
+            if (detail1DropDown.getValue() != null) {
+                stagedOffice = new Office(detail1DropDown.getValue());
+
+                ObservableList<String> selectedSuites = FXCollections.observableArrayList();
+                for(Suite s : suites) {
+                    if(s.getOfficeID() == stagedOffice.getOfficeID()) {
+                        selectedSuites.add(s.getSuiteName());
+                    }
                 }
+               // detail2DropDown.setItems(selectedSuites);
+
             }
-            detail2DropDown.setItems(selectedSuites);
-            System.out.println(debugTracker++ + ",onOffice,detail2," + detail2DropDown.getValue());
+
             /*for(String s:selectedSuites) {
-                System.out.println("onOffice() Detail2 items: ");
-                System.out.println(s);
+
             }*/
+
+        }
+        else {
 
         }
     }
 
     public void onClient(ActionEvent actionEvent) {
+        System.out.println(debugTracker++ + ",onClient");
         stagedClient = clientDropDown.getSelectionModel().getSelectedItem();
         if(stagedType != null) {
             if(stagedType == AppointmentType.Phone) {
                 detail2DropDown.setValue(stagedClient.getClientPhone());
-                System.out.println(debugTracker++ + ",onClient,detail2," + detail2DropDown.getValue());
+
             } else if(stagedType == AppointmentType.Virtual) {
                 detail2DropDown.setValue(stagedClient.getClientUsername());
-                System.out.println(debugTracker++ + ",onClient,detail2," + detail2DropDown.getValue());
+
             }
         }
 
     }
 
     public void onCounselor(ActionEvent actionEvent)  {
+        System.out.println(debugTracker++ + ",onCounselor");
         stagedCounselor = counselorDropDown.getSelectionModel().getSelectedItem();
         if(stagedType != null) {
             if(stagedType == AppointmentType.Phone) {
                 detail1DropDown.setValue(stagedCounselor.getCounselorPhone());
-                System.out.println(debugTracker++ + ",onCounselor,detail1," + detail1DropDown.getValue());
+
             } else if (stagedType == AppointmentType.Virtual) {
                 detail1DropDown.setValue(stagedCounselor.getCounselorUsername());
-                System.out.println(debugTracker++ + ",onCounselor,detail1," + detail1DropDown.getValue());
+
 
             }
 
@@ -414,7 +486,7 @@ public class nAppointmentController implements Initializable {
         endPeriod.setValue(TimeManipulation.getStringPeriod().get(0));
         editButton.setDisable(true);
         deleteButton.setDisable(true);
-        enableFields(actionEvent);
+        enableFields();
     }
 
     public void onEdit(ActionEvent actionEvent) throws IOException {
@@ -423,7 +495,7 @@ public class nAppointmentController implements Initializable {
         addButton.setDisable(true);
         //editButton.setDisable(true);
         deleteButton.setDisable(true);
-        enableFields(actionEvent);
+        enableFields();
 
         populateFields();
     }
