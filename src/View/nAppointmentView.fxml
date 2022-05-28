@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.nAppointmentController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.nAppointmentController">
     <children>
         <Label layoutX="12.0" layoutY="105.0" text="Type">
          <font>
@@ -35,7 +35,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-        <TextField fx:id="descriptionText" disable="true" layoutX="112.0" layoutY="220.0" prefWidth="150.0">
+        <TextField fx:id="descriptionText" disable="true" layoutX="137.0" layoutY="220.0" prefWidth="150.0">
          <font>
             <Font size="11.0" />
          </font>
@@ -45,13 +45,11 @@
             <Font size="11.0" />
          </font>
       </Label>
-        <ComboBox fx:id="detail1DropDown" disable="true" editable="false" layoutX="112.0" layoutY="270.0" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
       <Label fx:id="detail2Label" layoutX="12.0" layoutY="315.0" text="Detail2">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <ComboBox fx:id="detail2DropDown" disable="true" editable="false" layoutX="111.0" layoutY="310.0" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
       <Label layoutX="53.0" layoutY="362.0" text="Appointment Date and Time">
          <font>
             <Font size="11.0" />
@@ -62,24 +60,24 @@
             <Font size="11.0" />
          </font>
       </Label>
-        <DatePicker fx:id="startDate" disable="true" layoutX="87.0" layoutY="389.0" prefHeight="25.0" prefWidth="176.0" style="-fx-font-size: 11;" />
+        <DatePicker fx:id="startDate" disable="true" layoutX="113.0" layoutY="389.0" prefHeight="25.0" prefWidth="176.0" style="-fx-font-size: 11;" />
       <Label layoutX="9.0" layoutY="434.0" text="Start">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-        <ComboBox fx:id="startHours" disable="true" editable="false" layoutX="88.0" layoutY="429.0" prefHeight="24.0" prefWidth="55.0" promptText="HH" style="-fx-font-size: 10;" />
-      <ComboBox fx:id="startMins" disable="true" editable="false" layoutX="148.0" layoutY="429.0" prefHeight="24.0" prefWidth="55.0" promptText="MM" style="-fx-font-size: 10;" />
-      <ComboBox fx:id="startPeriod" disable="true" editable="false" layoutX="208.0" layoutY="429.0" prefHeight="24.0" prefWidth="55.0" promptText="AM" style="-fx-font-size: 10;" />
+        <ComboBox fx:id="startHours" disable="true" editable="false" layoutX="112.0" layoutY="429.0" prefHeight="24.0" prefWidth="55.0" promptText="HH" style="-fx-font-size: 10;" />
+      <ComboBox fx:id="startMins" disable="true" editable="false" layoutX="172.0" layoutY="429.0" prefHeight="24.0" prefWidth="55.0" promptText="MM" style="-fx-font-size: 10;" />
+      <ComboBox fx:id="startPeriod" disable="true" editable="false" layoutX="232.0" layoutY="429.0" prefHeight="24.0" prefWidth="55.0" promptText="AM" style="-fx-font-size: 10;" />
         <Label layoutX="9.0" layoutY="474.0" text="End">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-        <ComboBox fx:id="endHours" disable="true" editable="false" layoutX="88.0" layoutY="469.0" prefHeight="24.0" prefWidth="55.0" promptText="HH" style="-fx-font-size: 10;" />
-      <ComboBox fx:id="endMins" disable="true" editable="false" layoutX="148.0" layoutY="469.0" prefHeight="24.0" prefWidth="55.0" promptText="MM" style="-fx-font-size: 10;" />
-      <ComboBox fx:id="endPeriod" disable="true" editable="false" layoutX="208.0" layoutY="470.0" prefHeight="24.0" prefWidth="55.0" promptText="AM" style="-fx-font-size: 10;" />
-        <TableView fx:id="nAppointmentTable" layoutX="278.0" layoutY="63.0" prefHeight="430.0" prefWidth="707.0" style="-fx-font-size: 10;">
+        <ComboBox fx:id="endHours" disable="true" editable="false" layoutX="112.0" layoutY="469.0" prefHeight="24.0" prefWidth="55.0" promptText="HH" style="-fx-font-size: 10;" />
+      <ComboBox fx:id="endMins" disable="true" editable="false" layoutX="172.0" layoutY="469.0" prefHeight="24.0" prefWidth="55.0" promptText="MM" style="-fx-font-size: 10;" />
+      <ComboBox fx:id="endPeriod" disable="true" editable="false" layoutX="232.0" layoutY="470.0" prefHeight="24.0" prefWidth="55.0" promptText="AM" style="-fx-font-size: 10;" />
+        <TableView fx:id="nAppointmentTable" layoutX="315.0" layoutY="63.0" prefHeight="430.0" prefWidth="707.0" style="-fx-font-size: 10;">
             <columns>
                 <TableColumn fx:id="aIDCol" prefWidth="100.0" text="Appointment ID" />
                 <TableColumn fx:id="clientCol" prefWidth="100.0" text="Client Name" />
@@ -99,10 +97,10 @@
         <Button fx:id="addButton" layoutX="38.0" layoutY="60.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="20.0" prefWidth="55.0" text="Add" />
         <Button fx:id="editButton" layoutX="108.0" layoutY="60.0" mnemonicParsing="false" onAction="#onEdit" prefHeight="20.0" prefWidth="55.0" text="Edit" />
         <Button fx:id="deleteButton" layoutX="178.0" layoutY="60.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="20.0" prefWidth="55.0" text="Delete" />
-        <Button fx:id="saveButton" disable="true" layoutX="775.0" layoutY="509.0" mnemonicParsing="false" onAction="#onSave" prefHeight="20.0" prefWidth="55.0" text="Save" />
-        <Button fx:id="backButton" layoutX="915.0" layoutY="509.0" mnemonicParsing="false" onAction="#toMainController" prefHeight="20.0" prefWidth="55.0" text="Back" />
-        <Button fx:id="cancelButton" disable="true" layoutX="845.0" layoutY="509.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="20.0" prefWidth="55.0" text="Cancel" />
-        <AnchorPane layoutX="278.0" layoutY="17.0" prefHeight="47.0" prefWidth="500.0">
+        <Button fx:id="saveButton" disable="true" layoutX="807.0" layoutY="509.0" mnemonicParsing="false" onAction="#onSave" prefHeight="20.0" prefWidth="55.0" text="Save" />
+        <Button fx:id="backButton" layoutX="947.0" layoutY="509.0" mnemonicParsing="false" onAction="#toMainController" prefHeight="20.0" prefWidth="55.0" text="Back" />
+        <Button fx:id="cancelButton" disable="true" layoutX="877.0" layoutY="509.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="20.0" prefWidth="55.0" text="Cancel" />
+        <AnchorPane layoutX="310.0" layoutY="17.0" prefHeight="47.0" prefWidth="500.0">
             <children>
                 <Label layoutX="14.0" layoutY="14.0" text="View Appointments:">
                     <font>
@@ -121,10 +119,20 @@
 
             </children>
         </AnchorPane>
-      <ComboBox fx:id="typeDropDown" disable="true" editable="false" layoutX="112.0" layoutY="100.0"  onAction="#onType" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
-      <ComboBox fx:id="clientDropDown" disable="true" editable="false" layoutX="112.0" layoutY="180.0" onAction="#onClient" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
-      <ComboBox fx:id="counselorDropDown" disable="true" editable="false" layoutX="112.0" layoutY="140.0" onAction="#onCounselor" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
-      <Separator layoutX="14.0" layoutY="350.0" prefWidth="250.0" />
-      <Separator layoutX="14.0" layoutY="255.0" prefWidth="250.0" />
+      <ComboBox fx:id="typeDropDown" disable="true" editable="false" layoutX="137.0" layoutY="100.0" onAction="#onType" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
+      <ComboBox fx:id="clientDropDown" disable="true" editable="false" layoutX="137.0" layoutY="180.0" onAction="#onClient" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
+      <ComboBox fx:id="counselorDropDown" disable="true" editable="false" layoutX="137.0" layoutY="140.0" onAction="#onCounselor" prefHeight="24.0" prefWidth="150.0" style="-fx-font-size: 11;" />
+      <Separator layoutX="14.0" layoutY="350.0" prefWidth="275.0" />
+      <Separator layoutX="14.0" layoutY="255.0" prefWidth="275.0" />
+      <Label fx:id="detail1LabelText" layoutX="137.0" layoutY="275.0" prefWidth="150.0" text="Detail1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="detail2LabelText" layoutX="137.0" layoutY="315.0" prefWidth="150.0" text="Detail2">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

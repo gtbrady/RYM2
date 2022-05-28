@@ -125,7 +125,7 @@ public class mainController implements Initializable {
     public void tonAppointmentController(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/View/nAppointmentView.fxml"));
         Stage stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1025, 560 );
+        Scene scene = new Scene(root, 1050, 560 );
         stage.setTitle("Manage Schedule");
         stage.setScene(scene);
         stage.show();
