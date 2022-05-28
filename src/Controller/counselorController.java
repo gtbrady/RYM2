@@ -33,6 +33,8 @@ public class counselorController implements Initializable {
     public TableColumn counselorUsernameCol;
     public TableColumn counselorEmailCol;
     public TableColumn counselorPhoneCol;
+    public TableColumn counselorOfficeCol;
+    public TableColumn counselorSuiteCol;
 
     //label
     public Label headerLabel;
@@ -53,6 +55,7 @@ public class counselorController implements Initializable {
     public ComboBox<Office> officeDropDown;
     public ComboBox<Suite> suiteDropDown;
 
+
     private int buttonStatus = -1;
 
     private static Office stagedOffice;
@@ -69,6 +72,8 @@ public class counselorController implements Initializable {
         counselorUsernameCol.setCellValueFactory(new PropertyValueFactory<>("counselorUsername"));
         counselorEmailCol.setCellValueFactory(new PropertyValueFactory<>("counselorEmail"));
         counselorPhoneCol.setCellValueFactory(new PropertyValueFactory<>("counselorPhone"));
+        counselorOfficeCol.setCellValueFactory(new PropertyValueFactory<>("officeID"));
+        counselorSuiteCol.setCellValueFactory(new PropertyValueFactory<>("suiteID"));
 
         officeDropDown.setItems(DBOffice.getOffices());
     }
@@ -101,27 +106,20 @@ public class counselorController implements Initializable {
     }
 
     private void populateFields() {
-        try {
-            System.out.println("populateFields");
+
+
             Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
-            if (theCounselor == null) {
-                throw new NullPointerException();
-            }
+
             nameText.setText(theCounselor.getCounselorName());
             usernameText.setText(theCounselor.getCounselorUsername());
             phoneText.setText(theCounselor.getCounselorPhone());
             emailText.setText(theCounselor.getCounselorEmail());
-            stagedOffice = new Office(theCounselor.getOfficeID());
-            officeDropDown.setValue(stagedOffice);
-            stagedSuite = new Suite(theCounselor.getSuiteID());
-            suiteDropDown.setValue(stagedSuite);
-        }
-        catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Nothing selected");
-            alert.setContentText("Please select counselor to edit");
-            alert.showAndWait();
-        }
+            Office theOffice = new Office(theCounselor.getOfficeID());
+            officeDropDown.setValue(theOffice);
+            Suite theSuite = new Suite(theCounselor.getSuiteID());
+            suiteDropDown.setValue(theSuite);
+
+
     }
 
     private void clearFields() {
@@ -165,7 +163,7 @@ public class counselorController implements Initializable {
                 throw new NullPointerException();
             }
             headerLabel.setText("Edit Counselor");
-            editButton.setDisable(true);
+            addButton.setDisable(true);
             deleteButton.setDisable(true);
             enableFields();
             buttonStatus = 2;
@@ -183,6 +181,7 @@ public class counselorController implements Initializable {
         try {
             Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
             populateFields();
+            suiteDropDown.setDisable(true);
             if(theCounselor == null) {
                 throw new NullPointerException();
             }
@@ -275,19 +274,41 @@ public class counselorController implements Initializable {
     }
 
     public void onOffice(ActionEvent actionEvent) {
-        ObservableList<Suite> selectedSuites = FXCollections.observableArrayList();
-        if(officeDropDown.getValue() != null) {
-            stagedOffice = officeDropDown.getValue();
 
+        ObservableList<Suite> selectedSuites = FXCollections.observableArrayList();
+        ObservableList<Suite> availableSuites = FXCollections.observableArrayList();
+        ObservableList<Suite> reservedSuites = FXCollections.observableArrayList();
+        ObservableList<Counselor> counselors = DBCounselor.getCounselors();
+
+        Office selectedOffice = officeDropDown.getSelectionModel().getSelectedItem();
+        if(officeDropDown.getValue() != null) {
+            suiteDropDown.setValue(null);
+            boolean available = true;
             for (Suite s : DBSuite.getSuites()) {
-                if (s.getOfficeID() == stagedOffice.getOfficeID()) {
+                if (s.getOfficeID() == selectedOffice.getOfficeID()) {
                     selectedSuites.add(s);
                 }
             }
-        } else {
-            suiteDropDown.setValue(null);
+
+            for(Suite s : selectedSuites) {
+                for(Counselor c : counselors) {
+                    if(s.getSuiteID() == c.getSuiteID()) {
+                        available = false;
+                        break;
+                    }
+                    else {
+                        available = true;
+                    }
+                }
+                if(available) {
+                    availableSuites.add(s);
+                }
+            }
+
         }
-        suiteDropDown.setItems(selectedSuites);
+        suiteDropDown.setItems(availableSuites);
+        suiteDropDown.setDisable(false);
+
     }
 
 

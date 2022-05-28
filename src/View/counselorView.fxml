@@ -9,15 +9,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.counselorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="950.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.counselorController">
     <children>
-        <TableView fx:id="counselorTable" layoutX="261.0" layoutY="30.0" prefHeight="389.0" prefWidth="502.0" style="-fx-font-size: 10;">
+        <TableView fx:id="counselorTable" layoutX="261.0" layoutY="30.0" prefHeight="389.0" prefWidth="669.0" style="-fx-font-size: 10;">
             <columns>
-                <TableColumn fx:id="coIDCol" prefWidth="100.0" text="Counselor ID" />
-                <TableColumn fx:id="counselorNameCol" prefWidth="100.0" text="Name" />
-                <TableColumn fx:id="counselorUsernameCol" prefWidth="100.0" text="Username" />
-                <TableColumn fx:id="counselorEmailCol" prefWidth="100.0" text="Email" />
-                <TableColumn fx:id="counselorPhoneCol" prefWidth="100.0" text="Phone Number" />
+                <TableColumn fx:id="coIDCol" prefWidth="90.0" text="Counselor ID" />
+                <TableColumn fx:id="counselorNameCol" prefWidth="90.0" text="Name" />
+                <TableColumn fx:id="counselorUsernameCol" prefWidth="90.0" text="Username" />
+                <TableColumn fx:id="counselorEmailCol" prefWidth="110.0" text="Email" />
+                <TableColumn fx:id="counselorPhoneCol" prefWidth="90.0" text="Phone Number" />
+            <TableColumn fx:id="counselorOfficeCol" prefWidth="90.0" text="Office" />
+            <TableColumn fx:id="counselorSuiteCol" prefWidth="90.0" text="Suite" />
             </columns>
         </TableView>
         <Label fx:id="headerLabel" layoutX="86.0" layoutY="18.0" text="Counselors">
@@ -32,7 +34,7 @@
             <font>
                 <Font size="11.0" />
             </font></Label>
-        <TextField fx:id="nameText" disable="true" layoutX="110.0" layoutY="100.0" prefHeight="25.0" prefWidth="120.0">
+        <TextField fx:id="nameText" disable="true" layoutX="110.0" layoutY="100.0" prefHeight="25.0" prefWidth="140.0">
             <font>
                 <Font size="11.0" />
             </font></TextField>
@@ -41,7 +43,7 @@
                 <Font size="11.0" />
             </font>
         </Label>
-        <TextField fx:id="usernameText" disable="true" editable="false" layoutX="110.0" layoutY="140.0" prefWidth="120.0">
+        <TextField fx:id="usernameText" disable="true" editable="false" layoutX="110.0" layoutY="140.0" prefWidth="140.0">
             <font>
                 <Font size="11.0" />
             </font></TextField>
@@ -54,11 +56,11 @@
                 <Font size="11.0" />
             </font>
         </Label>
-        <TextField fx:id="emailText" disable="true" editable="false" layoutX="110.0" layoutY="180.0" prefWidth="120.0">
+        <TextField fx:id="emailText" disable="true" editable="false" layoutX="110.0" layoutY="180.0" prefWidth="140.0">
             <font>
                 <Font size="11.0" />
             </font></TextField>
-        <TextField fx:id="phoneText" disable="true" editable="false" layoutX="110.0" layoutY="220.0" prefWidth="120.0">
+        <TextField fx:id="phoneText" disable="true" editable="false" layoutX="110.0" layoutY="220.0" prefWidth="140.0">
             <font>
                 <Font size="11.0" />
             </font></TextField>
@@ -76,7 +78,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <ComboBox fx:id="officeDropDown" disable = "true" layoutX="110.0" layoutY="260.0" onAction="#onOffice" prefWidth="120.0" />
-      <ComboBox fx:id="suiteDropDown" disable = "true" layoutX="110.0" layoutY="300.0" prefWidth="120.0" />
+      <ComboBox fx:id="officeDropDown" disable="true" layoutX="110.0" layoutY="260.0" onAction="#onOffice" prefWidth="140.0" />
+      <ComboBox fx:id="suiteDropDown" disable="true" layoutX="110.0" layoutY="300.0" prefWidth="140.0" />
     </children>
 </AnchorPane>

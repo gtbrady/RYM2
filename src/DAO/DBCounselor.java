@@ -62,9 +62,9 @@ public class DBCounselor {
                     """;
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.setString(1,c.getCounselorName());
-            ps.setString(2, c.getCounselorPhone());
-            ps.setString(3,c.getCounselorUsername());
-            ps.setString(4, c.getCounselorEmail());
+            ps.setString(2,c.getCounselorUsername());
+            ps.setString(3, c.getCounselorEmail());
+            ps.setString(4, c.getCounselorPhone());
             ps.setInt(5,c.getOfficeID());
             ps.setInt(6,c.getSuiteID());
             ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
@@ -102,9 +102,7 @@ public class DBCounselor {
             ps.setInt(6,c.getSuiteID());
             ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             ps.setString(8, Model.AuthorizedUser.getAuthorizedName());
-            ps.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(10, Model.AuthorizedUser.getAuthorizedName());
-            ps.setInt(11,c.getCounselorID());
+            ps.setInt(9,c.getCounselorID());
             updateConfirm = ps.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
