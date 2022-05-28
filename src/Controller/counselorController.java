@@ -1,9 +1,14 @@
 package Controller;
 
 import DAO.DBCounselor;
+import DAO.DBOffice;
+import DAO.DBSuite;
 import DAO.DBnAppointment;
 import Model.Counselor;
+import Model.Office;
+import Model.Suite;
 import Model.nAppointment;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -45,8 +50,15 @@ public class counselorController implements Initializable {
     public TextField usernameText;
     public TextField emailText;
     public TextField phoneText;
+    public ComboBox<Office> officeDropDown;
+    public ComboBox<Suite> suiteDropDown;
 
     private int buttonStatus = -1;
+
+    private static Office stagedOffice;
+    private static Suite stagedSuite;
+
+    private static Counselor stagedCounselor;
 
 
     @Override
@@ -57,6 +69,8 @@ public class counselorController implements Initializable {
         counselorUsernameCol.setCellValueFactory(new PropertyValueFactory<>("counselorUsername"));
         counselorEmailCol.setCellValueFactory(new PropertyValueFactory<>("counselorEmail"));
         counselorPhoneCol.setCellValueFactory(new PropertyValueFactory<>("counselorPhone"));
+
+        officeDropDown.setItems(DBOffice.getOffices());
     }
 
     public void toMainController(ActionEvent actionEvent) throws IOException {
@@ -69,7 +83,7 @@ public class counselorController implements Initializable {
         stage.centerOnScreen();
     }
 
-    private void enableFields(ActionEvent actionEvent) {
+    private void enableFields() {
         saveButton.setDisable(false);
         cancelButton.setDisable(false);
         nameText.setDisable(false);
@@ -80,10 +94,13 @@ public class counselorController implements Initializable {
         usernameText.setEditable(true);
         emailText.setDisable(false);
         emailText.setEditable(true);
+        officeDropDown.setDisable(false);
+        suiteDropDown.setDisable(false);
+
 
     }
 
-    private void populateFields(ActionEvent actionEvent) {
+    private void populateFields() {
         try {
             Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
             if (theCounselor == null) {
@@ -93,6 +110,10 @@ public class counselorController implements Initializable {
             usernameText.setText(theCounselor.getCounselorUsername());
             phoneText.setText(theCounselor.getCounselorPhone());
             emailText.setText(theCounselor.getCounselorEmail());
+            stagedOffice = new Office(theCounselor.getOfficeID());
+            officeDropDown.setValue(stagedOffice);
+            stagedSuite = new Suite(theCounselor.getSuiteID());
+            suiteDropDown.setValue(stagedSuite);
         }
         catch (NullPointerException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -102,7 +123,7 @@ public class counselorController implements Initializable {
         }
     }
 
-    private void clearFields(ActionEvent actionEvent) {
+    private void clearFields() {
         headerLabel.setText("Counselors");
         buttonStatus = -1;
         addButton.setDisable(false);
@@ -118,6 +139,14 @@ public class counselorController implements Initializable {
         emailText.clear();
         usernameText.setDisable(true);
         usernameText.clear();
+        stagedOffice = null;
+        stagedSuite = null;
+        officeDropDown.setDisable(true);
+        officeDropDown.getSelectionModel().clearSelection();
+        officeDropDown.setValue(null);
+        suiteDropDown.setDisable(true);
+        suiteDropDown.getSelectionModel().clearSelection();
+        suiteDropDown.setValue(null);
     }
 
     public void onAdd(ActionEvent actionEvent) {
@@ -125,23 +154,27 @@ public class counselorController implements Initializable {
         editButton.setDisable(true);
         deleteButton.setDisable(true);
         buttonStatus = 1;
-        enableFields(actionEvent);
+        enableFields();
     }
 
     public void onEdit(ActionEvent actionEvent) {
         try{
             Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
-            populateFields(actionEvent);
+            populateFields();
             if(theCounselor == null) {
                 throw new NullPointerException();
             }
             headerLabel.setText("Edit Counselor");
             editButton.setDisable(true);
             deleteButton.setDisable(true);
-            enableFields(actionEvent);
+            enableFields();
             buttonStatus = 2;
 
         } catch(NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nothing selected");
+            alert.setContentText("Please select counselor first");
+            alert.showAndWait();
 
         }
     }
@@ -149,7 +182,7 @@ public class counselorController implements Initializable {
     public void onDelete(ActionEvent actionEvent) throws IOException {
         try {
             Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
-            populateFields(actionEvent);
+            populateFields();
             if(theCounselor == null) {
                 throw new NullPointerException();
             }
@@ -185,7 +218,11 @@ public class counselorController implements Initializable {
             alert.showAndWait();
         }*/
         catch (NullPointerException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nothing selected");
+            alert.setContentText("Please select counselor first");
+            alert.showAndWait();
+
         }
         counselorTable.setItems(DBCounselor.getCounselors());
         onCancel(actionEvent);
@@ -195,19 +232,21 @@ public class counselorController implements Initializable {
     public void onSave(ActionEvent actionEvent) {
         try {
             emptyFieldsException();
-            Counselor stagedCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
+            stagedCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
             if(buttonStatus<=0) {
                 throw  new IOException();
             }
             if(buttonStatus == 1) {
                 Counselor saveCounselor = new Counselor(-1, nameText.getText(),
-                        phoneText.getText(),usernameText.getText(), emailText.getText());
+                        phoneText.getText(),usernameText.getText(), emailText.getText(),
+                        officeDropDown.getValue().getOfficeID(), suiteDropDown.getValue().getSuiteID());
                 DBCounselor.addCounselor(saveCounselor);
                 onCancel(actionEvent);
             }
             if(buttonStatus == 2) {
                 Counselor saveCounselor = new Counselor(stagedCounselor.getCounselorID(), nameText.getText(),
-                        phoneText.getText(),usernameText.getText(), emailText.getText());
+                        phoneText.getText(),usernameText.getText(), emailText.getText(),
+                        officeDropDown.getValue().getOfficeID(), suiteDropDown.getValue().getSuiteID());
                 noChangeCheck(saveCounselor,stagedCounselor);
                 DBCounselor.editCounselor(saveCounselor);
                 onCancel(actionEvent);
@@ -232,9 +271,19 @@ public class counselorController implements Initializable {
     }
 
     public void onCancel(ActionEvent actionEvent) throws IOException {
-        clearFields(actionEvent);
+        clearFields();
     }
 
+    public void onOffice(ActionEvent actionEvent) {
+        stagedOffice  = officeDropDown.getValue();
+        ObservableList<Suite> selectedSuites = FXCollections.observableArrayList();
+        for(Suite s : DBSuite.getSuites()) {
+            if(s.getOfficeID() == stagedOffice.getOfficeID()) {
+                selectedSuites.add(s);
+            }
+        }
+        suiteDropDown.setItems(selectedSuites);
+    }
 
 
     public class EmptyFields extends Exception {
@@ -267,6 +316,17 @@ public class counselorController implements Initializable {
             ++errorCounter;
             nullFields = true;
         }
+        if(officeDropDown.getValue() == null) {
+            m.append("Office \n");
+            ++errorCounter;
+            nullFields = true;
+        }
+        if(suiteDropDown.getValue() == null) {
+            m.append("Suite \n");
+            ++errorCounter;
+            nullFields = true;
+        }
+
         if(nullFields) {
             throw new EmptyFields(m.toString(),errorCounter);
         }

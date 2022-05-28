@@ -41,6 +41,29 @@ public class Office {
 
     }
 
+    public Office(int id) {
+        for(Office o : DBOffice.getOffices()) {
+            if(id == o.officeID) {
+                this.officeID = id;
+                this.buildingName = o.getBuildingName();
+                this.buildingAddress = o.getBuildingAddress();
+                this.city = o.getCity();
+                this.state = o.getState();
+                this.zip = o.getZip();
+                break;
+            }
+            else {
+                this.officeID = -1;
+                this.buildingName = "name";
+                this.buildingAddress = "buildingAddress";
+                this.city = "city";
+                this.state = "state";
+                this.zip = "zip";
+            }
+        }
+
+    }
+
     public int getOfficeID() {
         return officeID;
     }

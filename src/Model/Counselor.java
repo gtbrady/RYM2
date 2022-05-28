@@ -11,12 +11,19 @@ public class Counselor {
     String counselorUsername;
     String counselorEmail;
 
-    public Counselor(int counselorID, String counselorName, String counselorPhone, String counselorUsername, String counselorEmail) {
+    int officeID;
+
+    int suiteID;
+
+
+    public Counselor(int counselorID, String counselorName, String counselorPhone, String counselorUsername, String counselorEmail, int officeID, int suiteID) {
         this.counselorID = counselorID;
         this.counselorName = counselorName;
         this.counselorPhone = counselorPhone;
         this.counselorUsername = counselorUsername;
         this.counselorEmail = counselorEmail;
+        this.officeID = officeID;
+        this.suiteID = suiteID;
     }
 
     public Counselor(int counselorID) {
@@ -28,6 +35,8 @@ public class Counselor {
                 this.counselorPhone = c.getCounselorPhone();
                 this.counselorUsername = c.getCounselorUsername();
                 this.counselorEmail = c.getCounselorEmail();
+                this.officeID = c.getOfficeID();
+                this.suiteID = c.getSuiteID();
                 break;
             }
             else {
@@ -36,6 +45,8 @@ public class Counselor {
                 this.counselorPhone = "counselorPhone";
                 this.counselorUsername = "counselorUsername";
                 this.counselorEmail = "counselorEmail";
+                this.officeID = -1;
+                this.suiteID = -1;
             }
         }
     }
@@ -80,9 +91,25 @@ public class Counselor {
         this.counselorEmail = counselorEmail;
     }
 
+    public int getOfficeID() {
+        return officeID;
+    }
+
+    public void setOfficeID(int officeID) {
+        this.officeID = officeID;
+    }
+
+    public int getSuiteID() {
+        return suiteID;
+    }
+
+    public void setSuiteID(int suiteID) {
+        this.suiteID = suiteID;
+    }
+
     @Override
     public String toString() {
-        return this.counselorName;
+        return getCounselorName();
     }
 
     @Override
@@ -90,11 +117,11 @@ public class Counselor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Counselor counselor = (Counselor) o;
-        return getCounselorName().equals(counselor.getCounselorName()) && getCounselorPhone().equals(counselor.getCounselorPhone()) && getCounselorUsername().equals(counselor.getCounselorUsername()) && getCounselorEmail().equals(counselor.getCounselorEmail());
+        return getOfficeID() == counselor.getOfficeID() && getSuiteID() == counselor.getSuiteID() && Objects.equals(getCounselorName(), counselor.getCounselorName()) && Objects.equals(getCounselorPhone(), counselor.getCounselorPhone()) && Objects.equals(getCounselorUsername(), counselor.getCounselorUsername()) && Objects.equals(getCounselorEmail(), counselor.getCounselorEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCounselorName(), getCounselorPhone(), getCounselorUsername(), getCounselorEmail());
+        return Objects.hash(getCounselorName(), getCounselorPhone(), getCounselorUsername(), getCounselorEmail(), getOfficeID(), getSuiteID());
     }
 }

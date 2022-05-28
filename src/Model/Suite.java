@@ -26,9 +26,23 @@ public class Suite {
                 this.officeID = -1;
                 this.suiteName = "suiteName";
             }
+        }
 
+    }
 
-
+    public Suite(int id) {
+        for(Suite s : DBSuite.getSuites()) {
+            if(id == s.suiteID) {
+                this.suiteID = id;
+                this.officeID = s.getOfficeID();
+                this.suiteName = s.getSuiteName();
+                break;
+            }
+            else {
+                this.suiteID = -1;
+                this.officeID = -1;
+                this.suiteName = "suiteName";
+            }
         }
 
     }

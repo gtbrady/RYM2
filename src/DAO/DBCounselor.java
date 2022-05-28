@@ -20,7 +20,10 @@ public class DBCounselor {
                     counselor_name as "Name",
                     counselor_username as "Username",
                     counselor_email as "Email",
-                    counselor_phone as "Phone Number"
+                    counselor_phone as "Phone Number",
+                    Office_ID,
+                    Suite_ID
+                   
                     FROM counselors order by counselor_id asc;
                     """;
 
@@ -32,7 +35,11 @@ public class DBCounselor {
                 String phone = rs.getString("Phone Number");
                 String username = rs.getString("Username");
                 String email = rs.getString("Email");
-                Counselor c = new Counselor(counselorID, name, phone,username, email);
+                int officeID = rs.getInt("Office_ID");
+                int suiteID = rs.getInt("Suite_ID");
+
+
+                Counselor c = new Counselor(counselorID,name,phone,username,email,officeID, suiteID);
                 counselorList.add(c);
             }
         } catch (SQLException e) {
@@ -47,20 +54,23 @@ public class DBCounselor {
             String sql = """                
                     INSERT INTO counselors (counselor_ID,
                     counselor_Name, counselor_Username, counselor_Email,
-                    counselor_Phone, Create_Date, Created_By, Last_Update,
+                    counselor_Phone,Office_ID, Suite_ID,
+                    Create_Date, Created_By, Last_Update,
                     Last_Updated_By)
                     VALUES
-                    (NULL,?,?,?,?,?,?,?,?);
+                    (NULL,?,?,?,?,?,?,?,?,?,?);
                     """;
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.setString(1,c.getCounselorName());
             ps.setString(2, c.getCounselorPhone());
             ps.setString(3,c.getCounselorUsername());
             ps.setString(4, c.getCounselorEmail());
-            ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(6, Model.AuthorizedUser.getAuthorizedName());
+            ps.setInt(5,c.getOfficeID());
+            ps.setInt(6,c.getSuiteID());
             ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(8,Model.AuthorizedUser.getAuthorizedName());
+            ps.setString(8, Model.AuthorizedUser.getAuthorizedName());
+            ps.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(10, Model.AuthorizedUser.getAuthorizedName());
             addConfirm = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,6 +87,8 @@ public class DBCounselor {
                     counselor_Username = ?,
                     counselor_Email = ?,
                     counselor_Phone = ?,
+                    Office_ID = ?,
+                    Suite_ID = ?,
                     Last_Update = ?,
                     Last_Updated_By = ?
                     WHERE counselor_ID = ?;
@@ -86,9 +98,13 @@ public class DBCounselor {
             ps.setString(2, c.getCounselorUsername());
             ps.setString(3,c.getCounselorEmail());
             ps.setString(4,c.getCounselorPhone());
-            ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setString(6,Model.AuthorizedUser.getAuthorizedName());
-            ps.setInt(7,c.getCounselorID());
+            ps.setInt(5,c.getOfficeID());
+            ps.setInt(6,c.getSuiteID());
+            ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(8, Model.AuthorizedUser.getAuthorizedName());
+            ps.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(10, Model.AuthorizedUser.getAuthorizedName());
+            ps.setInt(11,c.getCounselorID());
             updateConfirm = ps.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
