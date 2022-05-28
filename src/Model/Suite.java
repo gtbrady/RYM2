@@ -73,10 +73,6 @@ public class Suite {
 
     @Override
     public String toString() {
-        return "Suite{" +
-                "suiteID=" + suiteID +
-                ", officeID=" + officeID +
-                ", suiteName='" + suiteName + '\'' +
-                '}';
+        return this.suiteName;
     }
 }

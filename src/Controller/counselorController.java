@@ -102,6 +102,7 @@ public class counselorController implements Initializable {
 
     private void populateFields() {
         try {
+            System.out.println("populateFields");
             Counselor theCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
             if (theCounselor == null) {
                 throw new NullPointerException();
@@ -139,8 +140,7 @@ public class counselorController implements Initializable {
         emailText.clear();
         usernameText.setDisable(true);
         usernameText.clear();
-        stagedOffice = null;
-        stagedSuite = null;
+
         officeDropDown.setDisable(true);
         officeDropDown.getSelectionModel().clearSelection();
         officeDropDown.setValue(null);
@@ -275,12 +275,17 @@ public class counselorController implements Initializable {
     }
 
     public void onOffice(ActionEvent actionEvent) {
-        stagedOffice  = officeDropDown.getValue();
         ObservableList<Suite> selectedSuites = FXCollections.observableArrayList();
-        for(Suite s : DBSuite.getSuites()) {
-            if(s.getOfficeID() == stagedOffice.getOfficeID()) {
-                selectedSuites.add(s);
+        if(officeDropDown.getValue() != null) {
+            stagedOffice = officeDropDown.getValue();
+
+            for (Suite s : DBSuite.getSuites()) {
+                if (s.getOfficeID() == stagedOffice.getOfficeID()) {
+                    selectedSuites.add(s);
+                }
             }
+        } else {
+            suiteDropDown.setValue(null);
         }
         suiteDropDown.setItems(selectedSuites);
     }

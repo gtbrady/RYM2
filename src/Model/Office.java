@@ -114,13 +114,6 @@ public class Office {
 
     @Override
     public String toString() {
-        return "Office{" +
-                "officeID=" + officeID +
-                ", buildingName='" + buildingName + '\'' +
-                ", buildingAddress='" + buildingAddress + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
-                '}';
+        return this.getBuildingName();
     }
 }
