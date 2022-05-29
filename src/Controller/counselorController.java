@@ -54,6 +54,7 @@ public class counselorController implements Initializable {
     public TextField phoneText;
     public ComboBox<Office> officeDropDown;
     public ComboBox<Suite> suiteDropDown;
+    public TextField counselorSearchBar;
 
 
     private int buttonStatus = -1;

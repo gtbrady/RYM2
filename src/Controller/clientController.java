@@ -50,6 +50,7 @@ public class clientController implements Initializable {
     public TextField emailText;
     public TextField phoneText;
     public TextField nameText;
+    public TextField clientSearchBar;
 
     private int buttonStatus = -1;
 
@@ -89,6 +90,8 @@ public class clientController implements Initializable {
         emailText.setEditable(true);
 
     }
+
+ //search function
 
     private void populateFields(ActionEvent actionEvent) {
         try {
