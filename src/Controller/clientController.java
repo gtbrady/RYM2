@@ -5,6 +5,7 @@ import DAO.DBnAppointment;
 import Model.Client;
 
 import Model.nAppointment;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -92,6 +93,18 @@ public class clientController implements Initializable {
     }
 
  //search function
+    public void clientSearch(ActionEvent actionEvent) {
+        String searchString = clientSearchBar.getText().toUpperCase();
+        ObservableList<Client> allClients = DBClient.getClients();
+        ObservableList<Client> matchingClients = FXCollections.observableArrayList();
+
+        for (Client c: allClients) {
+            if(c.getClientName().toUpperCase().startsWith(searchString)) {
+                matchingClients.add(c);
+            }
+        }
+        clientTable.setItems(matchingClients);
+    }
 
     private void populateFields(ActionEvent actionEvent) {
         try {

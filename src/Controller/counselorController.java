@@ -312,6 +312,19 @@ public class counselorController implements Initializable {
 
     }
 
+    public void counselorSearch(ActionEvent actionEvent) {
+        String searchString = counselorSearchBar.getText().toUpperCase();
+        ObservableList<Counselor> allCounselors = DBCounselor.getCounselors();
+        ObservableList<Counselor> matchingCounselors = FXCollections.observableArrayList();
+
+        for (Counselor c : allCounselors) {
+            if(c.getCounselorName().toUpperCase().startsWith(searchString)) {
+                matchingCounselors.add(c);
+            }
+        }
+        counselorTable.setItems(matchingCounselors);
+    }
+
 
     public class EmptyFields extends Exception {
         public EmptyFields(String s, int i) {

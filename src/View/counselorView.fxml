@@ -80,7 +80,7 @@
       </Label>
       <ComboBox fx:id="officeDropDown" disable="true" layoutX="110.0" layoutY="260.0" onAction="#onOffice" prefWidth="140.0" />
       <ComboBox fx:id="suiteDropDown" disable="true" layoutX="110.0" layoutY="300.0" prefWidth="140.0" />
-      <TextField fx:id="counselorSearchBar" layoutX="730.0" layoutY="18.0" prefWidth="200.0" promptText="Search by name...">
+      <TextField fx:id="counselorSearchBar" layoutX="730.0" layoutY="18.0" onAction="#counselorSearch" prefWidth="200.0" promptText="Search by name...">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
