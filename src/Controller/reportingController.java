@@ -78,7 +78,7 @@ public class reportingController implements Initializable {
                 selectedCounselor= (Counselor) counselorDropDown.getSelectionModel().getSelectedItem();
                 Parent root = FXMLLoader.load(getClass().getResource("/View/reportTwoView.fxml"));
                 Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root, 880, 570);
+                Scene scene = new Scene(root, 696, 570);
                 stage.setTitle("Counselor Schedules");
                 stage.setScene(scene);
                 stage.show();

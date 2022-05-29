@@ -53,7 +53,6 @@ public class TimeComparison {
         this.stagedEnd = LocalDateTime.parse(stage.getEndDT(), TimeManipulation.formatter);
         this.compareStart = LocalDateTime.parse(compare.getStartDT(), TimeManipulation.formatter);
         this.compareEnd = LocalDateTime.parse(compare.getEndDT(), TimeManipulation.formatter);
-
     }
 
     //update RYM2

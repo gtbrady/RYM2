@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.*;
+import Utility.TimeManipulation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,7 +15,7 @@ public class DBnAppointment {
 
     public static ObservableList<nAppointment> getAppointments() {
         ObservableList<nAppointment> allAppointments = FXCollections.observableArrayList();
-        //ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
+        ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
         nAppointment appointment;
         try {
             String sql = """
@@ -70,7 +71,15 @@ public class DBnAppointment {
             e.printStackTrace();
         }
 
-        //TimeManipulation loop occurs here - need to write once bulk of rework completed - return converted list
+        for(nAppointment a: allAppointments) {
+            String originalStart = a.getStartTime();
+            String originalEnd = a.getEndTime();
+            String updatedStart = TimeManipulation.stringUTS(originalStart);
+            String updatedEnd = TimeManipulation.stringUTS(originalEnd);
+            a.setStartTime(updatedStart);
+            a.setEndTime(updatedEnd);
+        }
+
 
         return allAppointments;
     }
@@ -251,7 +260,7 @@ public class DBnAppointment {
 
 
     //Note - in controller, need to add clause when calling - if not Office, call default constructor
-    public static int addnAppointment(nAppointment a, Client cl, Counselor co, Office o, Suite s) {
+    public static int addnAppointment(nAppointment a, Client cl, Counselor co) {
         int addConfirm = -1;
 
         try {
@@ -267,8 +276,11 @@ public class DBnAppointment {
             ps.setString(3,a.getStartTime());
             ps.setString(4,a.getEndTime());
             if(a instanceof OfficeAppointment) {
-                ps.setString(5,o.getBuildingName());
-                ps.setString(6,s.getSuiteName());
+                Office office = new Office(co.getOfficeID());
+                Suite suite = new Suite(co.getSuiteID());
+
+                ps.setString(5,office.getBuildingName());
+                ps.setString(6,suite.getSuiteName());
             } else if (a instanceof VirtualAppointment) {
                 ps.setString(5, co.getCounselorUsername());
                 ps.setString(6, cl.getClientUsername());

@@ -2,6 +2,7 @@ package Controller;
 
 import DAO.DBAppointment;
 import DAO.DBUser;
+import DAO.DBnAppointment;
 import Model.*;
 import Utility.LoginTracking;
 import Utility.TimeComparison;
@@ -242,14 +243,14 @@ public class loginController implements Initializable {
         StringBuilder message = new StringBuilder();
         boolean upcomingAppointment = false;
         LocalDateTime now = LocalDateTime.now(TimeManipulation.getSystemZone());
-        for(Appointment a : DBAppointment.getAllAppointments()) {
-            TimeComparison tc = new TimeComparison(LocalDateTime.parse(a.getStartDT(), TimeManipulation.formatter));
+        for(nAppointment a : DBnAppointment.getAppointments()) {
+            TimeComparison tc = new TimeComparison(LocalDateTime.parse(a.getStartTime(), TimeManipulation.formatter));
 
             if(tc.getStagedStart().isAfter(now) && tc.getStagedStart().isBefore(tc.getCompareStart()))
             {
                 upcomingAppointment = true;
-                message.append(a.getAppointmentID() + " | " + a.getCustomerName() + "\n" +
-                        a.getStartDT() + " | " + a.getEndDT() + "\n");
+                message.append(a.getAppointmentID() + " | " + a.getClientID() + "\n" +
+                        a.getStartTime() + " | " + a.getEndTime() + "\n");
             }
         }
         if(upcomingAppointment) {

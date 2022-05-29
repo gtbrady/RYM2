@@ -17,8 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -479,15 +478,87 @@ public class nAppointmentController implements Initializable {
 
 
             if(buttonStatus == 1) {
-                nAppointment saveAppointment;
                 if(stagedType == AppointmentType.Office){
-                    saveAppointment = new OfficeAppointment(-1, stagedCounselor.getCounselorID(),
+                    OfficeAppointment saveAppointment = new OfficeAppointment(-1, stagedCounselor.getCounselorID(),
                             stagedCounselor.getCounselorName(),stagedClient.getClientID(),stagedClient.getClientName(),
                             typeDropDown.getSelectionModel().getSelectedItem(),descriptionText.getText(),startTime,endTime,
                             detail1LabelText.getText(),detail2LabelText.getText());
+                    OfficeAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
+                    validAppointmentCheck(convertedAppointment);
+                    bhCheck(convertedAppointment);
+                    scheduleConflictCheckClient(convertedAppointment);
+                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    clearFields();
+                }
+                else if(stagedType == AppointmentType.Phone){
+                    PhoneAppointment saveAppointment = new PhoneAppointment(-1, stagedCounselor.getCounselorID(),
+                            stagedCounselor.getCounselorName(),stagedClient.getClientID(),stagedClient.getClientName(),
+                            typeDropDown.getSelectionModel().getSelectedItem(),descriptionText.getText(),startTime,endTime,
+                            detail1LabelText.getText(),detail2LabelText.getText());
+                    PhoneAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
+                    validAppointmentCheck(convertedAppointment);
+                    bhCheck(convertedAppointment);
+                    scheduleConflictCheckClient(convertedAppointment);
+                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    clearFields();
+                }
+                else if(stagedType == AppointmentType.Phone){
+                    PhoneAppointment saveAppointment = new PhoneAppointment(-1, stagedCounselor.getCounselorID(),
+                            stagedCounselor.getCounselorName(),stagedClient.getClientID(),stagedClient.getClientName(),
+                            typeDropDown.getSelectionModel().getSelectedItem(),descriptionText.getText(),startTime,endTime,
+                            detail1LabelText.getText(),detail2LabelText.getText());
+                    PhoneAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
+                    validAppointmentCheck(convertedAppointment);
+                    bhCheck(convertedAppointment);
+                    scheduleConflictCheckClient(convertedAppointment);
+                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    clearFields();
+                }
 
+
+            }
+            if(buttonStatus == 2) {
+                if(stagedType == AppointmentType.Office){
+                    OfficeAppointment saveAppointment = new OfficeAppointment(stagedAppointment.getAppointmentID(),
+                            stagedCounselor.getCounselorID(),stagedCounselor.getCounselorName(),
+                            stagedClient.getClientID(),stagedClient.getClientName(),typeDropDown.getSelectionModel().getSelectedItem(),descriptionText.getText(),startTime, endTime,detail1LabelText.getText(),detail2LabelText.getText());
+                    OfficeAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
+                    validAppointmentCheck(convertedAppointment);
+                    bhCheck(convertedAppointment);
+                    scheduleConflictCheckClient(convertedAppointment);
+                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    noChangeCheck(saveAppointment,stagedAppointment);
+                    clearFields();
 
                 }
+                else if(stagedType == AppointmentType.Phone){
+                    PhoneAppointment saveAppointment = new PhoneAppointment(-1, stagedCounselor.getCounselorID(),
+                            stagedCounselor.getCounselorName(),stagedClient.getClientID(),stagedClient.getClientName(),
+                            typeDropDown.getSelectionModel().getSelectedItem(),descriptionText.getText(),startTime,endTime,
+                            detail1LabelText.getText(),detail2LabelText.getText());
+                    PhoneAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
+                    validAppointmentCheck(convertedAppointment);
+                    bhCheck(convertedAppointment);
+                    scheduleConflictCheckClient(convertedAppointment);
+                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    noChangeCheck(saveAppointment,stagedAppointment);
+
+                    clearFields();
+                }
+                else if(stagedType == AppointmentType.Phone){
+                    PhoneAppointment saveAppointment = new PhoneAppointment(-1, stagedCounselor.getCounselorID(),
+                            stagedCounselor.getCounselorName(),stagedClient.getClientID(),stagedClient.getClientName(),
+                            typeDropDown.getSelectionModel().getSelectedItem(),descriptionText.getText(),startTime,endTime,
+                            detail1LabelText.getText(),detail2LabelText.getText());
+                    PhoneAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
+                    validAppointmentCheck(convertedAppointment);
+                    bhCheck(convertedAppointment);
+                    scheduleConflictCheckClient(convertedAppointment);
+                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    noChangeCheck(saveAppointment,stagedAppointment);
+                    clearFields();
+                }
+
 
             }
 
@@ -497,6 +568,48 @@ public class nAppointmentController implements Initializable {
         alert.setTitle("Missing information");
         alert.setContentText(e.getMessage());
         alert.showAndWait();
+        }
+        catch (InvalidAppointmentDateTime e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid Appointment");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch (OutsideBusinessHours e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            LocalDate date = LocalDate.now();
+            LocalTime start = LocalTime.of(8,0);
+            LocalTime end = LocalTime.of(22,00);
+            ZonedDateTime estZonedStart = ZonedDateTime.of(date,start, TimeManipulation.getEstZone());
+            ZonedDateTime estZonedEnd = ZonedDateTime.of(date,end, TimeManipulation.getEstZone());
+            LocalTime est = estZonedStart.toLocalTime();
+            LocalTime eest = estZonedEnd.toLocalTime();
+
+            ZonedDateTime systemZonedStart = estZonedStart.withZoneSameInstant(ZoneId.systemDefault());
+            ZonedDateTime systemZonedEnd = estZonedEnd.withZoneSameInstant(ZoneId.systemDefault());
+            LocalTime lst = systemZonedStart.toLocalTime();
+            LocalTime let = systemZonedEnd.toLocalTime();
+            alert.setTitle(e.getMessage());
+            alert.setContentText("Appointments can only be scheduled during business hours.\n" +
+                    "Business hours: " + est + " - " + eest + " "+ TimeManipulation.getEstZone() +
+                    "\nUser Time: " + lst + " - " + let + " " + TimeManipulation.getSystemZone());
+
+            alert.showAndWait();
+        }
+        catch (ScheduleConflict e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Schedule Conflict");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch(NoChanges e ) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Missing information");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -532,7 +645,7 @@ public class nAppointmentController implements Initializable {
             e.printStackTrace();
         }
         nAppointmentTable.setItems(DBnAppointment.getAppointments());
-        onCancel(actionEvent);
+        clearFields();
 
     }
 
@@ -695,10 +808,7 @@ public class nAppointmentController implements Initializable {
                         scheduleConflict = true;
                     }
                 }
-            }/*
-            if(scheduleConflict) {
-                throw new ScheduleConflict(message.toString());
-            } */ //not sure what this is doing here ^
+            }
         }
         if(scheduleConflict) {
             throw new ScheduleConflict(message.toString());

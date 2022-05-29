@@ -3,6 +3,7 @@ package DAO;
 import Model.AppointmentType;
 import Model.Counselor;
 import Model.ReportTwo;
+import Utility.TimeManipulation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,7 +15,7 @@ public class DBReportTwo {
 
     public static ObservableList<ReportTwo> getReportTwo(Counselor c) {
         ObservableList<ReportTwo> reportTwo = FXCollections.observableArrayList();
-        //ObservableList<ReportTwo> reportTwoConverted = FXCollections.observableArrayList();
+        ObservableList<ReportTwo> reportTwoConverted = FXCollections.observableArrayList();
 
         try {
             String sql = """
@@ -47,7 +48,11 @@ public class DBReportTwo {
         } catch(SQLException e) {
             e.printStackTrace();
         }
+        for(ReportTwo r: reportTwo) {
+            ReportTwo b = TimeManipulation.dbtoSystemReportTwo(r);
+            reportTwoConverted.add(b);
+        }
 
-        return reportTwo;
+        return reportTwoConverted;
     }
 }

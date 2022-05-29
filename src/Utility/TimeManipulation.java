@@ -1,8 +1,6 @@
 package Utility;
 
-import Model.Appointment;
-import Model.OfficeAppointment;
-import Model.nAppointment;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -200,22 +198,18 @@ public class TimeManipulation {
 
 
 
-/*
-    public static RepTwo dbtoSystemRepTwo(RepTwo a) {
 
-        String oas = a.getStart();
-        String oae = a.getEnd();
+    public static ReportTwo dbtoSystemReportTwo(ReportTwo a) {
+        String oas = a.getStartDate();
+        String oae = a.getEndDate();
         String uas = TimeManipulation.stringUTS(oas);
         String uae = TimeManipulation.stringUTS(oae);
-        RepTwo updatedRepTwo = new RepTwo(a.getContactName(), a.getAppointmentID(), a.getTitle(),
-                a.getType(), a.getDescription(), uas, uae, a.getCustomerID());
+        ReportTwo updatedReportTwo = new ReportTwo(a.getCounselorName(), a.getDescription(),
+            a.getType(),a.getClientName(),uas,uae);
+        return updatedReportTwo;
 
 
-
-        return updatedRepTwo;
     }
-
- */
 
     /**
      * Takes a String representation of a LocalDateTime and converts it from the user's system time zone to UTC time
@@ -243,6 +237,45 @@ public class TimeManipulation {
         Appointment updated = new Appointment(a.getAppointmentID(),a.getCustomerName(),
                 a.getTitle(),a.getDescription(),a.getLocation(),a.getContact(),
                 a.getType(), uas,uae,a.getCustomerID(),a.getUserID());
+        return updated;
+    }
+
+    public static OfficeAppointment systemToDB(OfficeAppointment a) {
+
+        String oas = a.getStartTime();
+        String oae = a.getEndTime();
+        String uas = TimeManipulation.stringSTU(oas);
+        String uae = TimeManipulation.stringSTU(oae);
+        OfficeAppointment updated = new OfficeAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
+                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),a.getStartTime(),a.getEndTime(),
+                a.getBuildingName(), a.getSuiteName());
+
+        return updated;
+    }
+
+    public static PhoneAppointment systemToDB(PhoneAppointment a) {
+
+        String oas = a.getStartTime();
+        String oae = a.getEndTime();
+        String uas = TimeManipulation.stringSTU(oas);
+        String uae = TimeManipulation.stringSTU(oae);
+        PhoneAppointment updated = new PhoneAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
+                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),a.getStartTime(),a.getEndTime(),
+                a.getCounselorPhone(),a.getClientPhone());
+
+        return updated;
+    }
+
+    public static VirtualAppointment systemToDB(VirtualAppointment a) {
+
+        String oas = a.getStartTime();
+        String oae = a.getEndTime();
+        String uas = TimeManipulation.stringSTU(oas);
+        String uae = TimeManipulation.stringSTU(oae);
+        VirtualAppointment updated = new VirtualAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
+                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),a.getStartTime(),a.getEndTime(),
+                a.getCounselorUsername(),a.getClientUsername());
+
         return updated;
     }
 
