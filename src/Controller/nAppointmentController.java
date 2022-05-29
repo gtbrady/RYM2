@@ -486,7 +486,7 @@ public class nAppointmentController implements Initializable {
                     OfficeAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
-                    scheduleConflictCheckClient(saveAppointment);
+                    scheduleConflictCheck(saveAppointment);
                     DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
@@ -498,7 +498,7 @@ public class nAppointmentController implements Initializable {
                     PhoneAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
-                    scheduleConflictCheckClient(saveAppointment);
+                    scheduleConflictCheck(saveAppointment);
                     DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
@@ -510,7 +510,7 @@ public class nAppointmentController implements Initializable {
                     VirtualAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
-                    scheduleConflictCheckClient(saveAppointment);
+                    scheduleConflictCheck(saveAppointment);
                     DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
@@ -527,7 +527,7 @@ public class nAppointmentController implements Initializable {
                     OfficeAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
-                    scheduleConflictCheckClient(saveAppointment);
+                    scheduleConflictCheck(saveAppointment);
                     noChangeCheck(saveAppointment,stagedAppointment);
                     DBnAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
@@ -541,7 +541,7 @@ public class nAppointmentController implements Initializable {
                     PhoneAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
-                    scheduleConflictCheckClient(saveAppointment);
+                    scheduleConflictCheck(saveAppointment);
                     noChangeCheck(saveAppointment,stagedAppointment);
 
                     DBnAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
@@ -555,7 +555,7 @@ public class nAppointmentController implements Initializable {
                     VirtualAppointment convertedAppointment = TimeManipulation.systemToDB(saveAppointment);
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
-                    scheduleConflictCheckClient(saveAppointment);
+                    scheduleConflictCheck(saveAppointment);
                     noChangeCheck(saveAppointment,stagedAppointment);
                     DBnAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
@@ -799,25 +799,14 @@ public class nAppointmentController implements Initializable {
         public ScheduleConflict(String s) {super(s);}
     }
 
-    public boolean scheduleConflictCheckClient(nAppointment a) throws ScheduleConflict {
+    public boolean scheduleConflictCheck(nAppointment a) throws ScheduleConflict {
         boolean scheduleConflict = false;
-        StringBuilder coMessage = new StringBuilder(a.getClientName() + " has an appointment scheduled for that time. Please review:\n");
+        StringBuilder message = new StringBuilder(a.getCounselorName() + " has a schedule conflict. Please review:\n");
         for(nAppointment appointment : DBnAppointment.getAppointments()) {
             if(a.getCounselorID() == appointment.getCounselorID()) {
                 TimeComparison tcp = new TimeComparison(appointment, a);
                 if(TimeManipulation.overlapCheck(tcp)) {
-                    message.append(appointment.getAppointmentID() + " | " + appointment.getDescription() + " | " +
-                            appointment.getStartTime()+ "\n");
-                    if(a.getAppointmentID() != appointment.getAppointmentID()) {
-                        scheduleConflict = true;
-                    }
-                }
-            }
-        for(nAppointment appointment : DBnAppointment.getAppointments()) {
-            if(a.getClientID() == appointment.getClientID()) {
-                TimeComparison tcp = new TimeComparison(appointment, a);
-                if(TimeManipulation.overlapCheck(tcp)) {
-                    message.append(appointment.getAppointmentID() + " | " + appointment.getDescription() + " | " +
+                    message.append(appointment.getAppointmentID() + " | " + a.getClientName() +  " | " + appointment.getDescription() + " | " +
                             appointment.getStartTime()+ "\n");
                     if(a.getAppointmentID() != appointment.getAppointmentID()) {
                         scheduleConflict = true;
@@ -825,38 +814,24 @@ public class nAppointmentController implements Initializable {
                 }
             }
         }
-
-        }
-        if(scheduleConflict) {
-            throw new ScheduleConflict(message.toString());
-        }
-        return scheduleConflict;
-    }
-
-    public boolean scheduleConflictCheckCounselor(nAppointment a) throws ScheduleConflict {
-        boolean scheduleConflict = false;
-        StringBuilder message = new StringBuilder(a.getCounselorName() + " has an appointment scheduled for that time. Please review:\n");
-        for(nAppointment appointment : DBnAppointment.getAppointments()) {
-            if(a.getCounselorID() == appointment.getCounselorID()) {
-                TimeComparison tcp = new TimeComparison(appointment, a);
-                if(TimeManipulation.overlapCheck(tcp)) {
-                    message.append(appointment.getAppointmentID() + " | " + appointment.getDescription() + " | " +
-                            appointment.getStartTime()+ "\n");
-                    if(a.getAppointmentID() != appointment.getAppointmentID()) {
-                        scheduleConflict = true;
+        if(!scheduleConflict) {
+            message = new StringBuilder(a.getClientName() + " has a schedule conflict. Please review:\n");
+            for(nAppointment appointment : DBnAppointment.getAppointments()) {
+                if(a.getClientID() == appointment.getClientID()) {
+                    TimeComparison tcp = new TimeComparison(appointment, a);
+                    if(TimeManipulation.overlapCheck(tcp)) {
+                        message.append(appointment.getAppointmentID() + " | " + a.getCounselorName() + " | " + appointment.getDescription() + " | " +
+                                appointment.getStartTime()+ "\n");
+                        if(a.getAppointmentID() != appointment.getAppointmentID()) {
+                            scheduleConflict = true;
+                        }
                     }
                 }
-            }/*
-            if(scheduleConflict) {
-                throw new ScheduleConflict(message.toString());
-            } */ //not sure what this is doing here ^
+            }
         }
         if(scheduleConflict) {
             throw new ScheduleConflict(message.toString());
         }
         return scheduleConflict;
     }
-
-
-
 }
