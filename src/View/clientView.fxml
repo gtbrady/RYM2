@@ -31,18 +31,18 @@
             <font>
                 <Font size="11.0" />
             </font></Label>
-        <TextField fx:id="nameText" disable="true" layoutX="110.0" layoutY="100.0" prefHeight="25.0" prefWidth="120.0">
+        <TextField fx:id="nameText" disable="true" layoutX="110.0" layoutY="100.0" prefHeight="25.0" prefWidth="120.0" promptText="First and Last Name">
             <font>
-                <Font size="11.0" />
+                <Font name="System Italic" size="11.0" />
             </font></TextField>
         <Label layoutX="25.0" layoutY="144.0" text="Username">
             <font>
                 <Font size="11.0" />
             </font>
         </Label>
-        <TextField fx:id="usernameText" disable="true" editable="false" layoutX="110.0" layoutY="140.0" prefWidth="120.0">
+        <TextField fx:id="usernameText" disable="true" editable="false" layoutX="110.0" layoutY="140.0" prefWidth="120.0" promptText="Username">
             <font>
-                <Font size="11.0" />
+                <Font name="System Italic" size="11.0" />
             </font></TextField>
         <Label layoutX="25.0" layoutY="224.0" text="Phone Number">
             <font>
@@ -53,13 +53,13 @@
                 <Font size="11.0" />
             </font>
         </Label>
-        <TextField fx:id="emailText" disable="true" editable="false" layoutX="110.0" layoutY="180.0" prefWidth="120.0">
+        <TextField fx:id="emailText" disable="true" editable="false" layoutX="110.0" layoutY="180.0" prefWidth="120.0" promptText="name@domain.com">
             <font>
-                <Font size="11.0" />
+                <Font name="System Italic" size="11.0" />
             </font></TextField>
-        <TextField fx:id="phoneText" disable="true" editable="false" layoutX="110.0" layoutY="220.0" prefWidth="120.0">
+        <TextField fx:id="phoneText" disable="true" editable="false" layoutX="110.0" layoutY="220.0" prefWidth="120.0" promptText="555-555-5555">
             <font>
-                <Font size="11.0" />
+                <Font name="System Italic" size="11.0" />
             </font></TextField>
 
         <Button fx:id="saveButton" disable="true" layoutX="25.0" layoutY="380.0" mnemonicParsing="false" onAction="#onSave" prefHeight="20.0" prefWidth="55.0" text="Save" />

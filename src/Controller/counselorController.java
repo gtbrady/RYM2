@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class counselorController implements Initializable {
 
@@ -240,6 +242,8 @@ public class counselorController implements Initializable {
                 Counselor saveCounselor = new Counselor(-1, nameText.getText(),
                         phoneText.getText(),usernameText.getText(), emailText.getText(),
                         officeDropDown.getValue().getOfficeID(), suiteDropDown.getValue().getSuiteID());
+                emailCheck(saveCounselor.getCounselorEmail());
+                phoneCheck(saveCounselor.getCounselorPhone());
                 DBCounselor.addCounselor(saveCounselor);
                 onCancel(actionEvent);
             }
@@ -247,6 +251,8 @@ public class counselorController implements Initializable {
                 Counselor saveCounselor = new Counselor(stagedCounselor.getCounselorID(), nameText.getText(),
                         phoneText.getText(),usernameText.getText(), emailText.getText(),
                         officeDropDown.getValue().getOfficeID(), suiteDropDown.getValue().getSuiteID());
+                emailCheck(saveCounselor.getCounselorEmail());
+                phoneCheck(saveCounselor.getCounselorPhone());
                 noChangeCheck(saveCounselor,stagedCounselor);
                 DBCounselor.editCounselor(saveCounselor);
                 onCancel(actionEvent);
@@ -257,6 +263,18 @@ public class counselorController implements Initializable {
         catch (EmptyFields e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Missing information");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch(InvalidEmail e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid email");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch(InvalidPhone e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid phone");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
@@ -377,6 +395,42 @@ public class counselorController implements Initializable {
             super("The customer below cannot be deleted due to existing scheduled appointments. \n" + s);
         }
     }
+
+    public class InvalidEmail extends Exception {
+        public InvalidEmail(String s) {
+            super(s + " is not a valid email address");
+        }
+    }
+
+    public void emailCheck (String email) throws InvalidEmail{
+        String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        boolean validEmail = true;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        validEmail = matcher.matches();
+        if(!validEmail) {
+            throw new InvalidEmail(email);
+        }
+    }
+
+    public class InvalidPhone extends Exception {
+        public InvalidPhone(String s) {
+            super(s + " is not a valid phone number");
+        }
+    }
+
+
+    public void phoneCheck(String phone) throws InvalidPhone{
+        String regex="^\\d{3}-\\d{3}-\\d{4}$";
+        boolean validPhone = true;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phone);
+        validPhone = matcher.matches();
+        if(!validPhone) {
+            throw new InvalidPhone(phone);
+        }
+    }
+
 
     public void existingAppointmentException() throws ExistingAppointments {
         Boolean exists = false;

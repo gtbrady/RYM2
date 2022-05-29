@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class clientController implements Initializable {
 
@@ -105,6 +107,7 @@ public class clientController implements Initializable {
         }
         clientTable.setItems(matchingClients);
     }
+
 
     private void populateFields(ActionEvent actionEvent) {
         try {
@@ -220,18 +223,23 @@ public class clientController implements Initializable {
         try {
             emptyFieldsException();
             Client stagedClient = (Client) clientTable.getSelectionModel().getSelectedItem();
+
             if(buttonStatus<=0) {
                 throw  new IOException();
             }
             if(buttonStatus == 1) {
                 Client saveClient = new Client(-1, nameText.getText(),
                         phoneText.getText(),usernameText.getText(), emailText.getText());
+                emailCheck(saveClient.getClientEmail());
+                phoneCheck(saveClient.getClientPhone());
                 DBClient.addClient(saveClient);
                 onCancel(actionEvent);
             }
             if(buttonStatus == 2) {
                 Client saveClient = new Client(stagedClient.getClientID(), nameText.getText(),
                         phoneText.getText(),usernameText.getText(), emailText.getText());
+                emailCheck(saveClient.getClientEmail());
+                phoneCheck(saveClient.getClientPhone());
                 noChangeCheck(saveClient,stagedClient);
                 DBClient.editClient(saveClient);
                 onCancel(actionEvent);
@@ -245,9 +253,21 @@ public class clientController implements Initializable {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+        catch(InvalidEmail e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid email");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        catch(InvalidPhone e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid phone");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
         catch(NoChanges e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Missing information");
+            alert.setTitle("No changes made");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
@@ -292,6 +312,41 @@ public class clientController implements Initializable {
         }
         if(nullFields) {
             throw new EmptyFields(m.toString(),errorCounter);
+        }
+    }
+
+    public class InvalidEmail extends Exception {
+        public InvalidEmail(String s) {
+            super(s + " is not a valid email address");
+        }
+    }
+
+    public void emailCheck (String email) throws InvalidEmail{
+        String regex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        boolean validEmail = true;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        validEmail = matcher.matches();
+        if(!validEmail) {
+            throw new InvalidEmail(email);
+        }
+    }
+
+    public class InvalidPhone extends Exception {
+        public InvalidPhone(String s) {
+            super(s + " is not a valid phone number");
+        }
+    }
+
+
+    public void phoneCheck(String phone) throws InvalidPhone{
+        String regex="^\\d{3}-\\d{3}-\\d{4}$";
+        boolean validPhone = true;
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phone);
+        validPhone = matcher.matches();
+        if(!validPhone) {
+            throw new InvalidPhone(phone);
         }
     }
 
