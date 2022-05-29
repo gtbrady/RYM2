@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class PhoneAppointment extends nAppointment{
 
     String counselorPhone;
@@ -29,6 +31,20 @@ public class PhoneAppointment extends nAppointment{
 
     public void setClientPhone(String clientPhone) {
         this.clientPhone = clientPhone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PhoneAppointment)) return false;
+        if (!super.equals(o)) return false;
+        PhoneAppointment that = (PhoneAppointment) o;
+        return getCounselorPhone().equals(that.getCounselorPhone()) && getClientPhone().equals(that.getClientPhone());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getCounselorPhone(), getClientPhone());
     }
 
     @Override

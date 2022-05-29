@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public abstract class nAppointment {
     int appointmentID;
     int counselorID;
@@ -93,6 +95,19 @@ public abstract class nAppointment {
 
     public void setClientName(String clientName) {
         this.clientName = clientName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof nAppointment)) return false;
+        nAppointment that = (nAppointment) o;
+        return getCounselorID() == that.getCounselorID() && getClientID() == that.getClientID() && getCounselorName().equals(that.getCounselorName()) && getClientName().equals(that.getClientName()) && getType() == that.getType() && getDescription().equals(that.getDescription()) && getStartTime().equals(that.getStartTime()) && getEndTime().equals(that.getEndTime());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCounselorID(), getCounselorName(), getClientID(), getClientName(), getType(), getDescription(), getStartTime(), getEndTime());
     }
 
     @Override

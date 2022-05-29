@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class VirtualAppointment extends nAppointment{
 
     String counselorUsername;
@@ -28,6 +30,20 @@ public class VirtualAppointment extends nAppointment{
 
     public void setClientUsername(String clientUsername) {
         this.clientUsername = clientUsername;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VirtualAppointment)) return false;
+        if (!super.equals(o)) return false;
+        VirtualAppointment that = (VirtualAppointment) o;
+        return getCounselorUsername().equals(that.getCounselorUsername()) && getClientUsername().equals(that.getClientUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getCounselorUsername(), getClientUsername());
     }
 
     @Override

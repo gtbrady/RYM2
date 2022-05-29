@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class OfficeAppointment extends nAppointment{
 
     String buildingName;
@@ -29,6 +31,21 @@ public class OfficeAppointment extends nAppointment{
 
     public void setSuiteName(String suiteName) {
         this.suiteName = suiteName;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OfficeAppointment)) return false;
+        if (!super.equals(o)) return false;
+        OfficeAppointment that = (OfficeAppointment) o;
+        return getBuildingName().equals(that.getBuildingName()) && getSuiteName().equals(that.getSuiteName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getBuildingName(), getSuiteName());
     }
 
     @Override

@@ -303,7 +303,7 @@ public class DBnAppointment {
         return addConfirm;
     }
 
-    public static int editAppointment(nAppointment a, Client cl, Counselor co, Office o, Suite s) {
+    public static int editAppointment(nAppointment a, Client cl, Counselor co) {
         int editConfirm = -1;
         try {
             String sql = """
@@ -326,8 +326,10 @@ public class DBnAppointment {
             ps.setString(3,a.getStartTime());
             ps.setString(4,a.getEndTime());
             if(a instanceof OfficeAppointment) {
-                ps.setString(5,o.getBuildingName());
-                ps.setString(6,s.getSuiteName());
+                Office office = new Office(co.getOfficeID());
+                Suite suite = new Suite(co.getSuiteID());
+                ps.setString(5,office.getBuildingName());
+                ps.setString(6,suite.getSuiteName());
             } else if (a instanceof VirtualAppointment) {
                 ps.setString(5, co.getCounselorUsername());
                 ps.setString(6, cl.getClientUsername());

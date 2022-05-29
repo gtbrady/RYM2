@@ -247,7 +247,7 @@ public class TimeManipulation {
         String uas = TimeManipulation.stringSTU(oas);
         String uae = TimeManipulation.stringSTU(oae);
         OfficeAppointment updated = new OfficeAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
-                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),a.getStartTime(),a.getEndTime(),
+                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),uas,uae,
                 a.getBuildingName(), a.getSuiteName());
 
         return updated;
@@ -260,7 +260,7 @@ public class TimeManipulation {
         String uas = TimeManipulation.stringSTU(oas);
         String uae = TimeManipulation.stringSTU(oae);
         PhoneAppointment updated = new PhoneAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
-                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),a.getStartTime(),a.getEndTime(),
+                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),uas,uae,
                 a.getCounselorPhone(),a.getClientPhone());
 
         return updated;
@@ -273,7 +273,7 @@ public class TimeManipulation {
         String uas = TimeManipulation.stringSTU(oas);
         String uae = TimeManipulation.stringSTU(oae);
         VirtualAppointment updated = new VirtualAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
-                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),a.getStartTime(),a.getEndTime(),
+                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),uas,uae,
                 a.getCounselorUsername(),a.getClientUsername());
 
         return updated;
