@@ -18,7 +18,7 @@ public class DBReportThree {
                     detail_1 AS "Building",
                     count(appointment_id) AS "APPOINTMENT_COUNT"
                     FROM appointments\s
-                    WHERE type = "In Office"
+                    WHERE type = "Office"
                     GROUP BY detail_1;
                     """;
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);

@@ -22,13 +22,14 @@ public class TimeManipulation {
     private static final ZoneId estZone = ZoneId.of("US/Eastern");
     private static final LocalTime openHourStart = LocalTime.of(8, 0);
     private static final LocalTime openHourEnd = LocalTime.of(22, 0);
-    private static final ObservableList<String> stringMinutes = FXCollections.observableArrayList("00", "15","30", "45");
-    private static final ObservableList<String> stringHours = FXCollections.observableArrayList("01", "02","03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+    private static final ObservableList<String> stringMinutes = FXCollections.observableArrayList("00", "15", "30", "45");
+    private static final ObservableList<String> stringHours = FXCollections.observableArrayList("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
     private static final ObservableList<String> stringPeriod = FXCollections.observableArrayList("AM", "PM");
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Gets the Observable list of strings, which allows the user to select the minute value for an appointment
+     *
      * @return The Observable list of strings
      */
     public static ObservableList<String> getStringMinutes() {
@@ -37,6 +38,7 @@ public class TimeManipulation {
 
     /**
      * Gets the Observable list of strings, which allows the user to select the hour value for an appointment
+     *
      * @return The Observable list of strings
      */
     public static ObservableList<String> getStringHours() {
@@ -45,6 +47,7 @@ public class TimeManipulation {
 
     /**
      * Gets the Observable list of strings, which allows the user to select the AM/PM value for an appointment
+     *
      * @return The Observable list of strings
      */
     public static ObservableList<String> getStringPeriod() {
@@ -61,6 +64,7 @@ public class TimeManipulation {
 
     /**
      * Gets the ending business hours in local time
+     *
      * @return The ending business hours
      */
     public static LocalTime getOpenHourEnd() {
@@ -69,6 +73,7 @@ public class TimeManipulation {
 
     /**
      * Gets the user's system ZoneID
+     *
      * @return The user's system ZoneID
      */
     public static ZoneId getSystemZone() {
@@ -77,6 +82,7 @@ public class TimeManipulation {
 
     /**
      * Gets the UTC ZoneID
+     *
      * @return UTC ZoneID
      */
     public static ZoneId getUtcZone() {
@@ -85,6 +91,7 @@ public class TimeManipulation {
 
     /**
      * Gets the EST ZoneID
+     *
      * @return EST ZoneID
      */
     public static ZoneId getEstZone() {
@@ -93,6 +100,7 @@ public class TimeManipulation {
 
     /**
      * Returns an observable list of strings to represent an appointment time (HH:MM:AM) from a LocalDateTime
+     *
      * @param l The LocalDateTime being converted
      * @return Observable list of strings
      */
@@ -106,33 +114,31 @@ public class TimeManipulation {
         if (time.isAfter(LocalTime.of(12, 0, 0, 0)) || time.equals(LocalTime.of(12, 0, 0, 0))) {
             p = "PM";
         }
-        if(time.isAfter(LocalTime.of(13, 0, 0, 0)) || time.equals(LocalTime.of(13, 0, 0, 0))) {
+        if (time.isAfter(LocalTime.of(13, 0, 0, 0)) || time.equals(LocalTime.of(13, 0, 0, 0))) {
             time = time.minusHours(12);
         }
-        if(time.getHour() < 10) {
-            if(time.getHour() == 0) {
+        if (time.getHour() < 10) {
+            if (time.getHour() == 0) {
                 h = "12";
-            }
-            else {
+            } else {
                 h = "0" + Integer.toString(time.getHour());
             }
-        }
-        else {
+        } else {
             h = Integer.toString(time.getHour());
         }
-        if(time.getMinute() == 0) {
+        if (time.getMinute() == 0) {
             m = "0" + Integer.toString(time.getMinute());
-        }
-        else {
+        } else {
             m = Integer.toString(time.getMinute());
         }
-        ObservableList<String> timePieces = FXCollections.observableArrayList(h,m,p);
+        ObservableList<String> timePieces = FXCollections.observableArrayList(h, m, p);
 
         return timePieces;
     }
 
     /**
      * Takes multiple strings and a LocalDate to a LocalDateTime object
+     *
      * @param h hours
      * @param m minutes
      * @param p period (AM/PM)
@@ -145,8 +151,7 @@ public class TimeManipulation {
 
         if (p.equals("PM") && !h.equals("12")) {
             lt = lt.plusHours(12);
-        }
-        else if (p.equals("AM") && h.equals("12")) {
+        } else if (p.equals("AM") && h.equals("12")) {
             lt = lt.minusHours(12);
         }
         LocalDateTime localDateTime = LocalDateTime.of(d, lt);
@@ -156,47 +161,29 @@ public class TimeManipulation {
 
     /**
      * Takes a LocalDateTime and converts it to the user's system time zone with the same instant as UTC time zone
+     *
      * @param l LocalDateTime to be converted
      * @return The converted LocalDateTime
      */
-    public static LocalDateTime utcToSystem(LocalDateTime l){
+    public static LocalDateTime utcToSystem(LocalDateTime l) {
         ZonedDateTime lzdt = l.atZone(utcZone);
         ZonedDateTime szdt = lzdt.withZoneSameInstant(systemZone);
-        LocalDateTime  convertedTime = szdt.toLocalDateTime();
+        LocalDateTime convertedTime = szdt.toLocalDateTime();
         return convertedTime;
     }
 
     /**
      * Takes a String representation of a LocalDateTime and converts it from UTC time zone to the user's system time
      * zone, and returns it to a String format
+     *
      * @param s String to be converted
      * @return The converted string
      */
     public static String stringUTS(String s) {
-        LocalDateTime udt = LocalDateTime.parse(s,formatter);
+        LocalDateTime udt = LocalDateTime.parse(s, formatter);
         LocalDateTime sdt = utcToSystem(udt);
         return sdt.format(formatter);
     }
-
-    /**
-     * Converts appointments in the database in UTC time and creates a new appointment in the user's system time zone
-     * @param a The appointment to be converted
-     * @return The converted appointment
-     */
-    public static Appointment dbtoSystem(Appointment a) {
-
-        String oas = a.getStartDT();
-        String oae = a.getEndDT();
-        String uas = TimeManipulation.stringUTS(oas);
-        String uae = TimeManipulation.stringUTS(oae);
-        Appointment updated = new Appointment(a.getAppointmentID(),a.getCustomerName(),
-                a.getTitle(),a.getDescription(),a.getLocation(),a.getContact(),
-                a.getType(), uas,uae,a.getCustomerID(),a.getUserID());
-
-        return updated;
-    }
-
-
 
 
     public static ReportTwo dbtoSystemReportTwo(ReportTwo a) {
@@ -205,7 +192,7 @@ public class TimeManipulation {
         String uas = TimeManipulation.stringUTS(oas);
         String uae = TimeManipulation.stringUTS(oae);
         ReportTwo updatedReportTwo = new ReportTwo(a.getCounselorName(), a.getDescription(),
-            a.getType(),a.getClientName(),uas,uae);
+                a.getType(), a.getClientName(), uas, uae);
         return updatedReportTwo;
 
 
@@ -214,31 +201,16 @@ public class TimeManipulation {
     /**
      * Takes a String representation of a LocalDateTime and converts it from the user's system time zone to UTC time
      * zone, and returns it to a String format
+     *
      * @param s String to be converted
      * @return The converted String
      */
     public static String stringSTU(String s) {
-        LocalDateTime udt = LocalDateTime.parse(s,formatter);
+        LocalDateTime udt = LocalDateTime.parse(s, formatter);
         LocalDateTime sdt = sysToUtc(udt);
         return sdt.format(formatter);
     }
 
-    /**
-     * Converts appointments from the user's system time to utc time prior to inserting into the database
-     * @param a The appointment to be converted
-     * @return The converted appointment
-     */
-    public static Appointment systemToDB(Appointment a) {
-
-        String oas = a.getStartDT();
-        String oae = a.getEndDT();
-        String uas = TimeManipulation.stringSTU(oas);
-        String uae = TimeManipulation.stringSTU(oae);
-        Appointment updated = new Appointment(a.getAppointmentID(),a.getCustomerName(),
-                a.getTitle(),a.getDescription(),a.getLocation(),a.getContact(),
-                a.getType(), uas,uae,a.getCustomerID(),a.getUserID());
-        return updated;
-    }
 
     public static OfficeAppointment systemToDB(OfficeAppointment a) {
 
@@ -246,8 +218,8 @@ public class TimeManipulation {
         String oae = a.getEndTime();
         String uas = TimeManipulation.stringSTU(oas);
         String uae = TimeManipulation.stringSTU(oae);
-        OfficeAppointment updated = new OfficeAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
-                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),uas,uae,
+        OfficeAppointment updated = new OfficeAppointment(a.getAppointmentID(), a.getCounselorID(), a.getCounselorName(),
+                a.getClientID(), a.getClientName(), a.getType(), a.getDescription(), uas, uae,
                 a.getBuildingName(), a.getSuiteName());
 
         return updated;
@@ -259,9 +231,9 @@ public class TimeManipulation {
         String oae = a.getEndTime();
         String uas = TimeManipulation.stringSTU(oas);
         String uae = TimeManipulation.stringSTU(oae);
-        PhoneAppointment updated = new PhoneAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
-                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),uas,uae,
-                a.getCounselorPhone(),a.getClientPhone());
+        PhoneAppointment updated = new PhoneAppointment(a.getAppointmentID(), a.getCounselorID(), a.getCounselorName(),
+                a.getClientID(), a.getClientName(), a.getType(), a.getDescription(), uas, uae,
+                a.getCounselorPhone(), a.getClientPhone());
 
         return updated;
     }
@@ -272,28 +244,30 @@ public class TimeManipulation {
         String oae = a.getEndTime();
         String uas = TimeManipulation.stringSTU(oas);
         String uae = TimeManipulation.stringSTU(oae);
-        VirtualAppointment updated = new VirtualAppointment(a.getAppointmentID(),a.getCounselorID(),a.getCounselorName(),
-                a.getClientID(),a.getClientName(),a.getType(),a.getDescription(),uas,uae,
-                a.getCounselorUsername(),a.getClientUsername());
+        VirtualAppointment updated = new VirtualAppointment(a.getAppointmentID(), a.getCounselorID(), a.getCounselorName(),
+                a.getClientID(), a.getClientName(), a.getType(), a.getDescription(), uas, uae,
+                a.getCounselorUsername(), a.getClientUsername());
 
         return updated;
     }
 
     /**
      * Takes a LocalDateTime and converts it to UTC time zone with the same instant as the user's system time zone
+     *
      * @param l LocalDateTime to be converted
      * @return Converted LocalDateTime
      */
     public static LocalDateTime sysToUtc(LocalDateTime l) {
         ZonedDateTime lzdt = l.atZone(systemZone);
         ZonedDateTime szdt = lzdt.withZoneSameInstant(utcZone);
-        LocalDateTime  convertedTime = szdt.toLocalDateTime();
+        LocalDateTime convertedTime = szdt.toLocalDateTime();
         return convertedTime;
     }
 
     /**
      * Takes a Time Comparison object and returns a new time comparison object. This is used for businessHourCheck
      * to ensure the appointment the user attempts to save falls within business hours
+     *
      * @param tc TimeComparison object to be converted
      * @return Converted TimeComparison object
      */
@@ -301,13 +275,13 @@ public class TimeManipulation {
 
         LocalDateTime stagedStart = tc.getStagedStart();
         LocalDateTime stagedEnd = tc.getStagedEnd();
-        LocalDateTime compareStart = LocalDateTime.of(stagedStart.toLocalDate(),openHourStart);
-        LocalDateTime compareEnd = LocalDateTime.of(stagedEnd.toLocalDate(),openHourEnd);
+        LocalDateTime compareStart = LocalDateTime.of(stagedStart.toLocalDate(), openHourStart);
+        LocalDateTime compareEnd = LocalDateTime.of(stagedEnd.toLocalDate(), openHourEnd);
 
         ZonedDateTime zonedCompareStart = ZonedDateTime.of(compareStart, estZone);
         ZonedDateTime zonedCompareEnd = ZonedDateTime.of(compareEnd, estZone);
-        ZonedDateTime zonedStageStart = ZonedDateTime.of(stagedStart,systemZone);
-        ZonedDateTime zonedStageEnd = ZonedDateTime.of(stagedEnd,systemZone);
+        ZonedDateTime zonedStageStart = ZonedDateTime.of(stagedStart, systemZone);
+        ZonedDateTime zonedStageEnd = ZonedDateTime.of(stagedEnd, systemZone);
 
         ZonedDateTime convertStart = zonedStageStart.withZoneSameInstant(estZone);
         ZonedDateTime convertEnd = zonedStageEnd.withZoneSameInstant(estZone);
@@ -317,7 +291,7 @@ public class TimeManipulation {
         compareStart = zonedCompareStart.toLocalDateTime();
         compareEnd = zonedCompareEnd.toLocalDateTime();
 
-        TimeComparison etc= new TimeComparison(stagedStart, stagedEnd, compareStart, compareEnd);
+        TimeComparison etc = new TimeComparison(stagedStart, stagedEnd, compareStart, compareEnd);
 
         return etc;
     }
@@ -325,6 +299,7 @@ public class TimeManipulation {
     /**
      * Returns true or false depending on if both the proposed starting and end times of the appointment the user
      * attempts to save fall within appropriate business hours, EST.
+     *
      * @param tc TimeComparison object being evaluated
      * @return True if the appointment falls within business hours
      */
@@ -338,21 +313,19 @@ public class TimeManipulation {
         LocalDateTime compareStart = tc.getCompareStart();
         LocalDateTime compareEnd = tc.getCompareEnd();
 
-        if((stagedStart.isEqual(compareStart) || stagedStart.isAfter(compareStart)) && stagedStart.isBefore(compareEnd))
-        {
+        if ((stagedStart.isEqual(compareStart) || stagedStart.isAfter(compareStart)) && stagedStart.isBefore(compareEnd)) {
             startCheck = true;
         } else {
             startCheck = false;
         }
-        if(stagedEnd.isAfter(compareStart) && (stagedEnd.isBefore(compareEnd) || stagedEnd.isEqual(compareEnd))){
+        if (stagedEnd.isAfter(compareStart) && (stagedEnd.isBefore(compareEnd) || stagedEnd.isEqual(compareEnd))) {
             endCheck = true;
-        }   else {
+        } else {
             endCheck = false;
         }
-        if(startCheck && endCheck) {
+        if (startCheck && endCheck) {
             validBusinessAppointment = true;
-        }
-        else {
+        } else {
             validBusinessAppointment = false;
         }
         return validBusinessAppointment;
@@ -360,6 +333,7 @@ public class TimeManipulation {
 
     /**
      * Takes a time comparison object and determines if the start/end date times represented overlap
+     *
      * @param tc TimeComparison object being evaluated
      * @return True if an overlap is found
      */
@@ -406,6 +380,7 @@ public class TimeManipulation {
 
     /**
      * Creates a timestamp in UTC time. Used for loggin user activity
+     *
      * @return The timestamp
      */
     public static Timestamp utcTimestamp() {
@@ -415,40 +390,5 @@ public class TimeManipulation {
         return ts;
 
     }
-
-    /**
-     * Returns true or false if the month for the given appointment falls within the current month
-     * @param a The appointment being evaluated
-     * @return True if the appointment months match
-     */
-    public static boolean monthlySelect(Appointment a)  {
-        Month currentMonth = LocalDateTime.now().getMonth();
-        LocalDateTime ldt = LocalDateTime.parse(a.getStartDT(), TimeManipulation.formatter);
-        boolean match = false;
-        if(ldt.toLocalDate().getMonth().equals(currentMonth)) {
-            match = true;
-        }
-        return match;
-
-    }
-
-    /**
-     * Returns true or false if the week for the given appointment falls within the current week
-     * @param a The appointment being evaluated
-     * @return True if the appointment weeks match
-     */
-    public static boolean weeklySelect(Appointment a)  {
-        LocalDate today = LocalDate.now();
-        TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
-        int weekToday = today.get(weekOfYear);
-
-        LocalDateTime ldt = LocalDateTime.parse(a.getStartDT(), TimeManipulation.formatter);
-        int weekAppointment = ldt.get(weekOfYear);
-
-        boolean match = false;
-        if(weekToday == weekAppointment) {
-            match = true;
-        }
-        return match;
-    }
 }
+

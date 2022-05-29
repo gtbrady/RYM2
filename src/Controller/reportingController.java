@@ -1,8 +1,6 @@
 package Controller;
 
-import DAO.DBContact;
 import DAO.DBCounselor;
-import Model.Contact;
 import Model.Counselor;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -97,7 +95,7 @@ public class reportingController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/View/reportThreeView.fxml"));
         Stage stage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 340, 470);
-        stage.setTitle("Customers by Country");
+        stage.setTitle("Appointments by Office");
         stage.setScene(scene);
         stage.show();
         stage.centerOnScreen();

@@ -183,7 +183,7 @@ public class clientController implements Initializable {
             addButton.setDisable(true);
             editButton.setDisable(true);
             buttonStatus = -1;
-            //existingAppointmentException();
+            existingAppointmentException();
 
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Delete: " + theClient.toString());
             confirm.setTitle("Delete Confirmation");
@@ -205,12 +205,12 @@ public class clientController implements Initializable {
 
                 }
             }
-        }/* catch (ExistingAppointments e) {
+        } catch (ExistingAppointments e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Cannot Delete Client with Existing Appointments");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
-        }*/
+        }
         catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -363,7 +363,7 @@ public class clientController implements Initializable {
         StringBuilder m = new StringBuilder(deleteClient.getClientName() + ": \n");
         for(nAppointment a: appointments) {
             if(a.getClientID() == deleteClient.getClientID()) {
-                m.append(a.getType().toString() + " appointment: " + a.getAppointmentID() +
+                m.append(a.getType().toString() + " appointment with " + a.getCounselorName() +
                         " scheduled for " + a.getStartTime() + "\n");
                 exists = true;
             }

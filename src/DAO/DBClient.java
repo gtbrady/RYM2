@@ -50,9 +50,9 @@ public class DBClient {
                     """;
             PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
             ps.setString(1,c.getClientName());
-            ps.setString(2, c.getClientPhone());
-            ps.setString(3,c.getClientUsername());
-            ps.setString(4, c.getClientEmail());
+            ps.setString(2,c.getClientUsername());
+            ps.setString(3, c.getClientEmail());
+            ps.setString(4, c.getClientPhone());
             ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             ps.setString(6, Model.AuthorizedUser.getAuthorizedName());
             ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));

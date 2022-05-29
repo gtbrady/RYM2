@@ -1,13 +1,11 @@
 package Controller;
 
-import DAO.DBAppointment;
 import DAO.DBUser;
 import DAO.DBnAppointment;
 import Model.*;
 import Utility.LoginTracking;
 import Utility.TimeComparison;
 import Utility.TimeManipulation;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import DAO.DBConnection;

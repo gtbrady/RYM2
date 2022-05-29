@@ -29,35 +29,6 @@ public class mainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    /**
-     * Transitions to the customer screen
-     * @param actionEvent When the manage customers button is pressed
-     * @throws IOException
-     */
-    public void toCustomerController(ActionEvent actionEvent) throws IOException {
-            Parent root = FXMLLoader.load(getClass().getResource("/View/customerView.fxml"));
-            Stage stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 915, 445);
-            stage.setTitle("Manage Customers");
-            stage.setScene(scene);
-            stage.show();
-            stage.centerOnScreen();
-    }
-
-    /**
-     * Transitions to the appointment screen
-     * @param actionEvent When the manage schedule button is pressed
-     * @throws IOException
-     */
-    public void toAppointmentController(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/View/appointmentView.fxml"));
-        Stage stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1025, 560 );
-        stage.setTitle("Manage Schedule");
-        stage.setScene(scene);
-        stage.show();
-        stage.centerOnScreen();
-    }
 
     /**
      * Transitions to the reporting screen
