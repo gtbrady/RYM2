@@ -396,3 +396,6 @@
 [2022-05-29 17:40:38.063826 UTC] | User Name: test | Login Result: SUCCESS 
 [2022-05-29 17:41:48.3418865 UTC] | User Name: test | Login Result: SUCCESS 
 [2022-05-29 17:50:01.4118742 UTC] | User Name: test | Login Result: SUCCESS 
+[2022-05-29 18:01:34.7756652 UTC] | User Name: test | Login Result: SUCCESS 
+[2022-05-29 18:01:40.4158553 UTC] | User Name: test | Login Result: FAIL 
+[2022-05-29 18:01:55.0024338 UTC] | User Name: test | Login Result: SUCCESS 

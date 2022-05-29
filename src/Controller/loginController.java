@@ -34,7 +34,7 @@ public class loginController implements Initializable {
     public Label nameLabel;
     public Label passwordLabel;
     public TextField userText;
-    public TextField passwordText;
+
     public Button loginButton;
     public Button exitButton;
     public Label zoneLabel;
@@ -42,6 +42,7 @@ public class loginController implements Initializable {
     public String error2;
     public String errorTitle;
     public String errorConfirm;
+    public PasswordField passwordText;
 
     /**
      * Translates page based on system settings
@@ -50,40 +51,9 @@ public class loginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-        /*
-        ObservableList<nAppointment> test = FXCollections.observableArrayList();
-        nAppointment office;
-        nAppointment virtual;
-        nAppointment phone;
-        int i = 1;
-        String s = "Test";
-
-        office = new OfficeAppointment(i, i,s,i,s,AppointmentType.Office,s,s,s,s,s);
-        virtual = new VirtualAppointment(i,i,s,i,s,AppointmentType.Virtual,s,s,s,s,s);
-        phone = new PhoneAppointment(i,i,s,i,s,AppointmentType.Phone,s,s,s,s,s);
-
-
-        test.add(office);
-        test.add(virtual);
-        test.add(phone);
-        System.out.println("test size: " + test.size());
-        for(nAppointment n: test) {
-            System.out.println(n.getType());
-        }
-
-        String test = "Office";
-        AppointmentType type = AppointmentType.valueOf(test);
-        System.out.println(type.toString());*/
-
-
         try {
             ResourceBundle rb = ResourceBundle.getBundle("Main/Nat", Locale.getDefault());
-
-            //issue with the exception seems to be the rb being null
             zoneLabel.setText(TimeManipulation.getSystemZone().toString());
-            //zoneLabel.setText(rb.getString(ZoneId.systemDefault().toString()));
             if(Locale.getDefault().getLanguage().equals("en"))   {
                 error = rb.getString("error");
                 error2 = rb.getString("error2");
