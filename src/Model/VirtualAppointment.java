@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Objects;
 
-public class VirtualAppointment extends nAppointment{
+public class VirtualAppointment extends Appointment {
 
     String counselorUsername;
     String clientUsername;

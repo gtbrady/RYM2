@@ -1,10 +1,10 @@
 package Controller;
 
 import DAO.DBClient;
-import DAO.DBnAppointment;
+import DAO.DBAppointment;
 import Model.Client;
 
-import Model.nAppointment;
+import Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -359,9 +359,9 @@ public class clientController implements Initializable {
     public void existingAppointmentException() throws ExistingAppointments {
         Boolean exists = false;
         Client deleteClient = (Client) clientTable.getSelectionModel().getSelectedItem();
-        ObservableList<nAppointment> appointments = DBnAppointment.getAppointments();
+        ObservableList<Appointment> appointments = DBAppointment.getAppointments();
         StringBuilder m = new StringBuilder(deleteClient.getClientName() + ": \n");
-        for(nAppointment a: appointments) {
+        for(Appointment a: appointments) {
             if(a.getClientID() == deleteClient.getClientID()) {
                 m.append(a.getType().toString() + " appointment with " + a.getCounselorName() +
                         " scheduled for " + a.getStartTime() + "\n");

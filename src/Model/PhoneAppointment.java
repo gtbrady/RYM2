@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Objects;
 
-public class PhoneAppointment extends nAppointment{
+public class PhoneAppointment extends Appointment {
 
     String counselorPhone;
     String clientPhone;

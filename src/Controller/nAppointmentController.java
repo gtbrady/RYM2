@@ -100,7 +100,7 @@ public class nAppointmentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        nAppointmentTable.setItems(DBnAppointment.getAppointments());
+        nAppointmentTable.setItems(DBAppointment.getAppointments());
         aIDCol.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         clientCol.setCellValueFactory(new PropertyValueFactory<>("clientName"));
         counselorCol.setCellValueFactory(new PropertyValueFactory<>("counselorName"));
@@ -168,7 +168,7 @@ public class nAppointmentController implements Initializable {
         try {
 
 
-        nAppointment theAppointment = (nAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
+        Appointment theAppointment = (Appointment) nAppointmentTable.getSelectionModel().getSelectedItem();
             if (theAppointment == null) {
                 throw new NullPointerException();
             }
@@ -451,7 +451,7 @@ public class nAppointmentController implements Initializable {
     public void onSave(ActionEvent actionEvent) throws IOException {
         try {
             emptyFieldsException();
-            nAppointment stagedAppointment = (nAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
+            Appointment stagedAppointment = (Appointment) nAppointmentTable.getSelectionModel().getSelectedItem();
             Counselor stagedCounselor = counselorDropDown.getSelectionModel().getSelectedItem();
             Client stagedClient = clientDropDown.getSelectionModel().getSelectedItem();
 
@@ -487,7 +487,7 @@ public class nAppointmentController implements Initializable {
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
                     scheduleConflictCheck(saveAppointment);
-                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    DBAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
                 else if(stagedType == AppointmentType.Phone){
@@ -499,7 +499,7 @@ public class nAppointmentController implements Initializable {
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
                     scheduleConflictCheck(saveAppointment);
-                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    DBAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
                 else if(stagedType == AppointmentType.Virtual){
@@ -511,10 +511,10 @@ public class nAppointmentController implements Initializable {
                     validAppointmentCheck(saveAppointment);
                     bhCheck(saveAppointment);
                     scheduleConflictCheck(saveAppointment);
-                    DBnAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    DBAppointment.addnAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
-                nAppointmentTable.setItems(DBnAppointment.getAppointments());
+                nAppointmentTable.setItems(DBAppointment.getAppointments());
 
 
             }
@@ -529,7 +529,7 @@ public class nAppointmentController implements Initializable {
                     bhCheck(saveAppointment);
                     scheduleConflictCheck(saveAppointment);
                     noChangeCheck(saveAppointment,stagedAppointment);
-                    DBnAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    DBAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
 
                 }
@@ -544,7 +544,7 @@ public class nAppointmentController implements Initializable {
                     scheduleConflictCheck(saveAppointment);
                     noChangeCheck(saveAppointment,stagedAppointment);
 
-                    DBnAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    DBAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
                 else if(stagedType == AppointmentType.Virtual){
@@ -557,10 +557,10 @@ public class nAppointmentController implements Initializable {
                     bhCheck(saveAppointment);
                     scheduleConflictCheck(saveAppointment);
                     noChangeCheck(saveAppointment,stagedAppointment);
-                    DBnAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
+                    DBAppointment.editAppointment(convertedAppointment,stagedClient,stagedCounselor);
                     clearFields();
                 }
-                nAppointmentTable.setItems(DBnAppointment.getAppointments());
+                nAppointmentTable.setItems(DBAppointment.getAppointments());
             }
         } catch (EmptyFields e) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -619,7 +619,7 @@ public class nAppointmentController implements Initializable {
         populateFields();
 
         try {
-            nAppointment stagedAppointment = (nAppointment) nAppointmentTable.getSelectionModel().getSelectedItem();
+            Appointment stagedAppointment = (Appointment) nAppointmentTable.getSelectionModel().getSelectedItem();
             int rowsDeleted = -1;
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete Appointment");
@@ -629,7 +629,7 @@ public class nAppointmentController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                rowsDeleted = DBnAppointment.deleteAppointment(stagedAppointment);
+                rowsDeleted = DBAppointment.deleteAppointment(stagedAppointment);
 
                 if(rowsDeleted > 0) {
                     Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
@@ -643,25 +643,25 @@ public class nAppointmentController implements Initializable {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        nAppointmentTable.setItems(DBnAppointment.getAppointments());
+        nAppointmentTable.setItems(DBAppointment.getAppointments());
         clearFields();
 
     }
 
     public void showAllAppointments(ActionEvent actionEvent) {
-        nAppointmentTable.setItems(DBnAppointment.getAppointments());
+        nAppointmentTable.setItems(DBAppointment.getAppointments());
     }
 
     public void showOfficeAppointments(ActionEvent actionEvent) {
-        nAppointmentTable.setItems(DBnAppointment.getOfficeAppointments());
+        nAppointmentTable.setItems(DBAppointment.getOfficeAppointments());
     }
 
     public void showVirtualAppointments(ActionEvent actionEvent) {
-        nAppointmentTable.setItems(DBnAppointment.getVirtualAppointments());
+        nAppointmentTable.setItems(DBAppointment.getVirtualAppointments());
     }
 
     public void showPhoneAppointments(ActionEvent actionEvent) {
-        nAppointmentTable.setItems(DBnAppointment.getPhoneAppointments());
+        nAppointmentTable.setItems(DBAppointment.getPhoneAppointments());
     }
 
     public void setDetailHeader(AppointmentType type) {
@@ -745,7 +745,7 @@ public class nAppointmentController implements Initializable {
         public NoChanges() {super ("No changes have been made to the selected appointment");}
     }
 
-    public void noChangeCheck(nAppointment save, nAppointment stage) throws NoChanges {
+    public void noChangeCheck(Appointment save, Appointment stage) throws NoChanges {
         System.out.println("Stage: " + stage.toString());
         System.out.println("Save: " + save.toString());
 
@@ -759,7 +759,7 @@ public class nAppointmentController implements Initializable {
         public OutsideBusinessHours() {super("Outside Business Hours");}
     }
 
-    public boolean bhCheck(nAppointment a) throws OutsideBusinessHours {
+    public boolean bhCheck(Appointment a) throws OutsideBusinessHours {
 
         boolean validTime = true;
         TimeComparison tc = new TimeComparison(a);
@@ -775,7 +775,7 @@ public class nAppointmentController implements Initializable {
         public InvalidAppointmentDateTime(String s) {super(s);}
     }
 
-    public boolean validAppointmentCheck(nAppointment a) throws InvalidAppointmentDateTime {
+    public boolean validAppointmentCheck(Appointment a) throws InvalidAppointmentDateTime {
         StringBuilder message = new StringBuilder();
         boolean validAppointment = true;
         TimeComparison tc = new TimeComparison(a);
@@ -799,10 +799,10 @@ public class nAppointmentController implements Initializable {
         public ScheduleConflict(String s) {super(s);}
     }
 
-    public boolean scheduleConflictCheck(nAppointment a) throws ScheduleConflict {
+    public boolean scheduleConflictCheck(Appointment a) throws ScheduleConflict {
         boolean scheduleConflict = false;
         StringBuilder message = new StringBuilder(a.getCounselorName() + " has a schedule conflict. Please review:\n");
-        for(nAppointment appointment : DBnAppointment.getAppointments()) {
+        for(Appointment appointment : DBAppointment.getAppointments()) {
             if(a.getCounselorID() == appointment.getCounselorID()) {
                 TimeComparison tcp = new TimeComparison(appointment, a);
                 if(TimeManipulation.overlapCheck(tcp)) {
@@ -816,7 +816,7 @@ public class nAppointmentController implements Initializable {
         }
         if(!scheduleConflict) {
             message = new StringBuilder(a.getClientName() + " has a schedule conflict. Please review:\n");
-            for(nAppointment appointment : DBnAppointment.getAppointments()) {
+            for(Appointment appointment : DBAppointment.getAppointments()) {
                 if(a.getClientID() == appointment.getClientID()) {
                     TimeComparison tcp = new TimeComparison(appointment, a);
                     if(TimeManipulation.overlapCheck(tcp)) {

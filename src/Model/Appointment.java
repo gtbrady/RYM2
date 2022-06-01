@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Objects;
 
-public abstract class nAppointment {
+public abstract class Appointment {
     int appointmentID;
     int counselorID;
     String counselorName;
@@ -13,7 +13,7 @@ public abstract class nAppointment {
     String startTime;
     String endTime;
 
-    public nAppointment(int appointmentID, int counselorID, String counselorName, int clientID, String clientName, AppointmentType type, String description, String startTime, String endTime) {
+    public Appointment(int appointmentID, int counselorID, String counselorName, int clientID, String clientName, AppointmentType type, String description, String startTime, String endTime) {
         this.appointmentID = appointmentID;
         this.counselorID = counselorID;
         this.counselorName = counselorName;
@@ -100,8 +100,8 @@ public abstract class nAppointment {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof nAppointment)) return false;
-        nAppointment that = (nAppointment) o;
+        if (!(o instanceof Appointment)) return false;
+        Appointment that = (Appointment) o;
         return getCounselorID() == that.getCounselorID() && getClientID() == that.getClientID() && getCounselorName().equals(that.getCounselorName()) && getClientName().equals(that.getClientName()) && getType() == that.getType() && getDescription().equals(that.getDescription()) && getStartTime().equals(that.getStartTime()) && getEndTime().equals(that.getEndTime());
     }
 

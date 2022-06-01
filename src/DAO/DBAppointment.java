@@ -11,12 +11,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class DBnAppointment {
+public class DBAppointment {
 
-    public static ObservableList<nAppointment> getAppointments() {
-        ObservableList<nAppointment> allAppointments = FXCollections.observableArrayList();
-        ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
-        nAppointment appointment;
+    public static ObservableList<Appointment> getAppointments() {
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+        ObservableList<Appointment> convertedAppointments = FXCollections.observableArrayList();
+        Appointment appointment;
         try {
             String sql = """
                     SELECT\s
@@ -71,7 +71,7 @@ public class DBnAppointment {
             e.printStackTrace();
         }
 
-        for(nAppointment a: allAppointments) {
+        for(Appointment a: allAppointments) {
             String originalStart = a.getStartTime();
             String originalEnd = a.getEndTime();
             String updatedStart = TimeManipulation.stringUTS(originalStart);
@@ -84,10 +84,10 @@ public class DBnAppointment {
         return allAppointments;
     }
 
-    public static ObservableList<nAppointment> getPhoneAppointments() {
-        ObservableList<nAppointment> phoneAppointments = FXCollections.observableArrayList();
+    public static ObservableList<Appointment> getPhoneAppointments() {
+        ObservableList<Appointment> phoneAppointments = FXCollections.observableArrayList();
         //ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
-        nAppointment appointment;
+        Appointment appointment;
         try {
             String sql = """
                     SELECT\s
@@ -138,10 +138,10 @@ public class DBnAppointment {
         return phoneAppointments;
     }
 
-    public static ObservableList<nAppointment> getVirtualAppointments() {
-        ObservableList<nAppointment> allAppointments = FXCollections.observableArrayList();
+    public static ObservableList<Appointment> getVirtualAppointments() {
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         //ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
-        nAppointment appointment;
+        Appointment appointment;
         try {
             String sql = """
                     SELECT\s
@@ -192,10 +192,10 @@ public class DBnAppointment {
         return allAppointments;
     }
 
-    public static ObservableList<nAppointment> getOfficeAppointments() {
-        ObservableList<nAppointment> allAppointments = FXCollections.observableArrayList();
+    public static ObservableList<Appointment> getOfficeAppointments() {
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         //ObservableList<nAppointment> convertedAppointments = FXCollections.observableArrayList();
-        nAppointment appointment;
+        Appointment appointment;
         try {
             String sql = """
                     SELECT\s
@@ -260,7 +260,7 @@ public class DBnAppointment {
 
 
     //Note - in controller, need to add clause when calling - if not Office, call default constructor
-    public static int addnAppointment(nAppointment a, Client cl, Counselor co) {
+    public static int addnAppointment(Appointment a, Client cl, Counselor co) {
         int addConfirm = -1;
 
         try {
@@ -303,7 +303,7 @@ public class DBnAppointment {
         return addConfirm;
     }
 
-    public static int editAppointment(nAppointment a, Client cl, Counselor co) {
+    public static int editAppointment(Appointment a, Client cl, Counselor co) {
         int editConfirm = -1;
         try {
             String sql = """
@@ -352,7 +352,7 @@ public class DBnAppointment {
         return editConfirm;
     }
 
-    public static int deleteAppointment(nAppointment a) {
+    public static int deleteAppointment(Appointment a) {
         int deleteConfirm = -1;
         try {
             String sql = "DELETE FROM appointments WHERE appointment_id = ?";

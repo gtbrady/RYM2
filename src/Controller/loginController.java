@@ -1,7 +1,7 @@
 package Controller;
 
 import DAO.DBUser;
-import DAO.DBnAppointment;
+import DAO.DBAppointment;
 import Model.*;
 import Utility.LoginTracking;
 import Utility.TimeComparison;
@@ -181,7 +181,8 @@ public class loginController implements Initializable {
 
             LoginTracking tracker = new LoginTracking("login_activity.txt");
             tracker.logger.setLevel(Level.INFO);
-            StringBuilder message = new StringBuilder("[" + TimeManipulation.utcTimestamp() + " " + TimeManipulation.getUtcZone() + "] | User Name: " + user.getUserName() + " | Login Result:" );
+            StringBuilder message = new StringBuilder("[" + TimeManipulation.utcTimestamp() + " " + TimeManipulation.getUtcZone() +
+                    "] | User Name: " + user.getUserName() + " | Login Result:" );
 
         for (User u : users) {
             if(u.equals(user)){
@@ -190,7 +191,7 @@ public class loginController implements Initializable {
                 authorized = true;
                 message.append(" SUCCESS");
                 tracker.logger.info(message.toString());
-                //appointmentAlert();
+                appointmentAlert();
                 break;
             }
         }
@@ -211,7 +212,7 @@ public class loginController implements Initializable {
         StringBuilder message = new StringBuilder();
         boolean upcomingAppointment = false;
         LocalDateTime now = LocalDateTime.now(TimeManipulation.getSystemZone());
-        for(nAppointment a : DBnAppointment.getAppointments()) {
+        for(Appointment a : DBAppointment.getAppointments()) {
             TimeComparison tc = new TimeComparison(LocalDateTime.parse(a.getStartTime(), TimeManipulation.formatter));
 
             if(tc.getStagedStart().isAfter(now) && tc.getStagedStart().isBefore(tc.getCompareStart()))

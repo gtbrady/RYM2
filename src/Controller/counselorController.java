@@ -3,11 +3,11 @@ package Controller;
 import DAO.DBCounselor;
 import DAO.DBOffice;
 import DAO.DBSuite;
-import DAO.DBnAppointment;
+import DAO.DBAppointment;
 import Model.Counselor;
 import Model.Office;
 import Model.Suite;
-import Model.nAppointment;
+import Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -435,9 +435,9 @@ public class counselorController implements Initializable {
     public void existingAppointmentException() throws ExistingAppointments {
         Boolean exists = false;
         Counselor deleteCounselor = (Counselor) counselorTable.getSelectionModel().getSelectedItem();
-        ObservableList<nAppointment> appointments = DBnAppointment.getAppointments();
+        ObservableList<Appointment> appointments = DBAppointment.getAppointments();
         StringBuilder m = new StringBuilder(deleteCounselor.getCounselorName() + ": \n");
-        for(nAppointment a: appointments) {
+        for(Appointment a: appointments) {
             if(a.getCounselorID() == deleteCounselor.getCounselorID()) {
                 m.append(a.getType().toString() + " appointment: " + a.getAppointmentID() +
                         " scheduled for " + a.getStartTime() + "\n");
